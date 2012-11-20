@@ -75,6 +75,22 @@ public class KingdomManager {
     }
 
     /**
+     * Delete the Kingdom with all his stuff
+     *
+     * @param kingdom
+     */
+    public void deleteKingdom( Kingdom kingdom ) {
+
+        // Reset Zones
+
+        // Delete Plots
+
+        // Delete Kingdom
+        db.remove(Kingdom.class, kingdom);
+
+    }
+
+    /**
      *
      *
      * @param player

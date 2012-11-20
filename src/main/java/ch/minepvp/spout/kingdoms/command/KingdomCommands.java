@@ -76,6 +76,11 @@ public class KingdomCommands {
             }
         }
 
+        if ( player.hasPermission("kingdoms.command.kingdom.leave") ) {
+            player.sendMessage(ChatArguments.fromFormatString(Translation.tr("{{WHITE}}/kingdoms leave", source)));
+            player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{GOLD}}-> {{GRAY}}Leave the Kingdom", source)) );
+        }
+
         player.sendMessage(ChatArguments.fromFormatString("{BLUE}-----------------------------------------------------"));
 
     }
@@ -263,6 +268,69 @@ public class KingdomCommands {
 
         kickPlayer.sendMessage( ChatArguments.fromFormatString( Translation.tr("You where kicked from Kingdom by %0!", kickPlayer, player.getName()) ) );
     }
+
+
+    @Command(aliases = {"leave"}, usage = "", desc = "Leave the Kingdom")
+    @CommandPermissions("kingdoms.command.kingdom.leave")
+    public void leave(CommandContext args, CommandSource source) throws CommandException {
+
+        Player player = plugin.getEngine().getPlayer( source.getName(), true );
+
+        if ( player == null ) {
+            source.sendMessage( ChatArguments.fromFormatString( Translation.tr("You must be a Player!", source) ) );
+            return;
+        }
+
+        Member member = memberManager.getMemberByPlayer(player);
+        Kingdom kingdom = kingdomManager.getKingdomByPlayer(player);
+
+        if ( kingdom == null ) {
+            player.sendMessage( ChatArguments.fromFormatString( Translation.tr("You are not in a Kingdom!", player) ) );
+            return;
+        }
+
+        if ( member.getRank().equals( KingdomRank.LEADER ) ) {
+
+            if ( kingdomManager.getMembersFromKingdomByRank( kingdom, KingdomRank.LEADER ).size() == 1 ) {
+
+                if ( kingdom.getMembers().size() > 1 ) {
+                    player.sendMessage( ChatArguments.fromFormatString( Translation.tr("You need to Promote first a Player to a Leader!", player) ) );
+                    return;
+                }
+
+            }
+
+        }
+
+        member.setRank( KingdomRank.NONE );
+
+        if ( kingdom.getMembers().size() > 1 ) {
+
+
+            kingdom.removeMember(member);
+            player.sendMessage( ChatArguments.fromFormatString( Translation.tr("You have leave the Kingdom!", player) ) );
+
+            for ( Member toMember : kingdom.getMembers()  ) {
+
+                Player toPlayer = plugin.getEngine().getPlayer(toMember.getName(), true);
+
+                if ( toPlayer.isOnline() ) {
+                    toPlayer.sendMessage( ChatArguments.fromFormatString(Translation.tr("%0 has leave the Kingdom!", toPlayer, member.getName())) );
+                }
+
+            }
+
+        } else {
+
+            kingdomManager.deleteKingdom(kingdom);
+
+            player.sendMessage( ChatArguments.fromFormatString( Translation.tr("You have leave and deleted the Kingdom!", player) ) );
+
+        }
+
+    }
+
+
 
 
 
