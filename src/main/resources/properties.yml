@@ -1,0 +1,8 @@
+name: Kingdoms
+version: 0.1
+description: Kingdoms Plugin for MinePvP.ath.cx
+author: surtic86
+website: https://github.com/MinePvP/Kingdoms
+
+main: ch.minepvp.spout.kingdoms.Kingdoms
+platform: SERVER
