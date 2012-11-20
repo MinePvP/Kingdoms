@@ -4,6 +4,7 @@ import ch.minepvp.spout.kingdoms.command.KingdomsCommand;
 import ch.minepvp.spout.kingdoms.config.KingdomsConfig;
 import ch.minepvp.spout.kingdoms.database.table.Member;
 import ch.minepvp.spout.kingdoms.listener.BlockListener;
+import ch.minepvp.spout.kingdoms.listener.EntityListener;
 import ch.minepvp.spout.kingdoms.listener.PlayerListener;
 import ch.minepvp.spout.kingdoms.manager.KingdomManager;
 import ch.minepvp.spout.kingdoms.manager.MemberManager;
@@ -38,6 +39,7 @@ public class Kingdoms extends CommonPlugin {
     // Listener
     private PlayerListener playerListener;
     private BlockListener blockListener;
+    private EntityListener entityListener;
 
 
     public Kingdoms () {
@@ -92,18 +94,17 @@ public class Kingdoms extends CommonPlugin {
         // Listener
         playerListener = new PlayerListener();
         blockListener = new BlockListener();
+        entityListener = new EntityListener();
 
         // Register Listener
         getEngine().getEventManager().registerEvents(playerListener, this);
         getEngine().getEventManager().registerEvents(blockListener, this);
+        getEngine().getEventManager().registerEvents(entityListener, this);
 
 
         //Register commands
         CommandRegistrationsFactory<Class<?>> commandRegFactory = new AnnotatedCommandRegistrationFactory(new SimpleInjector(this), new SimpleAnnotatedCommandExecutorFactory());
         getEngine().getRootCommand().addSubCommands(this, KingdomsCommand.class, commandRegFactory);
-
-
-
 
     }
 
@@ -112,6 +113,7 @@ public class Kingdoms extends CommonPlugin {
 
 
         memberManager.saveAll();
+        kingdomManager.saveAll();
 
     }
 

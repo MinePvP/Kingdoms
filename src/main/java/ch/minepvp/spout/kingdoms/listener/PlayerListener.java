@@ -20,6 +20,7 @@ import org.spout.api.event.player.PlayerJoinEvent;
 import org.spout.api.event.player.PlayerLeaveEvent;
 import org.spout.api.lang.Translation;
 import org.spout.vanilla.component.living.passive.Human;
+import org.spout.vanilla.event.player.PlayerDeathEvent;
 import org.spout.vanilla.material.VanillaMaterials;
 
 public class PlayerListener implements Listener {
@@ -122,6 +123,21 @@ public class PlayerListener implements Listener {
 
         }
         */
+
+    }
+
+    @EventHandler
+    public void onPlayerDeathEvent( PlayerDeathEvent event ) {
+
+        Player player = event.getPlayer();
+
+        player.add(KingdomsComponent.class).getMember().addPlayerDeath();
+
+        if ( player.add(KingdomsComponent.class).getKingdom() != null ) {
+            player.add(KingdomsComponent.class).getKingdom().addPlayerDeath();
+        }
+
+        // TODO Implement add Points for Killer
 
     }
 

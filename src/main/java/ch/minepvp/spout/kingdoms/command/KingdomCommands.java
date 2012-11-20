@@ -194,7 +194,7 @@ public class KingdomCommands {
         Player invitePlayer = plugin.getEngine().getPlayer(args.getString(0), true);
         Member inviteMember = memberManager.getMemberByName( args.getString(0) );
 
-        if ( member == null || invitePlayer == null ) {
+        if ( inviteMember == null || invitePlayer == null ) {
             player.sendMessage( ChatArguments.fromFormatString( Translation.tr("There are no Player with this Name!", player) ) );
             return;
         }
@@ -203,6 +203,67 @@ public class KingdomCommands {
 
         invitePlayer.sendMessage( ChatArguments.fromFormatString( Translation.tr("You are invited from %0 to join the Kingdom %1", invitePlayer, player.getName(), kingdom.getName()) ) );
     }
+
+
+    @Command(aliases = {"kick"}, usage = "", desc = "Kick a Player to the Kingdom")
+    @CommandPermissions("kingdoms.command.kingdom.kick")
+    public void kick(CommandContext args, CommandSource source) throws CommandException {
+
+        Player player = plugin.getEngine().getPlayer( source.getName(), true );
+
+        if ( player == null ) {
+            source.sendMessage( ChatArguments.fromFormatString( Translation.tr("You must be a Player!", source) ) );
+            return;
+        }
+
+        Member member = memberManager.getMemberByPlayer(player);
+        Kingdom kingdom = kingdomManager.getKingdomByPlayer(player);
+
+        if ( kingdom == null ) {
+            player.sendMessage( ChatArguments.fromFormatString( Translation.tr("You are not in a Kingdom!", player) ) );
+            return;
+        }
+
+        if ( member.getRank().equals( KingdomRank.LEADER ) == false &&
+                member.getRank().equals( KingdomRank.CAPTAIN ) == false   ) {
+
+            player.sendMessage( ChatArguments.fromFormatString( Translation.tr("You need to be a Captain ore Leader to do this!", player) ) );
+            return;
+        }
+
+        Player kickPlayer = plugin.getEngine().getPlayer(args.getString(0), true);
+        Member kickMember = memberManager.getMemberByName( args.getString(0) );
+
+        if ( kickMember == null || kickPlayer == null ) {
+            player.sendMessage( ChatArguments.fromFormatString( Translation.tr("There are no Player with this Name!", player) ) );
+            return;
+        }
+
+        if ( member.getRank().equals( kickMember.getRank() ) ) {
+            player.sendMessage( ChatArguments.fromFormatString( Translation.tr("You can't kick a Member who has the same Rank!", player) ) );
+            return;
+        }
+
+        if ( kickMember.getRank().equals( KingdomRank.LEADER ) ) {
+            player.sendMessage( ChatArguments.fromFormatString( Translation.tr("You can't kick a Leader!", player) ) );
+            return;
+        }
+
+        kingdom.removeMember(kickMember);
+
+        for ( Member toMember : kingdom.getMembers()  ) {
+
+            Player toPlayer = plugin.getEngine().getPlayer(toMember.getName(), true);
+
+            if ( toPlayer.isOnline() ) {
+                toPlayer.sendMessage( ChatArguments.fromFormatString(Translation.tr("%0 was kicked from Kingdom!", toPlayer, kickPlayer.getName())) );
+            }
+
+        }
+
+        kickPlayer.sendMessage( ChatArguments.fromFormatString( Translation.tr("You where kicked from Kingdom by %0!", kickPlayer, player.getName()) ) );
+    }
+
 
 
 }
