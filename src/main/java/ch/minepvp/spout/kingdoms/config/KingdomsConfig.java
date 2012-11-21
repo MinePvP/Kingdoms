@@ -37,6 +37,10 @@ public class KingdomsConfig extends ConfigurationHolderConfiguration {
     // Levels
     public static final ArrayList<KingdomLevel> LEVELS = new ArrayList<KingdomLevel>();
 
+
+    // Tasks
+    public static final ConfigurationHolder SAVE_TASK_TIME = new ConfigurationHolder( 10, "Settings", "Task", "Save", "Time");
+
     public KingdomsConfig(File dataFolder) {
         super(new YamlConfiguration(new File(dataFolder, "config.yml")));
     }

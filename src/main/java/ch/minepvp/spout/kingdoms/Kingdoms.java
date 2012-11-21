@@ -11,6 +11,7 @@ import ch.minepvp.spout.kingdoms.listener.PlayerListener;
 import ch.minepvp.spout.kingdoms.manager.KingdomManager;
 import ch.minepvp.spout.kingdoms.manager.MemberManager;
 import ch.minepvp.spout.kingdoms.manager.PlotManager;
+import ch.minepvp.spout.kingdoms.task.SaveTask;
 import com.alta189.simplesave.Database;
 import com.alta189.simplesave.DatabaseFactory;
 import com.alta189.simplesave.exceptions.ConnectionException;
@@ -23,6 +24,7 @@ import org.spout.api.command.annotated.SimpleAnnotatedCommandExecutorFactory;
 import org.spout.api.command.annotated.SimpleInjector;
 import org.spout.api.exception.ConfigurationException;
 import org.spout.api.plugin.CommonPlugin;
+import org.spout.api.scheduler.TaskPriority;
 
 import java.util.logging.Level;
 
@@ -112,6 +114,11 @@ public class Kingdoms extends CommonPlugin {
         //Register commands
         CommandRegistrationsFactory<Class<?>> commandRegFactory = new AnnotatedCommandRegistrationFactory(new SimpleInjector(this), new SimpleAnnotatedCommandExecutorFactory());
         getEngine().getRootCommand().addSubCommands(this, KingdomsCommand.class, commandRegFactory);
+
+
+        // Start Tasks
+        getEngine().getScheduler().scheduleSyncDelayedTask(this, new SaveTask(), ((KingdomsConfig.SAVE_TASK_TIME.getLong() * 20 ) * 60), TaskPriority.MEDIUM );
+
 
         getLogger().info("Enabled");
     }
