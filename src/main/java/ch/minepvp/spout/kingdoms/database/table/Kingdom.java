@@ -129,6 +129,10 @@ public class Kingdom {
         this.pointsAll += points;
     }
 
+    public void removePoints( int points ) {
+        this.points -= points;
+    }
+
     public void setPoints(int points) {
         this.points = points;
     }

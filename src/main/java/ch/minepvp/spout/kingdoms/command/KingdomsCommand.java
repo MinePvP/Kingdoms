@@ -123,6 +123,7 @@ public class KingdomsCommand {
         }
 
         member.setRank( KingdomRank.NOVICE );
+        member.setKingdom( kingdom.getId() );
 
         kingdom.removeInvitedMember(member);
         kingdom.addMember(member);

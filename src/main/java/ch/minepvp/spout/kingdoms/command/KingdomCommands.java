@@ -184,7 +184,13 @@ public class KingdomCommands {
             return;
         }
 
-        Kingdom kingdom = kingdomManager.getKingdomByName( args.getString(0) );
+        Kingdom kingdom = null;
+
+        if ( args.length() > 0 ) {
+            kingdomManager.getKingdomByName( args.getString(0) );
+        } else {
+            kingdomManager.getKingdomByPlayer(player);
+        }
 
         if ( kingdom == null ) {
             player.sendMessage( ChatArguments.fromFormatString( Translation.tr("There is no Kingdom with this Name!", player) ) );
@@ -739,6 +745,7 @@ public class KingdomCommands {
             return;
         }
 
+        kingdom.removePoints( lvl.getPoints() );
         kingdom.setLevel( lvl.getLevel() );
 
         for ( Member toMember : kingdom.getMembers()  ) {
