@@ -30,25 +30,25 @@ public class KingdomsCommand {
         memberManager = plugin.getMemberManager();
     }
 
-    @Command(aliases = {"kingdom", "king"}, usage = "", desc = "Kingdom Commands", min = 1, max = 1)
+    @Command(aliases = {"kingdom", "king"}, usage = "", desc = "Kingdom Commands", min = 1, max = 4)
     @NestedCommand(KingdomCommands.class)
     public void kingdom(CommandContext args, CommandSource source) throws CommandException {
 
     }
 
-    @Command(aliases = {"zone"}, usage = "", desc = "Zone Commands", min = 1, max = 1)
+    @Command(aliases = {"zone"}, usage = "", desc = "Zone Commands", min = 1, max = 4)
     @NestedCommand(ZoneCommands.class)
     public void zone(CommandContext args, CommandSource source) throws CommandException {
 
     }
 
-    @Command(aliases = {"plot"}, usage = "", desc = "Plot Commands", min = 1, max = 1)
+    @Command(aliases = {"plot"}, usage = "", desc = "Plot Commands", min = 1, max = 2)
     @NestedCommand(PlotCommands.class)
     public void plot(CommandContext args, CommandSource source) throws CommandException {
 
     }
 
-    @Command(aliases = {"channel", "ch"}, usage = "", desc = "Chat Command", min = 1, max = 1)
+    @Command(aliases = {"channel", "ch"}, usage = "", desc = "Chat Command", min = 0, max = 0)
     public void chat(CommandContext args, CommandSource source) throws CommandException {
 
         Player player = plugin.getEngine().getPlayer( source.getName(), true );
@@ -80,7 +80,7 @@ public class KingdomsCommand {
 
         } else if ( member.getChannel().equals( KingdomChannel.GLOBAL ) ) {
 
-            if ( player.hasPermission("kingdoms.chat.staff") ) {
+            if ( player.hasPermission("kingdoms.chat.staff") || player.isObserver() ) {
                 member.setChannel( KingdomChannel.STAFF );
             } else {
                 member.setChannel( KingdomChannel.LOCAL );
@@ -94,7 +94,7 @@ public class KingdomsCommand {
 
     }
 
-    @Command(aliases = {"accept"}, usage = "", desc = "Accept Command", min = 1, max = 1)
+    @Command(aliases = {"accept"}, usage = "", desc = "Accept Command", min = 0, max = 0)
     public void accept(CommandContext args, CommandSource source) throws CommandException {
 
         Player player = plugin.getEngine().getPlayer( source.getName(), true );
@@ -124,14 +124,14 @@ public class KingdomsCommand {
 
         member.setRank( KingdomRank.NOVICE );
 
-        kingdom.removeInvitetMember(member);
+        kingdom.removeInvitedMember(member);
         kingdom.addMember(member);
 
         player.sendMessage( ChatArguments.fromFormatString(Translation.tr("You have joined the Kingdom!", player)) );
 
     }
 
-    @Command(aliases = {"reject"}, usage = "", desc = "Reject Command", min = 1, max = 1)
+    @Command(aliases = {"reject"}, usage = "", desc = "Reject Command", min = 0, max = 0)
     public void reject(CommandContext args, CommandSource source) throws CommandException {
 
         Player player = plugin.getEngine().getPlayer( source.getName(), true );
@@ -159,7 +159,7 @@ public class KingdomsCommand {
 
         }
 
-        kingdom.removeInvitetMember(member);
+        kingdom.removeInvitedMember(member);
 
     }
 

@@ -1,5 +1,6 @@
 package ch.minepvp.spout.kingdoms.database.table;
 
+import ch.minepvp.spout.kingdoms.Kingdoms;
 import ch.minepvp.spout.kingdoms.entity.KingdomChannel;
 import ch.minepvp.spout.kingdoms.entity.KingdomRank;
 import com.alta189.simplesave.Field;
@@ -16,7 +17,7 @@ public class Member {
     private String name;
 
     @Field
-    private String kingdom = "null";
+    private int kingdom = 0;
 
     @Field
     private boolean online = false;
@@ -66,10 +67,17 @@ public class Member {
     }
 
     public String getKingdom() {
-        return kingdom;
+
+        Kingdom kingdom = Kingdoms.getInstance().getDatabase().select(Kingdom.class).where().equal("id", this.kingdom).execute().findOne();
+
+        if ( kingdom != null ) {
+            return kingdom.getName();
+        }
+
+        return null;
     }
 
-    public void setKingdom(String kingdom) {
+    public void setKingdom(int kingdom) {
         this.kingdom = kingdom;
     }
 

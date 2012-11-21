@@ -2,12 +2,15 @@ package ch.minepvp.spout.kingdoms;
 
 import ch.minepvp.spout.kingdoms.command.KingdomsCommand;
 import ch.minepvp.spout.kingdoms.config.KingdomsConfig;
+import ch.minepvp.spout.kingdoms.database.table.Kingdom;
 import ch.minepvp.spout.kingdoms.database.table.Member;
+import ch.minepvp.spout.kingdoms.database.table.Plot;
 import ch.minepvp.spout.kingdoms.listener.BlockListener;
 import ch.minepvp.spout.kingdoms.listener.EntityListener;
 import ch.minepvp.spout.kingdoms.listener.PlayerListener;
 import ch.minepvp.spout.kingdoms.manager.KingdomManager;
 import ch.minepvp.spout.kingdoms.manager.MemberManager;
+import ch.minepvp.spout.kingdoms.manager.PlotManager;
 import com.alta189.simplesave.Database;
 import com.alta189.simplesave.DatabaseFactory;
 import com.alta189.simplesave.exceptions.ConnectionException;
@@ -35,6 +38,7 @@ public class Kingdoms extends CommonPlugin {
     // Manager
     MemberManager memberManager;
     KingdomManager kingdomManager;
+    PlotManager plotManager;
 
     // Listener
     private PlayerListener playerListener;
@@ -77,6 +81,8 @@ public class Kingdoms extends CommonPlugin {
 
         try {
             db.registerTable(Member.class);
+            db.registerTable(Kingdom.class);
+            db.registerTable(Plot.class);
         } catch (TableRegistrationException e) {
             e.printStackTrace();
         }
@@ -89,6 +95,7 @@ public class Kingdoms extends CommonPlugin {
 
         // Manager
         memberManager = new MemberManager();
+        plotManager = new PlotManager();
         kingdomManager = new KingdomManager();
 
         // Listener
@@ -106,15 +113,17 @@ public class Kingdoms extends CommonPlugin {
         CommandRegistrationsFactory<Class<?>> commandRegFactory = new AnnotatedCommandRegistrationFactory(new SimpleInjector(this), new SimpleAnnotatedCommandExecutorFactory());
         getEngine().getRootCommand().addSubCommands(this, KingdomsCommand.class, commandRegFactory);
 
+        getLogger().info("Enabled");
     }
 
     @Override
     public void onDisable() {
 
-
         memberManager.saveAll();
+        plotManager.saveAll();
         kingdomManager.saveAll();
 
+        getLogger().info("Disabled");
     }
 
     public static Kingdoms getInstance() {
@@ -137,7 +146,8 @@ public class Kingdoms extends CommonPlugin {
         return kingdomManager;
     }
 
-
-
+    public PlotManager getPlotManager() {
+        return plotManager;
+    }
 
 }

@@ -111,6 +111,10 @@ public class MemberManager {
         return null;
     }
 
+    public ArrayList<Member> getMembers() {
+        return members;
+    }
+
     /**
      * Create a new Member Entry
      *

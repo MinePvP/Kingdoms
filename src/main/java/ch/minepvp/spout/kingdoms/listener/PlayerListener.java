@@ -19,7 +19,6 @@ import org.spout.api.event.player.PlayerInteractEvent;
 import org.spout.api.event.player.PlayerJoinEvent;
 import org.spout.api.event.player.PlayerLeaveEvent;
 import org.spout.api.lang.Translation;
-import org.spout.vanilla.component.living.passive.Human;
 import org.spout.vanilla.event.player.PlayerDeathEvent;
 import org.spout.vanilla.material.VanillaMaterials;
 
@@ -45,6 +44,8 @@ public class PlayerListener implements Listener {
         if ( member == null ) {
             memberManager.createMember(player);
         }
+
+        player.add(SelectionComponent.class);
 
     }
 
@@ -105,24 +106,26 @@ public class PlayerListener implements Listener {
 
         Player player = event.getPlayer();
 
-        /*  TODO add it again
         if ( player.hasPermission("kingdoms.zones.selection") ) {
 
-            if ( event.getHeldItem().isMaterial(VanillaMaterials.WOODEN_AXE) ) {
+            if ( event.getHeldItem() != null ) {
 
-                switch (event.getAction()) {
-                    case LEFT_CLICK:
-                        player.add(SelectionComponent.class).getSelection().setPoint1( event.getInteractedPoint() );
-                        player.sendMessage(ChatArguments.fromFormatString(Translation.tr("Point 1 selected!", player)) );
-                    case RIGHT_CLICK:
-                        player.add(SelectionComponent.class).getSelection().setPoint2(event.getInteractedPoint());
-                        player.sendMessage(ChatArguments.fromFormatString(Translation.tr("Point 2 selected!", player) ) );
+                if ( event.getHeldItem().isMaterial(VanillaMaterials.WOODEN_AXE) ) {
+
+                    switch (event.getAction()) {
+                        case LEFT_CLICK:
+                            player.add(SelectionComponent.class).getSelection().setPoint1( event.getInteractedPoint() );
+                            player.sendMessage(ChatArguments.fromFormatString(Translation.tr("Point 1 selected!", player)) );
+                        case RIGHT_CLICK:
+                            player.add(SelectionComponent.class).getSelection().setPoint2(event.getInteractedPoint());
+                            player.sendMessage(ChatArguments.fromFormatString(Translation.tr("Point 2 selected!", player) ) );
+                    }
+
                 }
 
             }
 
         }
-        */
 
     }
 
@@ -140,6 +143,5 @@ public class PlayerListener implements Listener {
         // TODO Implement add Points for Killer
 
     }
-
 
 }

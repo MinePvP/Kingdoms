@@ -2,12 +2,15 @@ package ch.minepvp.spout.kingdoms.command;
 
 import ch.minepvp.spout.kingdoms.Kingdoms;
 import ch.minepvp.spout.kingdoms.component.KingdomsComponent;
+import ch.minepvp.spout.kingdoms.config.KingdomsConfig;
 import ch.minepvp.spout.kingdoms.database.table.Kingdom;
 import ch.minepvp.spout.kingdoms.database.table.Member;
+import ch.minepvp.spout.kingdoms.entity.KingdomLevel;
 import ch.minepvp.spout.kingdoms.entity.KingdomRank;
 import ch.minepvp.spout.kingdoms.manager.KingdomManager;
 import ch.minepvp.spout.kingdoms.manager.MemberManager;
 import org.spout.api.chat.ChatArguments;
+import org.spout.api.chat.ChatTemplate;
 import org.spout.api.chat.style.ChatStyle;
 import org.spout.api.command.CommandContext;
 import org.spout.api.command.CommandSource;
@@ -42,18 +45,35 @@ public class KingdomCommands {
             return;
         }
 
-        player.sendMessage( ChatArguments.fromFormatString("{BLUE}-----------------------------------------------------") );
-        player.sendMessage( ChatArguments.fromFormatString("{YELLOW}Help") );
-        player.sendMessage( ChatArguments.fromFormatString("{BLUE}-----------------------------------------------------") );
+        player.sendMessage( ChatArguments.fromFormatString("{{BLUE}}-----------------------------------------------------") );
+        player.sendMessage( ChatArguments.fromFormatString("{{YELLOW}}Help") );
+        player.sendMessage( ChatArguments.fromFormatString("{{BLUE}}-----------------------------------------------------") );
 
         if ( player.hasPermission("kingdoms.command.kingdom.list") ) {
-            player.sendMessage(ChatArguments.fromFormatString(Translation.tr("{{WHITE}}/kingdoms list", source)));
+            player.sendMessage(ChatArguments.fromFormatString(Translation.tr("{{WHITE}}/kingdom list", source)));
             player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{GOLD}}-> {{GRAY}}List all Kingdoms", source)) );
         }
 
+        if ( player.hasPermission("kingdoms.command.kingdom.info") ) {
+            player.sendMessage(ChatArguments.fromFormatString(Translation.tr("{{WHITE}}/kingdom info <name>", source)));
+            player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{GOLD}}-> {{GRAY}}Info about a Kingdom", source)) );
+        }
+
         if ( player.hasPermission("kingdoms.command.kingdom.create") ) {
-            player.sendMessage(ChatArguments.fromFormatString(Translation.tr("{{WHITE}}/kingdoms create <name> <tag>", source)));
-            player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{GOLD}}-> {{GRAY}}Create a new Kingdom", source)) );
+
+            if ( player.add(KingdomsComponent.class).getMember().getRank().equals( KingdomRank.NONE ) ) {
+                player.sendMessage(ChatArguments.fromFormatString(Translation.tr("{{WHITE}}/kingdom create <name> <tag>", source)));
+                player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{GOLD}}-> {{GRAY}}Create a new Kingdom", source)) );
+            }
+        }
+
+        if ( player.hasPermission("kingdoms.command.kingdom.members") ) {
+
+            if ( !player.add(KingdomsComponent.class).getMember().getRank().equals( KingdomRank.NONE ) ) {
+                player.sendMessage(ChatArguments.fromFormatString(Translation.tr("{{WHITE}}/kingdom members", source)));
+                player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{GOLD}}-> {{GRAY}}Info about Kingdom Members", source)) );
+            }
+
         }
 
         if ( player.hasPermission("kingdoms.command.kingdom.invite") ) {
@@ -61,7 +81,7 @@ public class KingdomCommands {
             if ( player.add(KingdomsComponent.class).getMember().getRank().equals( KingdomRank.LEADER ) ||
                  player.add(KingdomsComponent.class).getMember().getRank().equals( KingdomRank.CAPTAIN )   ) {
 
-                player.sendMessage(ChatArguments.fromFormatString(Translation.tr("{{WHITE}}/kingdoms invite <player>", source)));
+                player.sendMessage(ChatArguments.fromFormatString(Translation.tr("{{WHITE}}/kingdom invite <player>", source)));
                 player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{GOLD}}-> {{GRAY}}Invite a Player to the Kingdom", source)) );
             }
         }
@@ -71,17 +91,56 @@ public class KingdomCommands {
             if ( player.add(KingdomsComponent.class).getMember().getRank().equals( KingdomRank.LEADER ) ||
                     player.add(KingdomsComponent.class).getMember().getRank().equals( KingdomRank.CAPTAIN )   ) {
 
-                player.sendMessage(ChatArguments.fromFormatString(Translation.tr("{{WHITE}}/kingdoms kick <player>", source)));
+                player.sendMessage(ChatArguments.fromFormatString(Translation.tr("{{WHITE}}/kingdom kick <player>", source)));
                 player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{GOLD}}-> {{GRAY}}Kick a Player to the Kingdom", source)) );
             }
         }
 
         if ( player.hasPermission("kingdoms.command.kingdom.leave") ) {
-            player.sendMessage(ChatArguments.fromFormatString(Translation.tr("{{WHITE}}/kingdoms leave", source)));
-            player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{GOLD}}-> {{GRAY}}Leave the Kingdom", source)) );
+
+            if ( !player.add(KingdomsComponent.class).getMember().getRank().equals( KingdomRank.NONE ) ) {
+                player.sendMessage(ChatArguments.fromFormatString(Translation.tr("{{WHITE}}/kingdom leave", source)));
+                player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{GOLD}}-> {{GRAY}}Leave the Kingdom", source)) );
+            }
         }
 
-        player.sendMessage(ChatArguments.fromFormatString("{BLUE}-----------------------------------------------------"));
+        if ( player.hasPermission("kingdoms.command.kingdom.promote") ) {
+
+            if ( player.add(KingdomsComponent.class).getMember().getRank().equals( KingdomRank.LEADER ) ||
+                    player.add(KingdomsComponent.class).getMember().getRank().equals( KingdomRank.CAPTAIN )   ) {
+
+                player.sendMessage(ChatArguments.fromFormatString(Translation.tr("{{WHITE}}/kingdom promote <player>", source)));
+                player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{GOLD}}-> {{GRAY}}Promote a Player from the Kingdom", source)) );
+            }
+        }
+
+        if ( player.hasPermission("kingdoms.command.kingdom.demote") ) {
+
+            if ( player.add(KingdomsComponent.class).getMember().getRank().equals( KingdomRank.LEADER ) ||
+                    player.add(KingdomsComponent.class).getMember().getRank().equals( KingdomRank.CAPTAIN )   ) {
+
+                player.sendMessage(ChatArguments.fromFormatString(Translation.tr("{{WHITE}}/kingdom demote <player>", source)));
+                player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{GOLD}}-> {{GRAY}}Demote a Player forom the Kingdom", source)) );
+            }
+        }
+
+        if ( player.hasPermission("kingdoms.command.kingdom.setbase") ) {
+
+            if ( player.add(KingdomsComponent.class).getMember().getRank().equals( KingdomRank.LEADER ) ) {
+                player.sendMessage(ChatArguments.fromFormatString(Translation.tr("{{WHITE}}/kingdom setbase", source)));
+                player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{GOLD}}-> {{GRAY}}Set the Base of the Kingdom", source)) );
+            }
+        }
+
+        if ( player.hasPermission("kingdoms.command.kingdom.upgrade") ) {
+
+            if ( player.add(KingdomsComponent.class).getMember().getRank().equals( KingdomRank.LEADER ) ) {
+                player.sendMessage(ChatArguments.fromFormatString(Translation.tr("{{WHITE}}/kingdom upgrade", source)));
+                player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{GOLD}}-> {{GRAY}}Upgrade the Kingdom", source)) );
+            }
+        }
+
+        player.sendMessage(ChatArguments.fromFormatString("{{BLUE}}-----------------------------------------------------"));
 
     }
 
@@ -96,32 +155,177 @@ public class KingdomCommands {
             return;
         }
 
-        player.sendMessage( ChatArguments.fromFormatString("{BLUE}-----------------------------------------------------") );
-        player.sendMessage( ChatArguments.fromFormatString("{YELLOW}List all Kingdoms") );
-        player.sendMessage( ChatArguments.fromFormatString("{BLUE}-----------------------------------------------------") );
+        player.sendMessage( ChatArguments.fromFormatString("{{BLUE}}-----------------------------------------------------") );
+        player.sendMessage( ChatArguments.fromFormatString("{{YELLOW}}List all Kingdoms") );
+        player.sendMessage( ChatArguments.fromFormatString("{{BLUE}}-----------------------------------------------------") );
 
+        player.sendMessage( ChatArguments.fromFormatString("{{YELLOW}} TAG - NAME - POINTS - ALL POINT - Players ") );
+
+        // TODO Sort the Kingdoms by Points All / Points
 
         for ( Kingdom kingdom : kingdomManager.getAllKingdoms()  ) {
 
-            ArrayList<String> leaders = kingdomManager.getMembersNameFromKingdomByRank(kingdom, KingdomRank.LEADER);
-            ArrayList<String> captains = kingdomManager.getMembersNameFromKingdomByRank(kingdom, KingdomRank.CAPTAIN);
-            ArrayList<String> members = kingdomManager.getMembersNameFromKingdomByRank(kingdom, KingdomRank.MEMBER);
-            ArrayList<String> novices = kingdomManager.getMembersNameFromKingdomByRank(kingdom, KingdomRank.NOVICE);
+            player.sendMessage( ChatArguments.fromFormatString( Translation.tr("{{WHITE}}%0 %1 %2 %3 %4", player, kingdom.getTag(), kingdom.getName(), kingdom.getPoints(), kingdom.getPointsAll(), kingdom.getMembers().size()) ) );
 
-            player.sendMessage( ChatArguments.fromFormatString( Translation.tr("{{WHITE}}Name : {{GOLD}}%0 {{WHITE}}Tag : %1", player, kingdom.getName(), kingdom.getTag()) ) );
-            player.sendMessage( ChatArguments.fromFormatString( Translation.tr("{{WHITE}}Level : {{GOLD}}%0 {{WHITE}}Points All : {{GOLD}}%1 {{WHITE}}Points : %2", player, kingdom.getLevel(), kingdom.getPointsAll(), kingdom.getPoints()) ) );
-
-            player.sendMessage( ChatArguments.fromFormatString( Translation.tr("{{WHITE}}Player Kills : {{GOLD}}%0 {{WHITE}}Player Deaths : %1", player, kingdom.getPlayerKills(), kingdom.getPlayerDeaths()) ) );
-            player.sendMessage( ChatArguments.fromFormatString( Translation.tr("{{WHITE}}Monster Kills : {{GOLD}}%0 {{WHITE}}Monster Deaths : %1", player, kingdom.getMonsterKills(), kingdom.getMonsterDeaths()) ) );
-            player.sendMessage( ChatArguments.fromFormatString( Translation.tr("{{WHITE}}Block places : {{GOLD}}%0 {{WHITE}}Block breaks : %1", player, kingdom.getBlockPlace(), kingdom.getBlockBreak()) ) );
-
-            player.sendMessage( ChatArguments.fromFormatString( Translation.tr("{{WHITE}}Leaders : {{GOLD}}%0", player, leaders.toString() ) ) );
-            player.sendMessage( ChatArguments.fromFormatString( Translation.tr("{{WHITE}}Captains : {{GOLD}}%0", player, captains.toString() ) ) );
-            player.sendMessage( ChatArguments.fromFormatString( Translation.tr("{{WHITE}}Members : {{GOLD}}%0", player, members.toString() ) ) );
-            player.sendMessage( ChatArguments.fromFormatString( Translation.tr("{{WHITE}}Novices : {{GOLD}}%0", player, novices.toString()) ) );
-
-            player.sendMessage(ChatArguments.fromFormatString("{BLUE}-----------------------------------------------------"));
         }
+
+        player.sendMessage(ChatArguments.fromFormatString("{{BLUE}}-----------------------------------------------------"));
+
+    }
+
+    @Command(aliases = {"info"}, usage = "", desc = "Info about a Kingdom")
+    @CommandPermissions("kingdoms.command.kingdom.info")
+    public void info(CommandContext args, CommandSource source) throws CommandException {
+
+        Player player = plugin.getEngine().getPlayer( source.getName(), true );
+
+        if ( player == null ) {
+            source.sendMessage( ChatArguments.fromFormatString( Translation.tr("You must be a Player!", source) ) );
+            return;
+        }
+
+        Kingdom kingdom = kingdomManager.getKingdomByName( args.getString(0) );
+
+        if ( kingdom == null ) {
+            player.sendMessage( ChatArguments.fromFormatString( Translation.tr("There is no Kingdom with this Name!", player) ) );
+            return;
+        }
+
+        player.sendMessage( ChatArguments.fromFormatString("{{BLUE}}-----------------------------------------------------") );
+        player.sendMessage( ChatArguments.fromFormatString( Translation.tr("{{YELLOW}}Info [%0] %1 ", player, kingdom.getTag(), kingdom.getName())) );
+        player.sendMessage( ChatArguments.fromFormatString("{{BLUE}}-----------------------------------------------------") );
+
+        ArrayList<String> leaders = kingdomManager.getMembersNameFromKingdomByRank(kingdom, KingdomRank.LEADER);
+        ArrayList<String> captains = kingdomManager.getMembersNameFromKingdomByRank(kingdom, KingdomRank.CAPTAIN);
+        ArrayList<String> members = kingdomManager.getMembersNameFromKingdomByRank(kingdom, KingdomRank.MEMBER);
+        ArrayList<String> novices = kingdomManager.getMembersNameFromKingdomByRank(kingdom, KingdomRank.NOVICE);
+
+        player.sendMessage( ChatArguments.fromFormatString( Translation.tr("{{WHITE}}Level : {{GOLD}}%0 {{WHITE}}Points All : {{GOLD}}%1 {{WHITE}}Points : %2", player, kingdom.getLevel().getLevel(), kingdom.getPointsAll(), kingdom.getPoints()) ) );
+
+        player.sendMessage( ChatArguments.fromFormatString( Translation.tr("{{WHITE}}Player Kills : {{GOLD}}%0 {{WHITE}}Player Deaths : %1", player, kingdom.getPlayerKills(), kingdom.getPlayerDeaths()) ) );
+        player.sendMessage( ChatArguments.fromFormatString( Translation.tr("{{WHITE}}Monster Kills : {{GOLD}}%0 {{WHITE}}Monster Deaths : %1", player, kingdom.getMonsterKills(), kingdom.getMonsterDeaths()) ) );
+        player.sendMessage( ChatArguments.fromFormatString( Translation.tr("{{WHITE}}Block places : {{GOLD}}%0 {{WHITE}}Block breaks : %1", player, kingdom.getBlockPlace(), kingdom.getBlockBreak()) ) );
+
+        if ( leaders != null ) {
+            player.sendMessage( ChatArguments.fromFormatString( Translation.tr("{{WHITE}}Leaders : {{GOLD}}%0", player, leaders.toString() ) ) );
+        }
+
+        if ( captains != null ) {
+            player.sendMessage( ChatArguments.fromFormatString( Translation.tr("{{WHITE}}Captains : {{GOLD}}%0", player, captains.toString() ) ) );
+        }
+
+        if ( members != null ) {
+            player.sendMessage( ChatArguments.fromFormatString( Translation.tr("{{WHITE}}Members : {{GOLD}}%0", player, members.toString() ) ) );
+        }
+
+        if ( novices != null ) {
+            player.sendMessage( ChatArguments.fromFormatString( Translation.tr("{{WHITE}}Novices : {{GOLD}}%0", player, novices.toString()) ) );
+        }
+
+        player.sendMessage(ChatArguments.fromFormatString("{{BLUE}}-----------------------------------------------------"));
+
+    }
+
+    @Command(aliases = {"members"}, usage = "", desc = "Info about Kingdom Members")
+    @CommandPermissions("kingdoms.command.kingdom.members")
+    public void members(CommandContext args, CommandSource source) throws CommandException {
+
+        Player player = plugin.getEngine().getPlayer( source.getName(), true );
+
+        if ( player == null ) {
+            source.sendMessage( ChatArguments.fromFormatString( Translation.tr("You must be a Player!", source) ) );
+            return;
+        }
+
+        Kingdom kingdom = kingdomManager.getKingdomByPlayer(player);
+
+        if ( kingdom == null ) {
+            player.sendMessage( ChatArguments.fromFormatString( Translation.tr("You are not in a Kingdom!", player) ) );
+            return;
+        }
+
+        player.sendMessage( ChatArguments.fromFormatString("{{BLUE}}-----------------------------------------------------") );
+        player.sendMessage( ChatArguments.fromFormatString("{{YELLOW}}Members") );
+        player.sendMessage( ChatArguments.fromFormatString("{{BLUE}}-----------------------------------------------------") );
+
+        player.sendMessage( ChatArguments.fromFormatString("{{YELLOW}}Name - Kills - Deaths") );
+
+        ArrayList<Member> leaders = kingdomManager.getMembersFromKingdomByRank(kingdom, KingdomRank.LEADER);
+        ArrayList<Member> captains = kingdomManager.getMembersFromKingdomByRank(kingdom, KingdomRank.CAPTAIN);
+        ArrayList<Member> members = kingdomManager.getMembersFromKingdomByRank(kingdom, KingdomRank.MEMBER);
+        ArrayList<Member> novices = kingdomManager.getMembersFromKingdomByRank(kingdom, KingdomRank.NOVICE);
+
+
+        player.sendMessage( ChatArguments.fromFormatString("{{YELLOW}}Leaders") );
+        if ( leaders != null ) {
+
+            for ( Member member : leaders ) {
+
+                String color = "WHITE";
+
+                if ( member.isOnline() ) {
+                    color = "PINK";
+                }
+
+                player.sendMessage( ChatArguments.fromFormatString( Translation.tr("{{%0}}%1 %2 %3", player, color, member.getName(), member.getPlayerKills(), member.getPlayerDeaths() ) ) );
+
+            }
+
+        }
+
+
+        player.sendMessage( ChatArguments.fromFormatString("{{YELLOW}}Captains") );
+        if ( captains != null ) {
+
+            for ( Member member : captains ) {
+
+                String color = "WHITE";
+
+                if ( member.isOnline() ) {
+                    color = "PINK";
+                }
+
+                player.sendMessage( ChatArguments.fromFormatString( Translation.tr("{{%0}}%1 %2 %3", player, color, member.getName(), member.getPlayerKills(), member.getPlayerDeaths() ) ) );
+
+            }
+
+        }
+
+        player.sendMessage( ChatArguments.fromFormatString("{{YELLOW}}Members") );
+        if ( members != null ) {
+
+            for ( Member member : members ) {
+
+                String color = "WHITE";
+
+                if ( member.isOnline() ) {
+                    color = "PINK";
+                }
+
+                player.sendMessage( ChatArguments.fromFormatString( Translation.tr("{{%0}}%1 %2 %3", player, color, member.getName(), member.getPlayerKills(), member.getPlayerDeaths() ) ) );
+
+            }
+
+        }
+
+        player.sendMessage( ChatArguments.fromFormatString("{{YELLOW}}Novices") );
+        if ( novices != null ) {
+
+            for ( Member member : novices ) {
+
+                String color = "WHITE";
+
+                if ( member.isOnline() ) {
+                    color = "PINK";
+                }
+
+                player.sendMessage( ChatArguments.fromFormatString( Translation.tr("{{%0}}%1 %2 %3", player, color, member.getName(), member.getPlayerKills(), member.getPlayerDeaths() ) ) );
+
+            }
+
+        }
+
+        player.sendMessage(ChatArguments.fromFormatString("{{BLUE}}-----------------------------------------------------"));
 
     }
 
@@ -168,6 +372,7 @@ public class KingdomCommands {
         member.setRank( KingdomRank.LEADER );
 
         kingdomManager.createKingdom(member, args.getString(0), args.getString(1));
+        player.sendMessage( ChatArguments.fromFormatString( Translation.tr("The Kingdom is created! Now you can invite Players with /kingdom invite <player>", player) ) );
     }
 
     @Command(aliases = {"invite"}, usage = "", desc = "Invite a Player to the Kingdom")
@@ -204,9 +409,12 @@ public class KingdomCommands {
             return;
         }
 
-        kingdom.addInvitetMember(inviteMember);
+        kingdom.addInvitedMember(inviteMember);
 
+        player.sendMessage( ChatArguments.fromFormatString( Translation.tr("Player is invited!", player) ) );
         invitePlayer.sendMessage( ChatArguments.fromFormatString( Translation.tr("You are invited from %0 to join the Kingdom %1", invitePlayer, player.getName(), kingdom.getName()) ) );
+        invitePlayer.sendMessage( ChatArguments.fromFormatString( Translation.tr("Type /accept ore /reject", invitePlayer) ) );
+
     }
 
 
@@ -241,6 +449,11 @@ public class KingdomCommands {
 
         if ( kickMember == null || kickPlayer == null ) {
             player.sendMessage( ChatArguments.fromFormatString( Translation.tr("There are no Player with this Name!", player) ) );
+            return;
+        }
+
+        if ( member.getKingdom().equalsIgnoreCase( kickMember.getKingdom() ) ) {
+            player.sendMessage( ChatArguments.fromFormatString( Translation.tr("The Player is not in your Kingdom!", player) ) );
             return;
         }
 
@@ -330,8 +543,255 @@ public class KingdomCommands {
 
     }
 
+    @Command(aliases = {"promote"}, usage = "", desc = "Promote a Player from the Kingdom")
+    @CommandPermissions("kingdoms.command.kingdom.promote")
+    public void promote(CommandContext args, CommandSource source) throws CommandException {
+
+        Player player = plugin.getEngine().getPlayer( source.getName(), true );
+
+        if ( player == null ) {
+            source.sendMessage( ChatArguments.fromFormatString( Translation.tr("You must be a Player!", source) ) );
+            return;
+        }
+
+        Member member = memberManager.getMemberByPlayer(player);
+        Kingdom kingdom = kingdomManager.getKingdomByPlayer(player);
+
+        if ( kingdom == null ) {
+            player.sendMessage( ChatArguments.fromFormatString( Translation.tr("You are not in a Kingdom!", player) ) );
+            return;
+        }
+
+        if ( member.getRank().equals( KingdomRank.LEADER ) == false &&
+                member.getRank().equals( KingdomRank.CAPTAIN ) == false   ) {
+
+            player.sendMessage( ChatArguments.fromFormatString( Translation.tr("You need to be a Captain ore Leader to do this!", player) ) );
+            return;
+        }
+
+        Player promotePlayer = plugin.getEngine().getPlayer(args.getString(0), true);
+        Member promoteMember = memberManager.getMemberByName( args.getString(0) );
+
+        if ( promoteMember == null || promotePlayer == null ) {
+            player.sendMessage( ChatArguments.fromFormatString( Translation.tr("There are no Player with this Name!", player) ) );
+            return;
+        }
+
+        if ( member.getKingdom().equalsIgnoreCase( promoteMember.getKingdom() ) ) {
+            player.sendMessage( ChatArguments.fromFormatString( Translation.tr("The Player is not in your Kingdom!", player) ) );
+            return;
+        }
+
+        if ( promoteMember.getRank().equals( KingdomRank.LEADER ) ) {
+            player.sendMessage( ChatArguments.fromFormatString( Translation.tr("You can't promote a Leader!", player) ) );
+            return;
+        }
+
+        if ( member.getRank().equals( KingdomRank.CAPTAIN ) ) {
+
+            if ( promoteMember.getRank().equals( KingdomRank.CAPTAIN ) ){
+                player.sendMessage( ChatArguments.fromFormatString( Translation.tr("You can't promote a Member who has the same Rank!", player) ) );
+                return;
+            }
+
+        }
+
+        if ( promoteMember.getRank().equals( KingdomRank.NOVICE ) ) {
+            promoteMember.setRank( KingdomRank.MEMBER );
+        } else if ( promoteMember.getRank().equals( KingdomRank.MEMBER ) ) {
+            promoteMember.setRank( KingdomRank.CAPTAIN );
+        } if ( promoteMember.getRank().equals( KingdomRank.CAPTAIN ) ) {
+            promoteMember.setRank( KingdomRank.LEADER );
+        }
 
 
+        for ( Member toMember : kingdom.getMembers()  ) {
 
+            Player toPlayer = plugin.getEngine().getPlayer(toMember.getName(), true);
+
+            if ( toPlayer.isOnline() ) {
+                toPlayer.sendMessage( ChatArguments.fromFormatString(Translation.tr("%0 was promoted to %1!", toPlayer, promoteMember.getName(), promoteMember.getRank())) );
+            }
+
+        }
+
+        promotePlayer.sendMessage( ChatArguments.fromFormatString( Translation.tr("You where promoted to %0!", promotePlayer, promoteMember.getRank()) ) );
+    }
+
+    @Command(aliases = {"demote"}, usage = "", desc = "Demote a Player from the Kingdom")
+    @CommandPermissions("kingdoms.command.kingdom.demote")
+    public void demote(CommandContext args, CommandSource source) throws CommandException {
+
+        Player player = plugin.getEngine().getPlayer( source.getName(), true );
+
+        if ( player == null ) {
+            source.sendMessage( ChatArguments.fromFormatString( Translation.tr("You must be a Player!", source) ) );
+            return;
+        }
+
+        Member member = memberManager.getMemberByPlayer(player);
+        Kingdom kingdom = kingdomManager.getKingdomByPlayer(player);
+
+        if ( kingdom == null ) {
+            player.sendMessage( ChatArguments.fromFormatString( Translation.tr("You are not in a Kingdom!", player) ) );
+            return;
+        }
+
+        if ( member.getRank().equals( KingdomRank.LEADER ) == false &&
+                member.getRank().equals( KingdomRank.CAPTAIN ) == false   ) {
+
+            player.sendMessage( ChatArguments.fromFormatString( Translation.tr("You need to be a Captain ore Leader to do this!", player) ) );
+            return;
+        }
+
+        Player demotePlayer = plugin.getEngine().getPlayer(args.getString(0), true);
+        Member demoteMember = memberManager.getMemberByName( args.getString(0) );
+
+        if ( demoteMember == null || demotePlayer == null ) {
+            player.sendMessage( ChatArguments.fromFormatString( Translation.tr("There are no Player with this Name!", player) ) );
+            return;
+        }
+
+        if ( member.getKingdom().equalsIgnoreCase( demoteMember.getKingdom() ) ) {
+            player.sendMessage( ChatArguments.fromFormatString( Translation.tr("The Player is not in your Kingdom!", player) ) );
+            return;
+        }
+
+        if ( demoteMember.getRank().equals( KingdomRank.LEADER ) ) {
+            player.sendMessage( ChatArguments.fromFormatString( Translation.tr("You can't demote a Leader!", player) ) );
+            return;
+        }
+
+        if ( member.getRank().equals( KingdomRank.CAPTAIN ) ) {
+
+            if ( demoteMember.getRank().equals( KingdomRank.CAPTAIN ) ){
+                player.sendMessage( ChatArguments.fromFormatString( Translation.tr("You can't demote a Member who has the same Rank!", player) ) );
+                return;
+            }
+
+        }
+
+        if ( demoteMember.getRank().equals( KingdomRank.NOVICE ) ) {
+            player.sendMessage( ChatArguments.fromFormatString( Translation.tr("You can't demote a Novice!", player) ) );
+            return;
+        }
+
+        if ( demoteMember.getRank().equals( KingdomRank.MEMBER ) ) {
+            demoteMember.setRank( KingdomRank.NOVICE );
+        } if ( demoteMember.getRank().equals( KingdomRank.CAPTAIN ) ) {
+            demoteMember.setRank( KingdomRank.MEMBER );
+        }
+
+        for ( Member toMember : kingdom.getMembers()  ) {
+
+            Player toPlayer = plugin.getEngine().getPlayer(toMember.getName(), true);
+
+            if ( toPlayer.isOnline() ) {
+                toPlayer.sendMessage( ChatArguments.fromFormatString(Translation.tr("%0 was demoted to %1!", toPlayer, demotePlayer.getName(), demoteMember.getRank())) );
+            }
+
+        }
+
+        demotePlayer.sendMessage( ChatArguments.fromFormatString( Translation.tr("You where demoted to %0!", demotePlayer, demoteMember.getRank()) ) );
+    }
+
+    @Command(aliases = {"upgrade"}, usage = "", desc = "Upgrade the Kingdom")
+    @CommandPermissions("kingdoms.command.kingdom.upgrade")
+    public void upgrade(CommandContext args, CommandSource source) throws CommandException {
+
+        Player player = plugin.getEngine().getPlayer( source.getName(), true );
+
+        if ( player == null ) {
+            source.sendMessage( ChatArguments.fromFormatString( Translation.tr("You must be a Player!", source) ) );
+            return;
+        }
+
+        Member member = memberManager.getMemberByPlayer(player);
+        Kingdom kingdom = kingdomManager.getKingdomByPlayer(player);
+
+        if ( kingdom == null ) {
+            player.sendMessage( ChatArguments.fromFormatString( Translation.tr("You are not in a Kingdom!", player) ) );
+            return;
+        }
+
+        if ( member.getRank().equals( KingdomRank.LEADER ) == false    ) {
+            player.sendMessage( ChatArguments.fromFormatString( Translation.tr("You need to be a Leader to do this!", player) ) );
+            return;
+        }
+
+        KingdomLevel lvl = null;
+
+        for (KingdomLevel level : KingdomsConfig.LEVELS ) {
+
+            if ( kingdom.getLevel().getLevel() + 1 == level.getLevel() ) {
+                lvl = level;
+            }
+
+        }
+
+        if ( lvl == null ) {
+            player.sendMessage( ChatArguments.fromFormatString( Translation.tr("You have already the highest Level!", player) ) );
+            return;
+        }
+
+        if ( kingdom.getPoints() < lvl.getPoints() ) {
+            player.sendMessage( ChatArguments.fromFormatString( Translation.tr("You have not enough Points!", player) ) );
+            return;
+        }
+
+        kingdom.setLevel( lvl.getLevel() );
+
+        for ( Member toMember : kingdom.getMembers()  ) {
+
+            Player toPlayer = plugin.getEngine().getPlayer(toMember.getName(), true);
+
+            if ( toPlayer.isOnline() ) {
+                toPlayer.sendMessage( ChatArguments.fromFormatString(Translation.tr("The Kingdom has Upgraded to Level %0!", toPlayer, lvl.getLevel() )) );
+            }
+
+        }
+
+    }
+
+    @Command(aliases = {"setbase"}, usage = "", desc = "Set the Base for the Kingdom")
+    @CommandPermissions("kingdoms.command.kingdom.setbase")
+    public void setBase(CommandContext args, CommandSource source) throws CommandException {
+
+        Player player = plugin.getEngine().getPlayer( source.getName(), true );
+
+        if ( player == null ) {
+            source.sendMessage( ChatArguments.fromFormatString( Translation.tr("You must be a Player!", source) ) );
+            return;
+        }
+
+        Member member = memberManager.getMemberByPlayer(player);
+        Kingdom kingdom = kingdomManager.getKingdomByPlayer(player);
+
+        if ( kingdom == null ) {
+            player.sendMessage( ChatArguments.fromFormatString( Translation.tr("You are not in a Kingdom!", player) ) );
+            return;
+        }
+
+        if ( member.getRank().equals( KingdomRank.LEADER ) == false ) {
+            player.sendMessage( ChatArguments.fromFormatString( Translation.tr("You need to be a Leader to do this!", player) ) );
+            return;
+        }
+
+        if ( kingdom.getMembers().size() < KingdomsConfig.KINGDOMS_BASE_MIN_PLAYERS.getInt() ) {
+            player.sendMessage( ChatArguments.fromFormatString( Translation.tr("You have not enough Members!", player) ) );
+            return;
+        }
+
+        if ( kingdom.getBaseX() != 0 && kingdom.getBaseY() != 0 && kingdom.getBaseZ() != 0 ) {
+            player.sendMessage( ChatArguments.fromFormatString( Translation.tr("You have already a Base!", player) ) );
+            return;
+        }
+
+        kingdom.setBaseX( player.getTransform().getPosition().getBlockX() );
+        kingdom.setBaseY( player.getTransform().getPosition().getBlockY() );
+        kingdom.setBaseZ( player.getTransform().getPosition().getBlockZ() );
+
+        player.sendMessage( ChatArguments.fromFormatString( Translation.tr("Base set!", player) ) );
+    }
 
 }

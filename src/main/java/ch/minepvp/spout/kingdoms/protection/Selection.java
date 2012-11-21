@@ -8,8 +8,8 @@ public class Selection {
 
     private Player owner;
 
-    private Point point1;
-    private Point point2;
+    private Point point1 = null;
+    private Point point2 = null;
 
     public Selection( Player owner ) {
         this.owner = owner;

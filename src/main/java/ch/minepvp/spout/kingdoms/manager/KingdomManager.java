@@ -3,11 +3,17 @@ package ch.minepvp.spout.kingdoms.manager;
 import ch.minepvp.spout.kingdoms.Kingdoms;
 import ch.minepvp.spout.kingdoms.database.table.Kingdom;
 import ch.minepvp.spout.kingdoms.database.table.Member;
+import ch.minepvp.spout.kingdoms.database.table.Plot;
 import ch.minepvp.spout.kingdoms.entity.KingdomRank;
 import com.alta189.simplesave.Database;
 import org.spout.api.entity.Player;
+import org.spout.api.geo.Protection;
+import org.spout.api.geo.World;
+import org.spout.api.geo.discrete.Point;
+import org.spout.api.plugin.services.ProtectionService;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 public class KingdomManager {
 
@@ -15,6 +21,7 @@ public class KingdomManager {
     private Database db;
 
     private MemberManager memberManager;
+    private PlotManager plotManager;
 
     private ArrayList<Kingdom> kingdoms;
 
@@ -24,6 +31,7 @@ public class KingdomManager {
         db = plugin.getDatabase();
 
         memberManager = plugin.getMemberManager();
+        plotManager = plugin.getPlotManager();
 
         kingdoms = new ArrayList<Kingdom>();
 
@@ -37,6 +45,24 @@ public class KingdomManager {
     public void load() {
 
         kingdoms = (ArrayList)db.select(Kingdom.class).execute().find();
+
+        if ( kingdoms.size() > 0 ) {
+
+            for ( Kingdom kingdom : kingdoms ) {
+
+                for ( Member member : memberManager.getMembers() ) {
+
+                    if ( kingdom.getName().equalsIgnoreCase( member.getKingdom() ) ) {
+
+                        kingdom.addMember(member);
+
+                    }
+
+                }
+
+            }
+
+        }
 
         plugin.getLogger().info("loaded Kingdoms : " + kingdoms.size());
 
@@ -70,8 +96,12 @@ public class KingdomManager {
         kingdom.setName( name );
         kingdom.setTag( tag );
         kingdom.addMember( member );
+        kingdom.setLevel(1);
 
+        db.save(Kingdom.class, kingdom);
         kingdoms.add(kingdom);
+
+        member.setKingdom( kingdom.getId() );
     }
 
     /**
@@ -82,10 +112,19 @@ public class KingdomManager {
     public void deleteKingdom( Kingdom kingdom ) {
 
         // Reset Zones
+        // TODO
 
         // Delete Plots
+        if ( plotManager.getPlotsByKingdom(kingdom).size() > 0 ) {
+
+            for ( Plot plot : plotManager.getPlotsByKingdom(kingdom) ) {
+                plotManager.deletePlot(plot);
+            }
+
+        }
 
         // Delete Kingdom
+        kingdoms.remove(kingdom);
         db.remove(Kingdom.class, kingdom);
 
     }
@@ -206,7 +245,7 @@ public class KingdomManager {
 
             for ( Kingdom kingdom : kingdoms ) {
 
-                for ( Member member : kingdom.getInvitetMembers() ) {
+                for ( Member member : kingdom.getInvitedMembers() ) {
 
                     if ( member.getName().equalsIgnoreCase( player.getName() ) ) {
                         return kingdom;
@@ -220,5 +259,73 @@ public class KingdomManager {
 
         return null;
     }
+
+    public Kingdom getKingdomByPoint( Point point ) {
+
+        if ( kingdoms.size() > 0 ) {
+
+            for ( Kingdom kingdom : kingdoms ) {
+
+                if ( kingdom.contains(point) ) {
+                     return kingdom;
+                }
+
+            }
+
+        }
+
+        return null;
+    }
+
+    /*
+    @Override
+    public Protection getProtection(String s) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public Collection<Protection> getAllProtections(World world) {
+
+        if ( kingdoms.size() > 0 ) {
+            return (Collection)kingdoms;
+        }
+
+        return null;
+    }
+
+    @Override
+    public Collection<Protection> getAllProtections(Point point) {
+
+        Collection<Protection> protections = new ArrayList<Protection>();
+
+        if ( kingdoms.size() > 0 ) {
+
+            for ( Kingdom kingdom : kingdoms ) {
+
+                if ( kingdom.contains(point) ) {
+                    protections.add(kingdom);
+                }
+
+            }
+
+        }
+
+        if ( protections.size() > 0 ) {
+            return protections;
+        }
+
+        return null;
+    }
+
+    @Override
+    public Collection<Protection> getAllProtections() {
+
+        if ( kingdoms.size() > 0 ) {
+            return (Collection)kingdoms;
+        }
+
+        return null;
+    }
+    */
 
 }

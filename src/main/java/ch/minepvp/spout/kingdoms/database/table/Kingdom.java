@@ -1,8 +1,13 @@
 package ch.minepvp.spout.kingdoms.database.table;
 
+import ch.minepvp.spout.kingdoms.Kingdoms;
+import ch.minepvp.spout.kingdoms.config.KingdomsConfig;
+import ch.minepvp.spout.kingdoms.entity.KingdomLevel;
 import com.alta189.simplesave.Field;
 import com.alta189.simplesave.Id;
 import com.alta189.simplesave.Table;
+import org.spout.api.geo.World;
+import org.spout.api.geo.discrete.Point;
 
 import java.util.ArrayList;
 
@@ -70,17 +75,8 @@ public class Kingdom {
     private int blockPlace = 0;
 
 
-
-    private ArrayList<Member> members;
-    private ArrayList<Member> invitetMembers;
-
-
-    public Kingdom(  ) {
-
-        members = new ArrayList<Member>();
-        invitetMembers = new ArrayList<Member>();
-
-    }
+    private ArrayList<Member> members = members = new ArrayList<Member>();
+    private ArrayList<Member> invitedMembers = invitedMembers = new ArrayList<Member>();
 
 
     public int getId() {
@@ -107,8 +103,17 @@ public class Kingdom {
         this.name = name;
     }
 
-    public int getLevel() {
-        return level;
+    public KingdomLevel getLevel() {
+
+        for ( KingdomLevel level : KingdomsConfig.LEVELS ) {
+
+            if ( level.getLevel() == this.level ) {
+                return level;
+            }
+
+        }
+
+        return null;
     }
 
     public void setLevel(int level) {
@@ -136,6 +141,10 @@ public class Kingdom {
         this.pointsAll = pointsAll;
     }
 
+    public Point getBasePoint() {
+        return new Point( Kingdoms.getInstance().getEngine().getWorld("world"), getBaseX(), getBaseY(), getBaseZ() );
+    }
+
     public int getBaseX() {
         return baseX;
     }
@@ -158,6 +167,14 @@ public class Kingdom {
 
     public void setBaseZ(int baseZ) {
         this.baseZ = baseZ;
+    }
+
+    public Point getBaseCornerOne() {
+        return new Point( Kingdoms.getInstance().getEngine().getWorld("world"), getBaseX() - getLevel().getSize(), getBaseY(), getBaseZ() - getLevel().getSize() );
+    }
+
+    public Point getBaseCornerTwo() {
+        return new Point( Kingdoms.getInstance().getEngine().getWorld("world"), getBaseX() + getLevel().getSize(), getBaseY(), getBaseZ() + getLevel().getSize() );
     }
 
     public int getSpawnX() {
@@ -272,19 +289,34 @@ public class Kingdom {
         this.members = members;
     }
 
-    public ArrayList<Member> getInvitetMembers() {
-        return invitetMembers;
+    public ArrayList<Member> getInvitedMembers() {
+        return invitedMembers;
     }
 
-    public void addInvitetMember( Member member ) {
-        this.invitetMembers.add(member);
+    public void addInvitedMember( Member member ) {
+        this.invitedMembers.add(member);
     }
 
-    public void removeInvitetMember( Member member ) {
-        this.invitetMembers.remove(member);
+    public void removeInvitedMember( Member member ) {
+        this.invitedMembers.remove(member);
     }
 
-    public void setInvitetMembers(ArrayList<Member> invitetMembers) {
-        this.invitetMembers = invitetMembers;
+    public void setInvitedMembers(ArrayList<Member> invitedMembers) {
+        this.invitedMembers = this.invitedMembers;
     }
+
+    public boolean contains(Point point) {
+
+        if ( getBaseCornerTwo().getBlockX() > point.getBlockX() && getBaseCornerOne().getBlockX() < point.getBlockX()) {
+
+            if ( getBaseCornerTwo().getBlockZ() > point.getBlockZ() && getBaseCornerOne().getBlockZ() < point.getBlockZ() ) {
+                return true;
+            }
+
+        }
+
+        return false;
+
+    }
+
 }
