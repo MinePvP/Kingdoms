@@ -58,8 +58,8 @@ public class KingdomsCommand {
             return;
         }
 
-        Member member = player.add(KingdomsComponent.class).getMember();
-        Kingdom kingdom = player.add(KingdomsComponent.class).getKingdom();
+        Member member = player.get(KingdomsComponent.class).getMember();
+        Kingdom kingdom = player.get(KingdomsComponent.class).getKingdom();
 
         // Switch the ChatChannel to Chat
         if ( member.getChannel().equals( KingdomChannel.LOCAL ) ) {

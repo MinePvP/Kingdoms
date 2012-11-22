@@ -63,8 +63,8 @@ public class PlotCommands {
 
         if ( player.hasPermission("kingdoms.command.plot.create") ) {
 
-            if ( player.add(KingdomsComponent.class).getMember().getRank().equals(KingdomRank.LEADER) ||
-                 player.add(KingdomsComponent.class).getMember().getRank().equals( KingdomRank.CAPTAIN ) ) {
+            if ( player.get(KingdomsComponent.class).getMember().getRank().equals(KingdomRank.LEADER) ||
+                 player.get(KingdomsComponent.class).getMember().getRank().equals( KingdomRank.CAPTAIN ) ) {
 
                 player.sendMessage(ChatArguments.fromFormatString(Translation.tr("{{YELLOW}}/plot create", source)));
                 player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{GOLD}}-> {{WHITE}}List all Plots form Kingdoms", source)) );
@@ -73,8 +73,8 @@ public class PlotCommands {
 
         if ( player.hasPermission("kingdoms.command.plot.delete") ) {
 
-            if ( player.add(KingdomsComponent.class).getMember().getRank().equals(KingdomRank.LEADER) ||
-                    player.add(KingdomsComponent.class).getMember().getRank().equals( KingdomRank.CAPTAIN ) ) {
+            if ( player.get(KingdomsComponent.class).getMember().getRank().equals(KingdomRank.LEADER) ||
+                    player.get(KingdomsComponent.class).getMember().getRank().equals( KingdomRank.CAPTAIN ) ) {
 
                 player.sendMessage(ChatArguments.fromFormatString(Translation.tr("{{YELLOW}}/plot delete <plotId>", source)));
                 player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{GOLD}}-> {{WHITE}}Delete a Plot", source)) );
@@ -83,8 +83,8 @@ public class PlotCommands {
 
         if ( player.hasPermission("kingdoms.command.plot.setowner") ) {
 
-            if ( player.add(KingdomsComponent.class).getMember().getRank().equals(KingdomRank.LEADER) ||
-                    player.add(KingdomsComponent.class).getMember().getRank().equals( KingdomRank.CAPTAIN ) ) {
+            if ( player.get(KingdomsComponent.class).getMember().getRank().equals(KingdomRank.LEADER) ||
+                    player.get(KingdomsComponent.class).getMember().getRank().equals( KingdomRank.CAPTAIN ) ) {
 
                 player.sendMessage(ChatArguments.fromFormatString(Translation.tr("{{YELLOW}}/plot setowner <plotId> <player>", source)));
                 player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{GOLD}}-> {{WHITE}}Set a Owner for the Plot", source)) );
@@ -184,24 +184,24 @@ public class PlotCommands {
             return;
         }
 
-        if ( player.add(KingdomsComponent.class).getMember().getRank().equals(KingdomRank.LEADER) ||
-                player.add(KingdomsComponent.class).getMember().getRank().equals( KingdomRank.CAPTAIN ) ) {
+        if ( player.get(KingdomsComponent.class).getMember().getRank().equals(KingdomRank.LEADER) == false ||
+             player.get(KingdomsComponent.class).getMember().getRank().equals( KingdomRank.CAPTAIN ) == false ) {
             player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{RED}}You need to be a Captain oder Leader to do this!", player)) );
             return;
         }
 
-        if ( player.add(SelectionComponent.class).getSelection().getPoint1() == null ) {
+        if ( player.get(SelectionComponent.class).getSelection().getPoint1() == null ) {
             player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{RED}}You need to select the first Corner!", player)) );
             return;
         }
 
-        if ( player.add(SelectionComponent.class).getSelection().getPoint2() == null ) {
+        if ( player.get(SelectionComponent.class).getSelection().getPoint2() == null ) {
             player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{RED}}You need to select the second Corner!", player)) );
             return;
         }
 
-        Point cornerOne = player.add(SelectionComponent.class).getSelection().getMinPoint();
-        Point cornerTwo = player.add(SelectionComponent.class).getSelection().getMaxPoint();
+        Point cornerOne = player.get(SelectionComponent.class).getSelection().getMinPoint();
+        Point cornerTwo = player.get(SelectionComponent.class).getSelection().getMaxPoint();
 
         if ( kingdom.contains(cornerOne) == false ) {
             player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{RED}}The first Corner ist not in the Kingdom!", player)) );
@@ -247,8 +247,8 @@ public class PlotCommands {
             return;
         }
 
-        if ( player.add(KingdomsComponent.class).getMember().getRank().equals(KingdomRank.LEADER) ||
-                player.add(KingdomsComponent.class).getMember().getRank().equals( KingdomRank.CAPTAIN ) ) {
+        if ( player.get(KingdomsComponent.class).getMember().getRank().equals(KingdomRank.LEADER) ||
+                player.get(KingdomsComponent.class).getMember().getRank().equals( KingdomRank.CAPTAIN ) ) {
             player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{RED}}You need to be a Captain oder Leader to do this!", player)) );
             return;
         }
@@ -306,8 +306,8 @@ public class PlotCommands {
             return;
         }
 
-        if ( player.add(KingdomsComponent.class).getMember().getRank().equals(KingdomRank.LEADER) ||
-                player.add(KingdomsComponent.class).getMember().getRank().equals( KingdomRank.CAPTAIN ) ) {
+        if ( player.get(KingdomsComponent.class).getMember().getRank().equals(KingdomRank.LEADER) ||
+                player.get(KingdomsComponent.class).getMember().getRank().equals( KingdomRank.CAPTAIN ) ) {
             player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{RED}}You need to be a Captain oder Leader to do this!", player)) );
             return;
         }

@@ -66,7 +66,7 @@ public class KingdomCommands {
 
         if ( player.hasPermission("kingdoms.command.kingdom.create") ) {
 
-            if ( player.add(KingdomsComponent.class).getMember().getRank().equals( KingdomRank.NONE ) ) {
+            if ( player.get(KingdomsComponent.class).getMember().getRank().equals( KingdomRank.NONE ) ) {
                 player.sendMessage(ChatArguments.fromFormatString(Translation.tr("{{YELLOW}}/kingdom create <name> <tag>", source)));
                 player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{GOLD}}-> {{WHITE}}Create a new Kingdom", source)) );
             }
@@ -74,7 +74,7 @@ public class KingdomCommands {
 
         if ( player.hasPermission("kingdoms.command.kingdom.members") ) {
 
-            if ( !player.add(KingdomsComponent.class).getMember().getRank().equals( KingdomRank.NONE ) ) {
+            if ( !player.get(KingdomsComponent.class).getMember().getRank().equals( KingdomRank.NONE ) ) {
                 player.sendMessage(ChatArguments.fromFormatString(Translation.tr("{{YELLOW}}/kingdom members", source)));
                 player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{GOLD}}-> {{WHITE}}Info about Kingdom Members", source)) );
             }
@@ -83,8 +83,8 @@ public class KingdomCommands {
 
         if ( player.hasPermission("kingdoms.command.kingdom.invite") ) {
 
-            if ( player.add(KingdomsComponent.class).getMember().getRank().equals( KingdomRank.LEADER ) ||
-                 player.add(KingdomsComponent.class).getMember().getRank().equals( KingdomRank.CAPTAIN )   ) {
+            if ( player.get(KingdomsComponent.class).getMember().getRank().equals( KingdomRank.LEADER ) ||
+                 player.get(KingdomsComponent.class).getMember().getRank().equals( KingdomRank.CAPTAIN )   ) {
 
                 player.sendMessage(ChatArguments.fromFormatString(Translation.tr("{{YELLOW}}/kingdom invite <player>", source)));
                 player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{GOLD}}-> {{WHITE}}Invite a Player to the Kingdom", source)) );
@@ -93,8 +93,8 @@ public class KingdomCommands {
 
         if ( player.hasPermission("kingdoms.command.kingdom.kick") ) {
 
-            if ( player.add(KingdomsComponent.class).getMember().getRank().equals( KingdomRank.LEADER ) ||
-                    player.add(KingdomsComponent.class).getMember().getRank().equals( KingdomRank.CAPTAIN )   ) {
+            if ( player.get(KingdomsComponent.class).getMember().getRank().equals( KingdomRank.LEADER ) ||
+                    player.get(KingdomsComponent.class).getMember().getRank().equals( KingdomRank.CAPTAIN )   ) {
 
                 player.sendMessage(ChatArguments.fromFormatString(Translation.tr("{{YELLOW}}/kingdom kick <player>", source)));
                 player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{GOLD}}-> {{WHITE}}Kick a Player to the Kingdom", source)) );
@@ -103,7 +103,7 @@ public class KingdomCommands {
 
         if ( player.hasPermission("kingdoms.command.kingdom.leave") ) {
 
-            if ( !player.add(KingdomsComponent.class).getMember().getRank().equals( KingdomRank.NONE ) ) {
+            if ( !player.get(KingdomsComponent.class).getMember().getRank().equals( KingdomRank.NONE ) ) {
                 player.sendMessage(ChatArguments.fromFormatString(Translation.tr("{{YELLOW}}/kingdom leave", source)));
                 player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{GOLD}}-> {{WHITE}}Leave the Kingdom", source)) );
             }
@@ -111,8 +111,8 @@ public class KingdomCommands {
 
         if ( player.hasPermission("kingdoms.command.kingdom.promote") ) {
 
-            if ( player.add(KingdomsComponent.class).getMember().getRank().equals( KingdomRank.LEADER ) ||
-                    player.add(KingdomsComponent.class).getMember().getRank().equals( KingdomRank.CAPTAIN )   ) {
+            if ( player.get(KingdomsComponent.class).getMember().getRank().equals( KingdomRank.LEADER ) ||
+                    player.get(KingdomsComponent.class).getMember().getRank().equals( KingdomRank.CAPTAIN )   ) {
 
                 player.sendMessage(ChatArguments.fromFormatString(Translation.tr("{{YELLOW}}/kingdom promote <player>", source)));
                 player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{GOLD}}-> {{WHITE}}Promote a Player from the Kingdom", source)) );
@@ -121,8 +121,8 @@ public class KingdomCommands {
 
         if ( player.hasPermission("kingdoms.command.kingdom.demote") ) {
 
-            if ( player.add(KingdomsComponent.class).getMember().getRank().equals( KingdomRank.LEADER ) ||
-                    player.add(KingdomsComponent.class).getMember().getRank().equals( KingdomRank.CAPTAIN )   ) {
+            if ( player.get(KingdomsComponent.class).getMember().getRank().equals( KingdomRank.LEADER ) ||
+                    player.get(KingdomsComponent.class).getMember().getRank().equals( KingdomRank.CAPTAIN )   ) {
 
                 player.sendMessage(ChatArguments.fromFormatString(Translation.tr("{{YELLOW}}/kingdom demote <player>", source)));
                 player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{GOLD}}-> {{WHITE}}Demote a Player forom the Kingdom", source)) );
@@ -131,7 +131,7 @@ public class KingdomCommands {
 
         if ( player.hasPermission("kingdoms.command.kingdom.setbase") ) {
 
-            if ( player.add(KingdomsComponent.class).getMember().getRank().equals( KingdomRank.LEADER ) ) {
+            if ( player.get(KingdomsComponent.class).getMember().getRank().equals( KingdomRank.LEADER ) ) {
                 player.sendMessage(ChatArguments.fromFormatString(Translation.tr("{{YELLOW}}/kingdom setbase", source)));
                 player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{GOLD}}-> {{WHITE}}Set the Base of the Kingdom", source)) );
             }
@@ -139,7 +139,7 @@ public class KingdomCommands {
 
         if ( player.hasPermission("kingdoms.command.kingdom.upgrade") ) {
 
-            if ( player.add(KingdomsComponent.class).getMember().getRank().equals( KingdomRank.LEADER ) ) {
+            if ( player.get(KingdomsComponent.class).getMember().getRank().equals( KingdomRank.LEADER ) ) {
                 player.sendMessage(ChatArguments.fromFormatString(Translation.tr("{{YELLOW}}/kingdom upgrade", source)));
                 player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{GOLD}}-> {{WHITE}}Upgrade the Kingdom", source)) );
             }
@@ -147,7 +147,7 @@ public class KingdomCommands {
 
         if ( player.hasPermission("kingdoms.command.kingdom.setspawn") ) {
 
-            if ( player.add(KingdomsComponent.class).getMember().getRank().equals( KingdomRank.LEADER ) ) {
+            if ( player.get(KingdomsComponent.class).getMember().getRank().equals( KingdomRank.LEADER ) ) {
                 player.sendMessage(ChatArguments.fromFormatString(Translation.tr("{{YELLOW}}/kingdom setspawn", source)));
                 player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{GOLD}}-> {{WHITE}}Set the Kingdom Spawn", source)) );
             }
