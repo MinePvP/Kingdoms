@@ -39,7 +39,7 @@ public class KingdomsComponent extends EntityComponent {
 
             if ( nowKingdom != null ) {
 
-                player.sendMessage(ChatArguments.fromFormatString( Translation.tr("You are now in Kingdom %0", player, nowKingdom.getName()) ));
+                player.sendMessage(ChatArguments.fromFormatString( Translation.tr("{{GOLD}}You are now in Kingdom %0", player, nowKingdom.getName()) ));
 
             }
 
@@ -47,7 +47,7 @@ public class KingdomsComponent extends EntityComponent {
 
             if ( nowKingdom == null ) {
 
-               player.sendMessage(ChatArguments.fromFormatString( Translation.tr("You leave the Kingdom %0", player, lastKingdom.getName()) ));
+               player.sendMessage(ChatArguments.fromFormatString( Translation.tr("{{RED}}You leave the Kingdom %0", player, lastKingdom.getName()) ));
 
             }
 
