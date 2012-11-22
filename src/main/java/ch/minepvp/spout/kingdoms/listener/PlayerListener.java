@@ -19,6 +19,9 @@ import org.spout.api.event.player.PlayerInteractEvent;
 import org.spout.api.event.player.PlayerJoinEvent;
 import org.spout.api.event.player.PlayerLeaveEvent;
 import org.spout.api.lang.Translation;
+import org.spout.vanilla.component.living.Hostile;
+import org.spout.vanilla.component.living.neutral.Human;
+import org.spout.vanilla.component.misc.HealthComponent;
 import org.spout.vanilla.event.player.PlayerDeathEvent;
 import org.spout.vanilla.material.VanillaMaterials;
 
@@ -114,10 +117,10 @@ public class PlayerListener implements Listener {
 
                     switch (event.getAction()) {
                         case LEFT_CLICK:
-                            player.add(SelectionComponent.class).getSelection().setPoint1( event.getInteractedPoint() );
+                            player.get(SelectionComponent.class).getSelection().setPoint1( event.getInteractedPoint() );
                             player.sendMessage(ChatArguments.fromFormatString(Translation.tr("Point 1 selected!", player)) );
                         case RIGHT_CLICK:
-                            player.add(SelectionComponent.class).getSelection().setPoint2(event.getInteractedPoint());
+                            player.get(SelectionComponent.class).getSelection().setPoint2(event.getInteractedPoint());
                             player.sendMessage(ChatArguments.fromFormatString(Translation.tr("Point 2 selected!", player) ) );
                     }
 
@@ -134,13 +137,31 @@ public class PlayerListener implements Listener {
 
         Player player = event.getPlayer();
 
-        player.add(KingdomsComponent.class).getMember().addPlayerDeath();
+        if ( player.get(HealthComponent.class).getLastDamager() instanceof Player) {
 
-        if ( player.add(KingdomsComponent.class).getKingdom() != null ) {
-            player.add(KingdomsComponent.class).getKingdom().addPlayerDeath();
+            player.get(KingdomsComponent.class).getMember().addPlayerDeath();
+
+            if ( player.get(KingdomsComponent.class).getKingdom() != null ) {
+                player.get(KingdomsComponent.class).getKingdom().addPlayerDeath();
+            }
+
+            Player killer = (Player)player.get(HealthComponent.class).getLastDamager();
+
+            killer.get(KingdomsComponent.class).getMember().addPlayerKill();
+
+            if ( killer.get(KingdomsComponent.class).getKingdom() != null ) {
+                killer.get(KingdomsComponent.class).getKingdom().addPlayerKill();
+            }
+
+
+        } else if ( player.get(HealthComponent.class).getLastDamager() instanceof Hostile) {
+
+            player.get(KingdomsComponent.class).getMember().addMonsterDeath();
+
+            if ( player.get(KingdomsComponent.class).getKingdom() != null ) {
+                player.get(KingdomsComponent.class).getKingdom().addMonsterDeath();
+            }
         }
-
-        // TODO Implement add Points for Killer
 
     }
 
