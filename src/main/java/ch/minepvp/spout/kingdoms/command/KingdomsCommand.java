@@ -108,7 +108,7 @@ public class KingdomsCommand {
         Kingdom kingdom = kingdomManager.getKingdomByInvitedPlayer(player);
 
         if ( kingdom == null ) {
-            player.sendMessage( ChatArguments.fromFormatString(Translation.tr("You are not Invited in any Kingdom!", player)) );
+            player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{RED}}You are not Invited in any Kingdom!", player)) );
             return;
         }
 
@@ -117,7 +117,7 @@ public class KingdomsCommand {
             Player toPlayer = plugin.getEngine().getPlayer(toMember.getName(), true);
 
             if ( toPlayer.isOnline() ) {
-                toPlayer.sendMessage( ChatArguments.fromFormatString(Translation.tr("%0 has joined the Kingdom!", toPlayer, player.getName())) );
+                toPlayer.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{GOLD}}%0 has joined the Kingdom!", toPlayer, player.getName())) );
             }
 
         }
@@ -128,7 +128,7 @@ public class KingdomsCommand {
         kingdom.removeInvitedMember(member);
         kingdom.addMember(member);
 
-        player.sendMessage( ChatArguments.fromFormatString(Translation.tr("You have joined the Kingdom!", player)) );
+        player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{GOLD}}You have joined the Kingdom!", player)) );
 
     }
 
@@ -146,7 +146,7 @@ public class KingdomsCommand {
         Kingdom kingdom = kingdomManager.getKingdomByInvitedPlayer(player);
 
         if ( kingdom == null ) {
-            player.sendMessage( ChatArguments.fromFormatString(Translation.tr("You are not Invited in any Kingdom!", player)) );
+            player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{RED}}You are not Invited in any Kingdom!", player)) );
             return;
         }
 
@@ -155,7 +155,7 @@ public class KingdomsCommand {
             Player toPlayer = plugin.getEngine().getPlayer(toMember.getName(), true);
 
             if ( toPlayer.isOnline() ) {
-                toPlayer.sendMessage( ChatArguments.fromFormatString(Translation.tr("%0 has rejected the Kingdom invite!", toPlayer, player.getName())) );
+                toPlayer.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{RED}}%0 has rejected the Kingdom invite!", toPlayer, player.getName())) );
             }
 
         }

@@ -11,7 +11,9 @@ import ch.minepvp.spout.kingdoms.listener.PlayerListener;
 import ch.minepvp.spout.kingdoms.manager.KingdomManager;
 import ch.minepvp.spout.kingdoms.manager.MemberManager;
 import ch.minepvp.spout.kingdoms.manager.PlotManager;
+import ch.minepvp.spout.kingdoms.manager.TaskManager;
 import ch.minepvp.spout.kingdoms.task.SaveTask;
+import ch.minepvp.spout.kingdoms.task.Task;
 import com.alta189.simplesave.Database;
 import com.alta189.simplesave.DatabaseFactory;
 import com.alta189.simplesave.exceptions.ConnectionException;
@@ -38,6 +40,7 @@ public class Kingdoms extends CommonPlugin {
     private Database db;
 
     // Manager
+    TaskManager taskManager;
     MemberManager memberManager;
     KingdomManager kingdomManager;
     PlotManager plotManager;
@@ -96,6 +99,7 @@ public class Kingdoms extends CommonPlugin {
         }
 
         // Manager
+        taskManager = new TaskManager();
         memberManager = new MemberManager();
         plotManager = new PlotManager();
         kingdomManager = new KingdomManager();
@@ -116,15 +120,18 @@ public class Kingdoms extends CommonPlugin {
         getEngine().getRootCommand().addSubCommands(this, KingdomsCommand.class, commandRegFactory);
 
 
-        // Start Tasks
-        getEngine().getScheduler().scheduleSyncDelayedTask(this, new SaveTask(), ((KingdomsConfig.SAVE_TASK_TIME.getLong() * 20 ) * 60), TaskPriority.MEDIUM );
-
+        // Start Save Task
+        Task task = new SaveTask();
+        Long time = ((KingdomsConfig.SAVE_TASK_TIME.getLong() * 20 ) * 60);
+        taskManager.createSyncRepeatingTask( task, time, time, TaskPriority.MEDIUM  );
 
         getLogger().info("Enabled");
     }
 
     @Override
     public void onDisable() {
+
+        taskManager.stopAllTasks();
 
         memberManager.saveAll();
         plotManager.saveAll();
@@ -156,5 +163,10 @@ public class Kingdoms extends CommonPlugin {
     public PlotManager getPlotManager() {
         return plotManager;
     }
+
+    public TaskManager getTaskManager() {
+        return taskManager;
+    }
+
 
 }

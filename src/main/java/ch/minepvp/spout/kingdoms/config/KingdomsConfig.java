@@ -20,7 +20,8 @@ public class KingdomsConfig extends ConfigurationHolderConfiguration {
 
     // Kingdoms
     public static final ConfigurationHolder KINGDOMS_DISTANCE_MIN_KINGDOMS = new ConfigurationHolder(550, "Settings", "Kingdoms", "Distance", "MinKingdoms");
-    public static final ConfigurationHolder KINGDOMS_DISTANCE_MIN_ZONES = new ConfigurationHolder(300, "Settings", "Kingdoms", "Distance", "MinZones");
+    public static final ConfigurationHolder KINGDOMS_DISTANCE_MIN_ZONES = new ConfigurationHolder(350, "Settings", "Kingdoms", "Distance", "MinZones");
+    public static final ConfigurationHolder KINGDOMS_DISTANCE_MIN_SPAWN = new ConfigurationHolder(600, "Settings", "Kingdoms", "Distance", "MinSpawn");
 
     public static final ConfigurationHolder KINGDOMS_BASE_MIN_PLAYERS = new ConfigurationHolder(1, "Settings", "Kingdoms", "Base", "MinePlayers");
 

@@ -112,7 +112,7 @@ public class KingdomManager {
     public void deleteKingdom( Kingdom kingdom ) {
 
         // Reset Zones
-        // TODO
+        // TODO reset all Zones
 
         // Delete Plots
         if ( plotManager.getPlotsByKingdom(kingdom).size() > 0 ) {

@@ -140,4 +140,21 @@ public class PlotManager {
         return null;
     }
 
+    public Plot getPlotById( Integer id ) {
+
+        if ( plots.size() > 0 ) {
+
+            for ( Plot plot : plots ) {
+
+                if ( plot.getId() == id ) {
+                    return plot;
+                }
+
+            }
+
+        }
+
+        return null;
+    }
+
 }

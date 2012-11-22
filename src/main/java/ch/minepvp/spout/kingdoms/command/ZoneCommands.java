@@ -1,12 +1,14 @@
 package ch.minepvp.spout.kingdoms.command;
 
 import ch.minepvp.spout.kingdoms.Kingdoms;
+import ch.minepvp.spout.kingdoms.database.table.Kingdom;
 import org.spout.api.chat.ChatArguments;
 import org.spout.api.chat.style.ChatStyle;
 import org.spout.api.command.CommandContext;
 import org.spout.api.command.CommandSource;
 import org.spout.api.command.annotated.Command;
 import org.spout.api.command.annotated.CommandPermissions;
+import org.spout.api.entity.Player;
 import org.spout.api.exception.CommandException;
 import org.spout.api.lang.Translation;
 
@@ -22,16 +24,45 @@ public class ZoneCommands {
     @CommandPermissions("kingdoms.command.zone.help")
     public void help(CommandContext args, CommandSource source) throws CommandException {
 
-        source.sendMessage( ChatArguments.fromFormatString("{BLUE}-----------------------------------------------------") );
-        source.sendMessage( ChatArguments.fromFormatString("{YELLOW}Help") );
-        source.sendMessage( ChatArguments.fromFormatString("{BLUE}-----------------------------------------------------") );
+        source.sendMessage( ChatArguments.fromFormatString("{{BLUE}}-----------------------------------------------------") );
+        source.sendMessage( ChatArguments.fromFormatString("{{YELLOW}}Help") );
+        source.sendMessage( ChatArguments.fromFormatString("{{BLUE}}-----------------------------------------------------") );
 
-        if ( source.hasPermission("kingdoms.command.zone.create") ) {
-            source.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{WHITE}}/zone create <name>",source)) );
-            source.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{GOLD}}-> {{GRAY}}Create a new Zone", source)) );
+        if ( source.hasPermission("kingdoms.command.zone.list") ) {
+            source.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{YELLOW}}/zone list",source)) );
+            source.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{GOLD}}-> {{WHITE}}List all Zones", source)) );
         }
 
-        source.sendMessage( ChatArguments.fromFormatString("{BLUE}-----------------------------------------------------") );
+        if ( source.hasPermission("kingdoms.command.zone.create") ) {
+            source.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{YELLOW}}/zone create <name>",source)) );
+            source.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{GOLD}}-> {{WHITE}}Create a new Zone", source)) );
+        }
+
+        source.sendMessage( ChatArguments.fromFormatString("{{BLUE}}-----------------------------------------------------") );
+
+    }
+
+    @Command(aliases = {"list"}, usage = "", desc = "List all Kingdoms")
+    @CommandPermissions("kingdoms.command.kingdom.list")
+    public void list(CommandContext args, CommandSource source) throws CommandException {
+
+        Player player = plugin.getEngine().getPlayer( source.getName(), true );
+
+        if ( player == null ) {
+            source.sendMessage( ChatArguments.fromFormatString( Translation.tr("You must be a Player!", source) ) );
+            return;
+        }
+
+        player.sendMessage( ChatArguments.fromFormatString("{{BLUE}}-----------------------------------------------------") );
+        player.sendMessage( ChatArguments.fromFormatString("{{YELLOW}}List all Zones") );
+        player.sendMessage( ChatArguments.fromFormatString("{{BLUE}}-----------------------------------------------------") );
+
+        player.sendMessage( ChatArguments.fromFormatString("{{YELLOW}} TAG - NAME - POINTS - ALL POINT - Players ") );
+
+
+
+
+        player.sendMessage(ChatArguments.fromFormatString("{{BLUE}}-----------------------------------------------------"));
 
     }
 

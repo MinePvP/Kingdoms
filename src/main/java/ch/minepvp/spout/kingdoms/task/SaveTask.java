@@ -1,10 +1,9 @@
 package ch.minepvp.spout.kingdoms.task;
 
 import ch.minepvp.spout.kingdoms.Kingdoms;
-import org.spout.api.geo.cuboid.Region;
-import org.spout.api.scheduler.Task;
 
-public class SaveTask implements Runnable {
+
+public class SaveTask extends Task {
 
     @Override
     public void run() {

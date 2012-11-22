@@ -205,6 +205,10 @@ public class Kingdom {
         this.spawnZ = spawnZ;
     }
 
+    public Point getSpawnPoint() {
+        return new Point( Kingdoms.getInstance().getEngine().getWorld("world"), getSpawnX(), getSpawnY(), getSpawnZ() );
+    }
+
     public int getPlayerKills() {
         return playerKills;
     }
