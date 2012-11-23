@@ -682,6 +682,13 @@ public class ZoneCommands {
             return;
         }
 
+        if ( zone.getCornerOne().distance( player.getTransform().getPosition() ) > KingdomsConfig.ZONE_DISTANCE_MAX_SPAWN.getInt() &&
+             zone.getCornerTwo().distance( player.getTransform().getPosition() ) > KingdomsConfig.ZONE_DISTANCE_MAX_SPAWN.getInt()) {
+
+            player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{RED}}You are to far away from the Zone!", player)) );
+            return;
+        }
+
         if ( args.getString(1).equalsIgnoreCase("attacker") ) {
 
             zone.setSpawnAttackersX( player.getTransform().getPosition().getBlockX() );

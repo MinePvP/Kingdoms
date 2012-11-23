@@ -25,6 +25,8 @@ public class KingdomsConfig extends ConfigurationHolderConfiguration {
 
     public static final ConfigurationHolder KINGDOMS_BASE_MIN_PLAYERS = new ConfigurationHolder(1, "Settings", "Kingdoms", "Base", "MinePlayers");
 
+    // Zone
+    public static final ConfigurationHolder ZONE_DISTANCE_MAX_SPAWN = new ConfigurationHolder(100, "Settings", "Zones", "Distance", "MaxSpawn");
 
     // Teleport
     public static final ConfigurationHolder TELEPORT_DELAY = new ConfigurationHolder( 5, "Settings", "Teleport", "Delay");
