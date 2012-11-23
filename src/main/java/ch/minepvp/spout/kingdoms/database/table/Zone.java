@@ -409,4 +409,18 @@ public class Zone {
     public void setFlagLvl(int flagLvl) {
         this.flagLvl = flagLvl;
     }
+
+    public boolean contains(Point point) {
+
+        if ( getCornerTwoX() > point.getBlockX() && getCornerOneX() < point.getBlockX()) {
+
+            if ( getCornerTwoZ() > point.getBlockZ() && getCornerOneZ() < point.getBlockZ() ) {
+                return true;
+            }
+
+        }
+
+        return false;
+    }
+
 }

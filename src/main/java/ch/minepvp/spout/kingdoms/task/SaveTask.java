@@ -11,6 +11,7 @@ public class SaveTask extends Task {
         Kingdoms.getInstance().getMemberManager().saveAll();
         Kingdoms.getInstance().getKingdomManager().saveAll();
         Kingdoms.getInstance().getPlotManager().saveAll();
+        Kingdoms.getInstance().getZoneManager().saveAll();
 
     }
 

@@ -11,7 +11,6 @@ import ch.minepvp.spout.kingdoms.manager.KingdomManager;
 import ch.minepvp.spout.kingdoms.manager.MemberManager;
 import ch.minepvp.spout.kingdoms.manager.PlotManager;
 import org.spout.api.chat.ChatArguments;
-import org.spout.api.chat.style.ChatStyle;
 import org.spout.api.command.CommandContext;
 import org.spout.api.command.CommandSource;
 import org.spout.api.command.annotated.Command;
@@ -184,7 +183,7 @@ public class PlotCommands {
             return;
         }
 
-        if ( player.get(KingdomsComponent.class).getMember().getRank().equals(KingdomRank.LEADER) == false ||
+        if ( player.get(KingdomsComponent.class).getMember().getRank().equals(KingdomRank.LEADER) == false &&
              player.get(KingdomsComponent.class).getMember().getRank().equals( KingdomRank.CAPTAIN ) == false ) {
             player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{RED}}You need to be a Captain oder Leader to do this!", player)) );
             return;

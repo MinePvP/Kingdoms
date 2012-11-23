@@ -131,4 +131,18 @@ public class Plot {
     public Point getCornerTwo() {
         return new Point( Kingdoms.getInstance().getEngine().getWorld("world"), getCornerTwoX(), getCornerTwoY(), getCornerTwoZ() );
     }
+
+    public boolean contains(Point point) {
+
+        if ( getCornerTwoX() > point.getBlockX() && getCornerOneX() < point.getBlockX()) {
+
+            if ( getCornerTwoZ() > point.getBlockZ() && getCornerOneZ() < point.getBlockZ() ) {
+                return true;
+            }
+
+        }
+
+        return false;
+    }
+
 }

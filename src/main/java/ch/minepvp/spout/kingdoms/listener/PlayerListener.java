@@ -14,6 +14,7 @@ import org.spout.api.chat.style.ChatStyle;
 import org.spout.api.entity.Player;
 import org.spout.api.event.EventHandler;
 import org.spout.api.event.Listener;
+import org.spout.api.event.Order;
 import org.spout.api.event.player.PlayerChatEvent;
 import org.spout.api.event.player.PlayerInteractEvent;
 import org.spout.api.event.player.PlayerJoinEvent;
@@ -38,7 +39,7 @@ public class PlayerListener implements Listener {
 
     }
 
-    @EventHandler
+    @EventHandler (order = Order.MONITOR)
     public void onPlayerJoin( PlayerJoinEvent event ) {
 
         Player player = event.getPlayer();
@@ -52,14 +53,14 @@ public class PlayerListener implements Listener {
 
     }
 
-    @EventHandler
+    @EventHandler (order = Order.MONITOR)
     public void onPlayerQuitEvent( PlayerLeaveEvent event ) {
 
         memberManager.save(event.getPlayer());
 
     }
 
-    @EventHandler
+    @EventHandler (order = Order.MONITOR)
     public void onPLayerChatEvent( PlayerChatEvent event) {
 
         Player player = event.getPlayer();
@@ -104,7 +105,7 @@ public class PlayerListener implements Listener {
 
     }
 
-    @EventHandler
+    @EventHandler (order = Order.MONITOR)
     public void onPlayerInteractEvent( PlayerInteractEvent event) {
 
         Player player = event.getPlayer();
@@ -115,13 +116,15 @@ public class PlayerListener implements Listener {
 
                 if ( event.getHeldItem().isMaterial(VanillaMaterials.WOODEN_AXE) ) {
 
-                    switch (event.getAction()) {
+                    switch ( event.getAction() ) {
                         case LEFT_CLICK:
                             player.get(SelectionComponent.class).getSelection().setPoint1( event.getInteractedPoint() );
                             player.sendMessage(ChatArguments.fromFormatString(Translation.tr("Point 1 selected!", player)) );
                         case RIGHT_CLICK:
-                            player.get(SelectionComponent.class).getSelection().setPoint2(event.getInteractedPoint());
+                            player.get(SelectionComponent.class).getSelection().setPoint2(event.getInteractedPoint() );
                             player.sendMessage(ChatArguments.fromFormatString(Translation.tr("Point 2 selected!", player) ) );
+                        default:
+                            return;
                     }
 
                 }
@@ -132,7 +135,7 @@ public class PlayerListener implements Listener {
 
     }
 
-    @EventHandler
+    @EventHandler (order = Order.MONITOR)
     public void onPlayerDeathEvent( PlayerDeathEvent event ) {
 
         Player player = event.getPlayer();

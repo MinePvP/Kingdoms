@@ -277,6 +277,29 @@ public class KingdomManager {
         return null;
     }
 
+    public ArrayList<Kingdom> getAllKingdomsNearPoint( Point point, Integer distance ) {
+
+        ArrayList<Kingdom> nearKingdoms = new ArrayList<Kingdom>();
+
+        if ( kingdoms.size() > 0 ) {
+
+            for ( Kingdom kingdom : kingdoms ) {
+
+                if ( kingdom.getBasePoint().distance( point ) < distance ) {
+                    nearKingdoms.add(kingdom);
+                }
+
+            }
+
+        }
+
+        if ( nearKingdoms.size() > 0 ) {
+            return nearKingdoms;
+        }
+
+        return null;
+    }
+
     /*
     @Override
     public Protection getProtection(String s) {

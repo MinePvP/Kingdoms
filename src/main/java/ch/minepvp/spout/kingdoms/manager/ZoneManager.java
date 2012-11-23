@@ -76,6 +76,39 @@ public class ZoneManager {
         db.remove(Zone.class, zone);
     }
 
+    public Zone getZoneByName( String name ) {
+
+        if ( zones.size() > 0 ) {
+
+            for ( Zone zone : zones ) {
+
+                if ( zone.getName().equalsIgnoreCase( name ) ) {
+                    return zone;
+                }
+
+            }
+
+        }
+
+        return null;
+    }
+
+    public Zone getZoneByPoint( Point point ) {
+
+        if ( zones.size() > 0 ) {
+
+            for ( Zone zone : zones ) {
+
+                if ( zone.contains(point) ) {
+                    return zone;
+                }
+
+            }
+
+        }
+
+        return null;
+    }
 
 
 }

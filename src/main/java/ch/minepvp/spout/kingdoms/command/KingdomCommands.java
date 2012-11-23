@@ -916,7 +916,7 @@ public class KingdomCommands {
         }
 
         taskManager.createSyncDelayedTask(new SpawnTask(player, kingdom), ((KingdomsConfig.TELEPORT_DELAY.getInt() * 20) * 60), TaskPriority.LOW);
-        player.sendMessage( ChatArguments.fromFormatString( Translation.tr("{{RED}}You will be Teleportet in %0! Don't move!", player, ((KingdomsConfig.TELEPORT_DELAY.getInt() * 20) * 60)) ) );
+        player.sendMessage( ChatArguments.fromFormatString( Translation.tr("{{RED}}You will be Teleportet in %0!sec Don't move!", player, KingdomsConfig.TELEPORT_DELAY.getInt()) ) );
     }
 
 }

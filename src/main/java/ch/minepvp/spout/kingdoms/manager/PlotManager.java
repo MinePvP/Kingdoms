@@ -104,12 +104,8 @@ public class PlotManager {
 
             for ( Plot plot : getPlotsByKingdom(kingdom) ) {
 
-                if ( plot.getCornerTwoX() > point.getBlockX() && plot.getCornerOneX() < point.getBlockX()) {
-
-                    if ( plot.getCornerTwoZ() > point.getBlockZ() && plot.getCornerTwoZ() < point.getBlockZ() ) {
-                        return plot;
-                    }
-
+                if ( plot.contains( point ) ) {
+                    return plot;
                 }
 
             }

@@ -8,10 +8,7 @@ import ch.minepvp.spout.kingdoms.database.table.Plot;
 import ch.minepvp.spout.kingdoms.listener.BlockListener;
 import ch.minepvp.spout.kingdoms.listener.EntityListener;
 import ch.minepvp.spout.kingdoms.listener.PlayerListener;
-import ch.minepvp.spout.kingdoms.manager.KingdomManager;
-import ch.minepvp.spout.kingdoms.manager.MemberManager;
-import ch.minepvp.spout.kingdoms.manager.PlotManager;
-import ch.minepvp.spout.kingdoms.manager.TaskManager;
+import ch.minepvp.spout.kingdoms.manager.*;
 import ch.minepvp.spout.kingdoms.task.SaveTask;
 import ch.minepvp.spout.kingdoms.task.Task;
 import com.alta189.simplesave.Database;
@@ -44,6 +41,7 @@ public class Kingdoms extends CommonPlugin {
     MemberManager memberManager;
     KingdomManager kingdomManager;
     PlotManager plotManager;
+    ZoneManager zoneManager;
 
     // Listener
     private PlayerListener playerListener;
@@ -103,6 +101,7 @@ public class Kingdoms extends CommonPlugin {
         memberManager = new MemberManager();
         plotManager = new PlotManager();
         kingdomManager = new KingdomManager();
+        zoneManager = new ZoneManager();
 
         // Listener
         playerListener = new PlayerListener();
@@ -136,6 +135,7 @@ public class Kingdoms extends CommonPlugin {
         memberManager.saveAll();
         plotManager.saveAll();
         kingdomManager.saveAll();
+        zoneManager.saveAll();
 
         getLogger().info("Disabled");
     }
@@ -164,9 +164,12 @@ public class Kingdoms extends CommonPlugin {
         return plotManager;
     }
 
+    public ZoneManager getZoneManager() {
+        return zoneManager;
+    }
+
     public TaskManager getTaskManager() {
         return taskManager;
     }
-
 
 }
