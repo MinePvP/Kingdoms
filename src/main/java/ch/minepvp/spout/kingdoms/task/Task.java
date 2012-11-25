@@ -2,18 +2,27 @@ package ch.minepvp.spout.kingdoms.task;
 
 public class Task implements Runnable {
 
-    private Integer pid;
+    private int pid;
+    private boolean inactive = false;
 
     @Override
     public void run() {
     }
 
-    public Integer getPid() {
+    public int getPid() {
         return pid;
     }
 
-    public void setPid(Integer pid) {
+    public void setPid(int pid) {
         this.pid = pid;
+    }
+
+    public boolean isInactive() {
+        return inactive;
+    }
+
+    public void setInactive(boolean inactive) {
+        this.inactive = inactive;
     }
 
 }

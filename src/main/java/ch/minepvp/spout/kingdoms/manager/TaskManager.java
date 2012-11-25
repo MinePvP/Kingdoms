@@ -12,15 +12,13 @@ public class TaskManager {
 
     private Kingdoms plugin;
 
-    private ArrayList<Task> allTasks;
-    private ArrayList<Task> inactiveTasks;
+    private ArrayList<Task> tasks;
 
     public TaskManager() {
 
         plugin = Kingdoms.getInstance();
 
-        allTasks = new ArrayList<Task>();
-        inactiveTasks = new ArrayList<Task>();
+        tasks = new ArrayList<Task>();
 
         createSyncRepeatingTask( new StopInactiveTasksTask(), 1200L, 1200L, TaskPriority.MEDIUM );
     }
@@ -30,7 +28,7 @@ public class TaskManager {
         Integer pid = plugin.getEngine().getScheduler().scheduleAsyncDelayedTask(plugin, task, delay, priority);
 
         task.setPid(pid);
-        this.allTasks.add(task);
+        this.tasks.add(task);
 
     }
 
@@ -39,7 +37,7 @@ public class TaskManager {
         Integer pid = plugin.getEngine().getScheduler().scheduleSyncDelayedTask(plugin, task, delay, priority);
 
         task.setPid(pid);
-        this.allTasks.add(task);
+        this.tasks.add(task);
 
     }
 
@@ -48,28 +46,20 @@ public class TaskManager {
         Integer pid = plugin.getEngine().getScheduler().scheduleSyncRepeatingTask(plugin, task, delay, repeating, priority);
 
         task.setPid(pid);
-        this.allTasks.add(task);
+        this.tasks.add(task);
 
-    }
-
-    public void setInactive( Task task ) {
-
-        if ( task != null ) {
-            this.inactiveTasks.add(task);
-        }
-
-    }
-
-    public ArrayList<Task> getInactiveTasks() {
-        return this.inactiveTasks;
     }
 
     public void stopInactiveTasks() {
 
-        if ( inactiveTasks.size() > 0 ) {
+        if ( tasks.size() > 0 ) {
 
-            for ( Task task : this.inactiveTasks ) {
-                plugin.getEngine().getScheduler().cancelTask( task.getPid() );
+            for ( Task task : this.tasks ) {
+
+                if ( task.isInactive() ) {
+                    plugin.getEngine().getScheduler().cancelTask( task.getPid() );
+                }
+
             }
 
         }
@@ -78,16 +68,14 @@ public class TaskManager {
 
     public void stopAllTasks() {
 
-        if ( allTasks.size() > 0 ) {
+        if ( tasks.size() > 0 ) {
 
-            for ( Task task : this.allTasks ) {
+            for ( Task task : this.tasks ) {
                 plugin.getEngine().getScheduler().cancelTask( task.getPid() );
             }
 
         }
 
     }
-
-
 
 }

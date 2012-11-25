@@ -38,8 +38,7 @@ public class SpawnTask extends Task {
             player.sendMessage(ChatArguments.fromFormatString(Translation.tr("{{RED}}Teleportation aborted! You have moved!", player)));
         }
 
-        Kingdoms.getInstance().getTaskManager().setInactive(this);
-
+        setInactive(true);
     }
 
 }
