@@ -5,6 +5,7 @@ import ch.minepvp.spout.kingdoms.config.KingdomsConfig;
 import ch.minepvp.spout.kingdoms.database.table.Kingdom;
 import ch.minepvp.spout.kingdoms.database.table.Member;
 import ch.minepvp.spout.kingdoms.database.table.Plot;
+import ch.minepvp.spout.kingdoms.database.table.Zone;
 import ch.minepvp.spout.kingdoms.listener.BlockListener;
 import ch.minepvp.spout.kingdoms.listener.EntityListener;
 import ch.minepvp.spout.kingdoms.listener.PlayerListener;
@@ -86,6 +87,7 @@ public class Kingdoms extends CommonPlugin {
             db.registerTable(Member.class);
             db.registerTable(Kingdom.class);
             db.registerTable(Plot.class);
+            db.registerTable(Zone.class);
         } catch (TableRegistrationException e) {
             e.printStackTrace();
         }
