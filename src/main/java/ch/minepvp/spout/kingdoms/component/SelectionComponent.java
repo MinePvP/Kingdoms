@@ -2,7 +2,6 @@ package ch.minepvp.spout.kingdoms.component;
 
 import ch.minepvp.spout.kingdoms.protection.Selection;
 import org.spout.api.component.components.EntityComponent;
-import org.spout.api.entity.Player;
 
 public class SelectionComponent extends EntityComponent {
 
@@ -10,7 +9,7 @@ public class SelectionComponent extends EntityComponent {
 
     @Override
     public void onAttached() {
-        selection = new Selection( (Player)getOwner() );
+        selection = new Selection();
     }
 
     public Selection getSelection() {
