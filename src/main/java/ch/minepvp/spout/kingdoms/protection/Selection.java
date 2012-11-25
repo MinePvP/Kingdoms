@@ -1,27 +1,12 @@
 package ch.minepvp.spout.kingdoms.protection;
 
-import org.spout.api.entity.Player;
 import org.spout.api.geo.World;
 import org.spout.api.geo.discrete.Point;
 
 public class Selection {
 
-    private Player owner;
-
     private Point point1 = null;
     private Point point2 = null;
-
-    public Selection( Player owner ) {
-        this.owner = owner;
-    }
-
-    public Player getOwner() {
-        return owner;
-    }
-
-    public void setOwner(Player owner) {
-        this.owner = owner;
-    }
 
     public Point getPoint1() {
         return point1;
