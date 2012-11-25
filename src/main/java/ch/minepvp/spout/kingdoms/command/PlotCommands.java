@@ -119,11 +119,15 @@ public class PlotCommands {
 
         player.sendMessage( ChatArguments.fromFormatString("{{YELLOW}}Id - Owner - Size") );
 
-        for ( Plot plot : plotManager.getPlotsByKingdom(kingdom) ) {
+        if ( plotManager.getPlotsByKingdom(kingdom).size() > 0 ) {
 
-            String size = "" + (plot.getCornerTwoX() - plot.getCornerOneX()) + " x " + (plot.getCornerTwoZ() - plot.getCornerOneZ()) + " / " + (plot.getCornerTwoY() - plot.getCornerOneY());
+            for ( Plot plot : plotManager.getPlotsByKingdom(kingdom) ) {
 
-            player.sendMessage( ChatArguments.fromFormatString( Translation.tr("{{YELLOW}}%0 - %1 - %2", player, plot.getId(), plot.getOwner(), size) ) );
+                String size = "" + (plot.getCornerTwoX() - plot.getCornerOneX()) + " x " + (plot.getCornerTwoZ() - plot.getCornerOneZ()) + " / " + (plot.getCornerTwoY() - plot.getCornerOneY());
+
+                player.sendMessage( ChatArguments.fromFormatString( Translation.tr("{{YELLOW}}%0 - %1 - %2", player, plot.getId(), plot.getOwner(), size) ) );
+
+            }
 
         }
 
