@@ -154,8 +154,15 @@ public class Zone {
         this.build = build;
     }
 
-    public int getKingdom() {
-        return kingdom;
+    public Kingdom getKingdom() {
+
+        Kingdom kingdom = Kingdoms.getInstance().getDatabase().select(Kingdom.class).where().equal("id", this.kingdom).execute().findOne();
+
+        if ( kingdom != null ) {
+            return kingdom;
+        }
+
+        return null;
     }
 
     public void setKingdom(int kingdom) {
