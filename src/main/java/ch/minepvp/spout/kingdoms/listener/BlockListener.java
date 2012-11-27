@@ -18,6 +18,7 @@ import org.spout.api.event.Listener;
 import org.spout.api.event.Order;
 import org.spout.api.event.block.BlockChangeEvent;
 import org.spout.api.lang.Translation;
+import org.spout.vanilla.event.block.SignUpdateEvent;
 import org.spout.vanilla.event.cause.PlayerBreakCause;
 import org.spout.vanilla.event.cause.PlayerPlacementCause;
 
@@ -43,7 +44,7 @@ public class BlockListener implements Listener {
     }
 
     @EventHandler (order = Order.EARLIEST)
-    public void onBlockChangeEvent( BlockChangeEvent event ) {
+    public void onBlockChangeEventProtection( BlockChangeEvent event ) {
 
         Player player;
 
@@ -176,6 +177,17 @@ public class BlockListener implements Listener {
             }
 
         }
+
+    }
+
+    @EventHandler (order = Order.MONITOR)
+    public void onSignUpdateEventSellPlot( SignUpdateEvent event ) {
+
+        if ( !event.getLines()[0].equalsIgnoreCase("[Sell]") ) {
+            return;
+        }
+
+        // TODO Implement Sell Sign for Plots
 
     }
 

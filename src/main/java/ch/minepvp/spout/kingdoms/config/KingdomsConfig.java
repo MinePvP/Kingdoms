@@ -34,7 +34,12 @@ public class KingdomsConfig extends ConfigurationHolderConfiguration {
 
 
     // Chat
-    public static final ConfigurationHolder KINGDOMS_CHAT_LOCAL_MAX_DISTANCE = new ConfigurationHolder(100, "Settings", "Kingdoms", "Chat", "Local", "MaxDistance");
+    public static final ConfigurationHolder CHAT_LOCAL_MAX_DISTANCE = new ConfigurationHolder(80, "Settings", "Chat", "Local", "MaxDistance");
+    public static final ConfigurationHolder CHAT_LOCAL_PREFIX = new ConfigurationHolder("{{YELLOW}}LOCAL", "Settings", "Chat", "Local", "Prefix");
+    public static final ConfigurationHolder CHAT_KINGDOM_PREFIX = new ConfigurationHolder("{{GOLD}}KINGDOM", "Settings", "Chat", "Kingdom", "Prefix");
+    public static final ConfigurationHolder CHAT_GLOBAL_PREFIX = new ConfigurationHolder("{{DARK_GREEN}}GLOBAL", "Settings", "Chat", "Global", "Prefix");
+    public static final ConfigurationHolder CHAT_STAFF_PREFIX = new ConfigurationHolder("{{GOLD}}STAFF", "Settings", "Chat", "Staff", "Prefix");
+
 
 
     // Levels

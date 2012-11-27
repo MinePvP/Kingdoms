@@ -57,7 +57,7 @@ public class TaskManager {
             for ( Task task : this.tasks ) {
 
                 if ( task.isInactive() ) {
-                    plugin.getEngine().getScheduler().cancelTask( task.getPid() );
+                    plugin.getEngine().getScheduler().cancelTasks( task );
                 }
 
             }

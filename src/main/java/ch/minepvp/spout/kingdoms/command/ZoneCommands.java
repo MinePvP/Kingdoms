@@ -10,7 +10,10 @@ import ch.minepvp.spout.kingdoms.database.table.Zone;
 import ch.minepvp.spout.kingdoms.entity.KingdomRank;
 import ch.minepvp.spout.kingdoms.manager.KingdomManager;
 import ch.minepvp.spout.kingdoms.manager.MemberManager;
+import ch.minepvp.spout.kingdoms.manager.TaskManager;
 import ch.minepvp.spout.kingdoms.manager.ZoneManager;
+import ch.minepvp.spout.kingdoms.task.AttackTask;
+import ch.minepvp.spout.kingdoms.task.Task;
 import org.spout.api.chat.ChatArguments;
 import org.spout.api.chat.style.ChatStyle;
 import org.spout.api.command.CommandContext;
@@ -22,6 +25,7 @@ import org.spout.api.exception.CommandException;
 import org.spout.api.geo.World;
 import org.spout.api.geo.discrete.Point;
 import org.spout.api.lang.Translation;
+import org.spout.api.scheduler.TaskPriority;
 import org.spout.vanilla.material.VanillaMaterials;
 
 public class ZoneCommands {
@@ -31,6 +35,7 @@ public class ZoneCommands {
     private KingdomManager kingdomManager;
     private MemberManager memberManager;
     private ZoneManager zoneManager;
+    private TaskManager taskManager;
 
     public ZoneCommands(Kingdoms instance) {
         plugin = instance;
@@ -38,6 +43,7 @@ public class ZoneCommands {
         kingdomManager = plugin.getKingdomManager();
         memberManager = plugin.getMemberManager();
         zoneManager = plugin.getZoneManager();
+        taskManager = plugin.getTaskManager();
     }
 
     @Command(aliases = {"help"}, usage = "", desc = "List all Commands for /zone")
@@ -56,77 +62,77 @@ public class ZoneCommands {
         player.sendMessage( ChatArguments.fromFormatString("{{BLUE}}-----------------------------------------------------") );
 
         if ( player.hasPermission("kingdoms.command.zone.list") ) {
-            player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{YELLOW}}/zone list",player)) );
+            player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{YELLOW}}/%0 list",player, args.getCommand())) );
             player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{GOLD}}-> {{WHITE}}List all Zones", player)) );
         }
 
         if ( player.hasPermission("kingdoms.command.zone.create") ) {
-            player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{YELLOW}}/zone create <name>",player)) );
+            player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{YELLOW}}/%0 create <name>",player, args.getCommand())) );
             player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{GOLD}}-> {{WHITE}}Create a new Zone", player)) );
         }
 
         if ( player.hasPermission("kingdoms.command.zone.delete") ) {
-            player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{YELLOW}}/zone delete <name>",player)) );
+            player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{YELLOW}}/%0 delete <name>",player, args.getCommand())) );
             player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{GOLD}}-> {{WHITE}}Delete a Zone", player)) );
         }
 
         if ( player.hasPermission("kingdoms.command.zone.setactive") ) {
-            player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{YELLOW}}/zone setactive <name> <true|false>",player)) );
+            player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{YELLOW}}/%0 setactive <name> <true|false>",player, args.getCommand())) );
             player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{GOLD}}-> {{WHITE}}Set the active Property of a Zone", player)) );
         }
 
         if ( player.hasPermission("kingdoms.command.zone.setbuild") ) {
-            player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{YELLOW}}/zone setbuild <name> <true|false>",player)) );
+            player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{YELLOW}}/%0 setbuild <name> <true|false>",player, args.getCommand())) );
             player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{GOLD}}-> {{WHITE}}Set the build Property of a Zone", player)) );
         }
 
         if ( player.hasPermission("kingdoms.command.zone.setkingdom") ) {
-            player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{YELLOW}}/zone setkingdom <name> <name>",player)) );
+            player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{YELLOW}}/%0 setkingdom <name> <name>",player, args.getCommand())) );
             player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{GOLD}}-> {{WHITE}}Set Kingdom of a Zone", player)) );
         }
 
         if ( player.hasPermission("kingdoms.command.zone.setflag") ) {
-            player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{YELLOW}}/zone setflag",player)) );
+            player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{YELLOW}}/%0 setflag",player, args.getCommand())) );
             player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{GOLD}}-> {{WHITE}}Set the Flag Point", player)) );
         }
 
         if ( player.hasPermission("kingdoms.command.zone.setcost") ) {
-            player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{YELLOW}}/zone setcost <name> <cost>",player)) );
+            player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{YELLOW}}/%0 setcost <name> <cost>",player, args.getCommand())) );
             player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{GOLD}}-> {{WHITE}}Set Cost of a Zone", player)) );
         }
 
         if ( player.hasPermission("kingdoms.command.zone.setpoints") ) {
-            player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{YELLOW}}/zone setpoints <name> <points>",player)) );
+            player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{YELLOW}}/%0 setpoints <name> <points>",player, args.getCommand())) );
             player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{GOLD}}-> {{WHITE}}Set Points of a Zone", player)) );
         }
 
         if ( player.hasPermission("kingdoms.command.zone.setlifepool") ) {
-            player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{YELLOW}}/zone setlivepool <name> <attackers|defenders> <lifes>",player)) );
+            player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{YELLOW}}/%0 setlivepool <name> <attackers|defenders> <lifes>",player, args.getCommand())) );
             player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{GOLD}}-> {{WHITE}}Set the Lifepool", player)) );
         }
 
         if ( player.hasPermission("kingdoms.command.zone.setminplayers") ) {
-            player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{YELLOW}}/zone setminplayers <name> <attackers|defenders> <players>",player)) );
+            player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{YELLOW}}/%0 setminplayers <name> <attackers|defenders> <players>",player, args.getCommand())) );
             player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{GOLD}}-> {{WHITE}}Set min Players for Attackers and Defenders", player)) );
         }
 
         if ( player.hasPermission("kingdoms.command.zone.setdelay") ) {
-            player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{YELLOW}}/zone setdelay <name> <delay>",player)) );
+            player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{YELLOW}}/%0 setdelay <name> <delay>",player, args.getCommand())) );
             player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{GOLD}}-> {{WHITE}}Set Delay of a Zone", player)) );
         }
 
         if ( player.hasPermission("kingdoms.command.zone.setduration") ) {
-            player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{YELLOW}}/zone setduration <name> <duration>",player)) );
+            player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{YELLOW}}/%0 setduration <name> <duration>",player, args.getCommand())) );
             player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{GOLD}}-> {{WHITE}}Set Duration of a Zone", player)) );
         }
 
         if ( player.hasPermission("kingdoms.command.zone.setcooldown") ) {
-            player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{YELLOW}}/zone setcooldown <name> <cooldown>",player)) );
+            player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{YELLOW}}/%0 setcooldown <name> <cooldown>",player, args.getCommand())) );
             player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{GOLD}}-> {{WHITE}}Set Cooldown of a Zone", player)) );
         }
 
         if ( player.hasPermission("kingdoms.command.zone.setspawn") ) {
-            player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{YELLOW}}/zone setspawn <name> <defender|attackers>",player)) );
+            player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{YELLOW}}/%0 setspawn <name> <defender|attackers>",player, args.getCommand())) );
             player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{GOLD}}-> {{WHITE}}Set the Spawn Points", player)) );
         }
 
@@ -561,11 +567,11 @@ public class ZoneCommands {
 
         if ( args.getString(1).equalsIgnoreCase("attackers") ) {
 
-            zone.setMinAttackers( args.getInteger(2) );
+            zone.setMinAttackers(args.getInteger(2));
 
         } else if ( args.getString(1).equalsIgnoreCase("defenders") ) {
 
-            zone.setMinDefenders( args.getInteger(2) );
+            zone.setMinDefenders(args.getInteger(2));
 
         } else {
             player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{RED}}/zone setminplayers <name> <attackers|defenders> <players>", player)) );
@@ -598,7 +604,7 @@ public class ZoneCommands {
             return;
         }
 
-        zone.setDelay( args.getInteger(1) );
+        zone.setDelay(args.getInteger(1));
 
         player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{RED}}Delay for Zone set!", player)) );
     }
@@ -626,7 +632,7 @@ public class ZoneCommands {
             return;
         }
 
-        zone.setDuration( args.getInteger(1) );
+        zone.setDuration(args.getInteger(1));
 
         player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{RED}}Duration for Zone set!", player)) );
     }
@@ -654,7 +660,7 @@ public class ZoneCommands {
             return;
         }
 
-        zone.setCooldown( args.getInteger(1) );
+        zone.setCooldown(args.getInteger(1));
 
         player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{RED}}Cooldown for Zone set!", player)) );
     }
@@ -707,6 +713,95 @@ public class ZoneCommands {
         }
 
         player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{RED}}Spwan for the Zone ist set!", player)) );
+    }
+
+    @Command(aliases = {"attack"}, usage = "", desc = "Sett the Spawn for Attackers and Defenders")
+    @CommandPermissions("kingdoms.command.zone.attack")
+    public void attack(CommandContext args, CommandSource source) throws CommandException {
+
+        Player player = plugin.getEngine().getPlayer( source.getName(), true );
+
+        if ( player == null ) {
+            source.sendMessage( ChatArguments.fromFormatString(Translation.tr("You must be a Player!", source)) );
+            return;
+        }
+
+        if ( args.length() < 2 ) {
+            player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{RED}}/zone attack <name>", player)) );
+            return;
+        }
+
+        Zone zone = zoneManager.getZoneByName( args.getString(0) );
+
+        if ( zone == null ) {
+            player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{RED}}There is no Zone with this Name!", player)) );
+            return;
+        }
+
+
+        Kingdom attackKingdom = kingdomManager.getKingdomByPlayer( player );
+
+        if ( attackKingdom == null ) {
+            player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{RED}}You are not in a Kingdom!", player)) );
+            return;
+        }
+
+
+        if ( zone.getMinAttackers() <= attackKingdom.getOnlineMembers().size() ) {
+            player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{RED}}You are not enough Online Members!", player)) );
+            return;
+        }
+
+        Kingdom defenseKingdom = zone.getKingdom();
+
+        if ( defenseKingdom == null ) {
+            player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{RED}}No Kingdom owns this Zone! You can buy this Zone with /zone buy <name>", player)) );
+            return;
+        }
+
+        // TODO Check Cooldown
+
+        if ( zone.getMinDefenders() <= defenseKingdom.getOnlineMembers().size() ) {
+            player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{RED}}There are not enough Defenders Online!", player)) );
+            return;
+        }
+
+        for ( Member member : attackKingdom.getMembers() ) {
+
+            Player toPlayer = plugin.getServer().getPlayer(member.getName(), true);
+
+            if ( toPlayer.isOnline() ) {
+                player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{RED}}In %0min you can attack the Zone %1 from %2!", player)) );
+            }
+
+        }
+
+
+        for ( Member member : defenseKingdom.getMembers() ) {
+
+            Player toPlayer = plugin.getServer().getPlayer(member.getName(), true);
+
+            if ( toPlayer.isOnline() ) {
+                player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{RED}}The Zone %0 will attacked in %1 min from %2!", player)) );
+            }
+
+        }
+
+
+        // Start Attack Tasks
+        Long delay = (zone.getDelay() * 20L) * 60L;
+        Long repeating = (zone.getDuration() * 20L) * 60L;
+
+        Task task = new AttackTask(zone, attackKingdom, defenseKingdom);
+        taskManager.createSyncRepeatingTask(task, delay, repeating, TaskPriority.MEDIUM);
+
+
+
+
+
+
+
+
     }
 
 

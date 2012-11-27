@@ -27,6 +27,7 @@ import org.spout.api.geo.cuboid.Block;
 import org.spout.api.lang.Translation;
 import org.spout.vanilla.component.living.Hostile;
 import org.spout.vanilla.component.misc.HealthComponent;
+import org.spout.vanilla.event.player.PlayerBucketEvent;
 import org.spout.vanilla.event.player.PlayerDeathEvent;
 import org.spout.vanilla.material.VanillaMaterials;
 
@@ -79,8 +80,8 @@ public class PlayerListener implements Listener {
 
             for ( Player toPlayer : plugin.getServer().getOnlinePlayers() ) {
 
-                if ( player.getTransform().getPosition().getDistance( toPlayer.getTransform().getPosition() ) <= KingdomsConfig.KINGDOMS_CHAT_LOCAL_MAX_DISTANCE.getInt()) {
-                    toPlayer.sendMessage( ChatArguments.fromFormatString("{{BLUE}}[{{YELLOW}}LOCAL{{BLUE}}] {{WHITE}}" + player.getName() + " {{GOLD}}: {{GOLD}}" + event.getMessage().getPlainString()) );
+                if ( player.getTransform().getPosition().getDistance( toPlayer.getTransform().getPosition() ) <= KingdomsConfig.CHAT_LOCAL_MAX_DISTANCE.getInt()) {
+                    toPlayer.sendMessage( ChatArguments.fromFormatString("{{BLUE}}[" + KingdomsConfig.CHAT_LOCAL_PREFIX.getString() + "{{BLUE}}] {{WHITE}}" + player.getName() + " {{GOLD}}: {{GOLD}}" + event.getMessage().getPlainString()) );
                 }
 
             }
@@ -91,7 +92,7 @@ public class PlayerListener implements Listener {
 
                 Player toPlayer = plugin.getServer().getPlayer(toMember.getName(), true);
 
-                toPlayer.sendMessage( ChatArguments.fromFormatString("{{BLUE}}[{{GOLD}}KINGDOM{{BLUE}}] {{WHITE}}" + player.getName() + " {{GOLD}}: {{WHITE}}" + event.getMessage().getPlainString()) );
+                toPlayer.sendMessage( ChatArguments.fromFormatString("{{BLUE}}[" + KingdomsConfig.CHAT_KINGDOM_PREFIX.getString() + "{{BLUE}}] {{WHITE}}" + player.getName() + " {{GOLD}}: {{WHITE}}" + event.getMessage().getPlainString()) );
 
             }
 
@@ -100,7 +101,7 @@ public class PlayerListener implements Listener {
 
             for ( Player toPlayer : plugin.getServer().getOnlinePlayers() ) {
 
-               toPlayer.sendMessage( ChatArguments.fromFormatString("{{BLUE}}[{{DARK_GREEN}}GLOBAL{{BLUE}}] {{WHITE}}" + player.getName() + " {{GOLD}}: {{WHITE}}" + event.getMessage().getPlainString()) );
+               toPlayer.sendMessage( ChatArguments.fromFormatString("{{BLUE}}[" + KingdomsConfig.CHAT_GLOBAL_PREFIX.getString() + "{{BLUE}}] {{WHITE}}" + player.getName() + " {{GOLD}}: {{WHITE}}" + event.getMessage().getPlainString()) );
 
             }
 
@@ -109,7 +110,7 @@ public class PlayerListener implements Listener {
             for ( Player toPlayer : plugin.getServer().getOnlinePlayers() ) {
 
                 if ( toPlayer.hasPermission("kingdoms.chat.staff") ) {
-                    toPlayer.sendMessage( ChatArguments.fromFormatString("{{BLUE}}[{{GOLD}}STAFF{{BLUE}}] {{WHITE}}" + player.getName() + " {{GOLD}}: {{RED}}" + event.getMessage().getPlainString()) );
+                    toPlayer.sendMessage( ChatArguments.fromFormatString("{{BLUE}}[" + KingdomsConfig.CHAT_STAFF_PREFIX.getString() + "{{BLUE}}] {{WHITE}}" + player.getName() + " {{GOLD}}: {{RED}}" + event.getMessage().getPlainString()) );
                 }
 
             }
@@ -120,8 +121,8 @@ public class PlayerListener implements Listener {
 
     }
 
-    @EventHandler (order = Order.MONITOR)
-    public void onPlayerInteractEvent( PlayerInteractEvent event) {
+    @EventHandler (order = Order.EARLIEST)
+    public void onPlayerInteractEventProtection( PlayerInteractEvent event) {
 
         if ( event.isAir() || event.isCancelled() ) {
             return;
@@ -130,17 +131,19 @@ public class PlayerListener implements Listener {
         Player player = event.getPlayer();
         Block block = player.getWorld().getBlock( event.getInteractedPoint() );
 
-        if ( block.isMaterial( VanillaMaterials.CHEST,
-                               VanillaMaterials.FURNACE,
-                               VanillaMaterials.FURNACE_BURNING,
-                               VanillaMaterials.BED,
+        if ( block.isMaterial( VanillaMaterials.BED,
                                VanillaMaterials.BOOK,
                                VanillaMaterials.BREWING_STAND,
+                               VanillaMaterials.CHEST,
+                               VanillaMaterials.DISPENSER,
                                VanillaMaterials.ENCHANTMENT_TABLE,
+                               VanillaMaterials.FURNACE,
+                               VanillaMaterials.FURNACE_BURNING,
                                VanillaMaterials.JUKEBOX,
                                VanillaMaterials.LEVER,
                                VanillaMaterials.STONE_BUTTON,
-                               VanillaMaterials.WOOD_BUTTON) ) {
+                               VanillaMaterials.WOOD_BUTTON,
+                               VanillaMaterials.WOODEN_DOOR) ) {
 
             Kingdom kingdom = kingdomManager.getKingdomByPoint( event.getInteractedPoint() );
             Plot plot = plotManager.getPlotByPoint( event.getInteractedPoint() );
@@ -264,7 +267,71 @@ public class PlayerListener implements Listener {
             if ( player.get(KingdomsComponent.class).getKingdom() != null ) {
                 player.get(KingdomsComponent.class).getKingdom().addMonsterDeath();
             }
+
         }
+
+    }
+
+    @EventHandler (order = Order.MONITOR)
+    public void onBlockChangeEventStats( PlayerBucketEvent event ) {
+
+        Player player = event.getPlayer();
+
+        Kingdom kingdom = kingdomManager.getKingdomByPoint( event.getBlockClicked().getPosition() );
+        Plot plot = plotManager.getPlotByPoint( event.getBlockClicked().getPosition() );
+        Zone zone = zoneManager.getZoneByPoint( event.getBlockClicked().getPosition() );
+
+        if ( kingdom == null && plot == null && zone == null ) {
+            return;
+        }
+
+        if ( kingdom != null ) {
+
+            if ( plot != null ) {
+
+                // Plot
+                if ( !plot.getOwner().equalsIgnoreCase( player.getName() ) ) {
+                    event.setCancelled(true);
+                    player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{RED}}You can't do this!", player) ) );
+                    return;
+                }
+
+            } else {
+
+                // Kingdom
+                if ( kingdom.getId() != player.get(KingdomsComponent.class).getKingdom().getId() ) {
+                    event.setCancelled(true);
+                    player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{RED}}You can't do this!", player) ) );
+                    return;
+                }
+
+                if ( player.get(KingdomsComponent.class).getMember().getRank().equals( KingdomRank.NOVICE ) ) {
+                    event.setCancelled(true);
+                    player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{RED}}You can't do this!", player) ) );
+                    return;
+                }
+
+            }
+
+        }
+
+        if ( zone!= null ) {
+
+            if ( zone.getKingdom() != null ) {
+
+                if ( zone.getKingdom().getId() != player.get(KingdomsComponent.class).getKingdom().getId() ) {
+                    event.setCancelled(true);
+                    player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{RED}}You can't do this!", player) ) );
+                    return;
+                }
+
+            }
+
+        }
+
+
+
+
 
     }
 

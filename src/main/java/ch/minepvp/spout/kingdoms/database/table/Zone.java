@@ -114,7 +114,8 @@ public class Zone {
     private boolean attack = false;
     private int attackCooldown = 0;
 
-    private Kingdom attackedKingdom = null;
+    private Kingdom attacker = null;
+    private Kingdom defender = null;
 
     private int deathCounterAttacker = 0;
     private int deathCounterDefenders = 0;
@@ -385,12 +386,20 @@ public class Zone {
         this.attackCooldown = attackCooldown;
     }
 
-    public Kingdom getAttackedKingdom() {
-        return attackedKingdom;
+    public Kingdom getAttacker() {
+        return attacker;
     }
 
-    public void setAttackedKingdom(Kingdom attackedKingdom) {
-        this.attackedKingdom = attackedKingdom;
+    public void setAttacker(Kingdom attacker) {
+        this.attacker = attacker;
+    }
+
+    public Kingdom getDefender() {
+        return defender;
+    }
+
+    public void setDefender(Kingdom defender) {
+        this.defender = defender;
     }
 
     public int getDeathCounterAttacker() {

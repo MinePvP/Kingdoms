@@ -51,12 +51,12 @@ public class PlotCommands {
         player.sendMessage( ChatArguments.fromFormatString("{{BLUE}}-----------------------------------------------------") );
 
         if ( player.hasPermission("kingdoms.command.plot.list") ) {
-            player.sendMessage(ChatArguments.fromFormatString(Translation.tr("{{YELLOW}}/plot list", source)));
+            player.sendMessage(ChatArguments.fromFormatString(Translation.tr("{{YELLOW}}/%0 list", source, args.getCommand())));
             player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{GOLD}}-> {{WHITE}}List all Plots form Kingdoms", source)) );
         }
 
         if ( player.hasPermission("kingdoms.command.plot.info") ) {
-            player.sendMessage(ChatArguments.fromFormatString(Translation.tr("{{YELLOW}}/plot info", source)));
+            player.sendMessage(ChatArguments.fromFormatString(Translation.tr("{{YELLOW}}/%0 info", source, args.getCommand())));
             player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{GOLD}}-> {{WHITE}}Get the Info about the Plot", source)) );
         }
 
@@ -65,7 +65,7 @@ public class PlotCommands {
             if ( player.get(KingdomsComponent.class).getMember().getRank().equals(KingdomRank.LEADER) ||
                  player.get(KingdomsComponent.class).getMember().getRank().equals( KingdomRank.CAPTAIN ) ) {
 
-                player.sendMessage(ChatArguments.fromFormatString(Translation.tr("{{YELLOW}}/plot create", source)));
+                player.sendMessage(ChatArguments.fromFormatString(Translation.tr("{{YELLOW}}/%0 create", source, args.getCommand())));
                 player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{GOLD}}-> {{WHITE}}List all Plots form Kingdoms", source)) );
             }
         }
@@ -75,7 +75,7 @@ public class PlotCommands {
             if ( player.get(KingdomsComponent.class).getMember().getRank().equals(KingdomRank.LEADER) ||
                     player.get(KingdomsComponent.class).getMember().getRank().equals( KingdomRank.CAPTAIN ) ) {
 
-                player.sendMessage(ChatArguments.fromFormatString(Translation.tr("{{YELLOW}}/plot delete <plotId>", source)));
+                player.sendMessage(ChatArguments.fromFormatString(Translation.tr("{{YELLOW}}/%0 delete <plotId>", source, args.getCommand())));
                 player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{GOLD}}-> {{WHITE}}Delete a Plot", source)) );
             }
         }
@@ -85,7 +85,7 @@ public class PlotCommands {
             if ( player.get(KingdomsComponent.class).getMember().getRank().equals(KingdomRank.LEADER) ||
                     player.get(KingdomsComponent.class).getMember().getRank().equals( KingdomRank.CAPTAIN ) ) {
 
-                player.sendMessage(ChatArguments.fromFormatString(Translation.tr("{{YELLOW}}/plot setowner <plotId> <player>", source)));
+                player.sendMessage(ChatArguments.fromFormatString(Translation.tr("{{YELLOW}}/%0 setowner <plotId> <player>", source, args.getCommand())));
                 player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{GOLD}}-> {{WHITE}}Set a Owner for the Plot", source)) );
             }
         }
