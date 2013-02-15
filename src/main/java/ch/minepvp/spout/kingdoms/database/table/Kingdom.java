@@ -33,6 +33,8 @@ public class Kingdom {
     @Field
     private int pointsAll = 0;
 
+    @Field
+    private int money = 0;
 
     // Base
     @Field

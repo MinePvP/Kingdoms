@@ -2,8 +2,7 @@ package ch.minepvp.spout.kingdoms.manager;
 
 
 import ch.minepvp.spout.kingdoms.Kingdoms;
-import ch.minepvp.spout.kingdoms.task.StopInactiveTasksTask;
-import ch.minepvp.spout.kingdoms.task.Task;
+import org.spout.api.scheduler.Task;
 import org.spout.api.scheduler.TaskPriority;
 
 import java.util.ArrayList;
@@ -20,33 +19,27 @@ public class TaskManager {
 
         tasks = new ArrayList<Task>();
 
-        createSyncRepeatingTask( new StopInactiveTasksTask(), 1200L, 1200L, TaskPriority.MEDIUM );
+        //createSyncRepeatingTask( new StopInactiveTasksTask(), 1200L, 1200L, TaskPriority.MEDIUM );
     }
 
-    public void createAsyncDelayedTask( Task task, long delay, TaskPriority priority ) {
+    public void createAsyncDelayedTask( Runnable runnable, long delay, TaskPriority priority ) {
 
-        Integer pid = plugin.getEngine().getScheduler().scheduleAsyncDelayedTask(plugin, task, delay, priority);
+        Task task = plugin.getEngine().getScheduler().scheduleAsyncDelayedTask(plugin, runnable, delay, priority);
 
-        task.setPid(pid);
         this.tasks.add(task);
 
     }
 
-    public void createSyncDelayedTask( Task task, long delay, TaskPriority priority ) {
+    public void createSyncDelayedTask( Runnable runnable, long delay, TaskPriority priority ) {
 
-        Integer pid = plugin.getEngine().getScheduler().scheduleSyncDelayedTask(plugin, task, delay, priority);
-
-        task.setPid(pid);
-        this.tasks.add(task);
+        Task task = plugin.getEngine().getScheduler().scheduleSyncDelayedTask(plugin, runnable, delay, priority);
 
     }
 
-    public void createSyncRepeatingTask( Task task, long delay, long repeating, TaskPriority priority ) {
+    public void createSyncRepeatingTask( Runnable runnable, long delay, long repeating, TaskPriority priority ) {
 
-        Integer pid = plugin.getEngine().getScheduler().scheduleSyncRepeatingTask(plugin, task, delay, repeating, priority);
+        Task task = plugin.getEngine().getScheduler().scheduleSyncRepeatingTask(plugin, runnable, delay, repeating, priority);
 
-        task.setPid(pid);
-        this.tasks.add(task);
 
     }
 
@@ -56,7 +49,7 @@ public class TaskManager {
 
             for ( Task task : this.tasks ) {
 
-                if ( task.isInactive() ) {
+                if ( !task.isAlive() && !task.isExecuting() ) {
                     plugin.getEngine().getScheduler().cancelTasks( task );
                 }
 
@@ -69,11 +62,7 @@ public class TaskManager {
     public void stopAllTasks() {
 
         if ( tasks.size() > 0 ) {
-
-            for ( Task task : this.tasks ) {
-                plugin.getEngine().getScheduler().cancelTask( task.getPid() );
-            }
-
+            plugin.getEngine().getScheduler().cancelAllTasks();
         }
 
     }

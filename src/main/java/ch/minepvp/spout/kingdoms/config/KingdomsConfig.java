@@ -102,12 +102,12 @@ public class KingdomsConfig extends ConfigurationHolderConfiguration {
         getNode("Settings", "Kingdoms", "Level", "" + 2, "Level").setValue(2);
         getNode("Settings", "Kingdoms", "Level", "" + 2, "Size").setValue(40);
         getNode("Settings", "Kingdoms", "Level", "" + 2, "Points").setValue(20);
-        getNode("Settings", "Kingdoms", "Level", "" + 2, "Members").setValue(0);
+        getNode("Settings", "Kingdoms", "Level", "" + 2, "Members").setValue(1);
 
         getNode("Settings", "Kingdoms", "Level", "" + 3, "Level").setValue(3);
         getNode("Settings", "Kingdoms", "Level", "" + 3, "Size").setValue(60);
         getNode("Settings", "Kingdoms", "Level", "" + 3, "Points").setValue(30);
-        getNode("Settings", "Kingdoms", "Level", "" + 3, "Members").setValue(0);
+        getNode("Settings", "Kingdoms", "Level", "" + 3, "Members").setValue(1);
 
         getNode("Settings", "Kingdoms", "Level", "" + 4, "Level").setValue(4);
         getNode("Settings", "Kingdoms", "Level", "" + 4, "Size").setValue(80);

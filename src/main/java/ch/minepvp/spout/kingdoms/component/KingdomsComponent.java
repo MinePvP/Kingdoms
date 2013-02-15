@@ -4,10 +4,12 @@ import ch.minepvp.spout.kingdoms.Kingdoms;
 import ch.minepvp.spout.kingdoms.database.table.Kingdom;
 import ch.minepvp.spout.kingdoms.database.table.Member;
 import org.spout.api.chat.ChatArguments;
-import org.spout.api.component.components.EntityComponent;
-import org.spout.api.component.components.TransformComponent;
+import org.spout.api.component.impl.SceneComponent;
+import org.spout.api.component.type.EntityComponent;
 import org.spout.api.entity.Player;
+import org.spout.api.geo.discrete.Transform;
 import org.spout.api.lang.Translation;
+import org.spout.vanilla.plugin.component.living.neutral.Human;
 
 public class KingdomsComponent extends EntityComponent {
 
@@ -23,17 +25,17 @@ public class KingdomsComponent extends EntityComponent {
     public void onTick( float dt ) {
 
         Player player = (Player)getOwner();
-        TransformComponent transform = getOwner().getTransform();
+        SceneComponent scene = getOwner().getScene();
 
-        if ( transform.getPosition().getBlockX() == transform.getTransformLive().getPosition().getBlockX() &&
-             transform.getPosition().getBlockY() == transform.getTransformLive().getPosition().getBlockY() &&
-             transform.getPosition().getBlockZ() == transform.getTransformLive().getPosition().getBlockZ() ) {
+        if ( scene.getPosition().getBlockX() == scene.getTransform().getPosition().getBlockX() &&
+             scene.getPosition().getBlockY() == scene.getTransform().getPosition().getBlockY() &&
+             scene.getPosition().getBlockZ() == scene.getTransform().getPosition().getBlockZ() ) {
 
             return;
         }
 
-        Kingdom lastKingdom = Kingdoms.getInstance().getKingdomManager().getKingdomByPoint( transform.getPosition() );
-        Kingdom nowKingdom = Kingdoms.getInstance().getKingdomManager().getKingdomByPoint( transform.getTransformLive().getPosition() );
+        Kingdom lastKingdom = Kingdoms.getInstance().getKingdomManager().getKingdomByPoint( scene.getPosition() );
+        Kingdom nowKingdom = Kingdoms.getInstance().getKingdomManager().getKingdomByPoint( player.add(Human.class).getLivePosition() );
 
         if ( lastKingdom == null ) {
 

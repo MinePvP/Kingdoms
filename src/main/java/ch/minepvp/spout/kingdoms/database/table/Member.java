@@ -20,6 +20,9 @@ public class Member {
     private int kingdom = 0;
 
     @Field
+    private int money = 0;
+
+    @Field
     private boolean online = false;
 
 

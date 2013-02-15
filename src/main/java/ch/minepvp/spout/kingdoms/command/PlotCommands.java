@@ -147,7 +147,7 @@ public class PlotCommands {
         }
 
         Member member = memberManager.getMemberByPlayer(player);
-        Plot plot = plotManager.getPlotByPoint( player.getTransform().getPosition() );
+        Plot plot = plotManager.getPlotByPoint( player.getScene().getTransform().getPosition() );
 
         if ( plot != null ) {
 

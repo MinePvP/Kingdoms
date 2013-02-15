@@ -11,7 +11,6 @@ import ch.minepvp.spout.kingdoms.listener.EntityListener;
 import ch.minepvp.spout.kingdoms.listener.PlayerListener;
 import ch.minepvp.spout.kingdoms.manager.*;
 import ch.minepvp.spout.kingdoms.task.SaveTask;
-import ch.minepvp.spout.kingdoms.task.Task;
 import com.alta189.simplesave.Database;
 import com.alta189.simplesave.DatabaseFactory;
 import com.alta189.simplesave.exceptions.ConnectionException;
@@ -122,7 +121,7 @@ public class Kingdoms extends CommonPlugin {
 
 
         // Start Save Task
-        Task task = new SaveTask();
+        Runnable task = new SaveTask();
         Long time = ((KingdomsConfig.SAVE_TASK_TIME.getLong() * 20 ) * 60);
         taskManager.createSyncRepeatingTask( task, time, time, TaskPriority.MEDIUM  );
 

@@ -2,10 +2,8 @@ package ch.minepvp.spout.kingdoms.task;
 
 import ch.minepvp.spout.kingdoms.Kingdoms;
 
+public class SaveTask implements Runnable {
 
-public class SaveTask extends Task {
-
-    @Override
     public void run() {
 
         Kingdoms.getInstance().getMemberManager().saveAll();

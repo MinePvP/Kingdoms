@@ -1,7 +1,7 @@
 package ch.minepvp.spout.kingdoms.component;
 
 import ch.minepvp.spout.kingdoms.protection.Selection;
-import org.spout.api.component.components.EntityComponent;
+import org.spout.api.component.type.EntityComponent;
 
 public class SelectionComponent extends EntityComponent {
 

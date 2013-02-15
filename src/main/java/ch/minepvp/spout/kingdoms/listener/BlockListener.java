@@ -12,15 +12,14 @@ import ch.minepvp.spout.kingdoms.manager.ZoneManager;
 import com.alta189.simplesave.Database;
 import org.spout.api.chat.ChatArguments;
 import org.spout.api.entity.Player;
-import org.spout.api.event.Cause;
 import org.spout.api.event.EventHandler;
 import org.spout.api.event.Listener;
 import org.spout.api.event.Order;
 import org.spout.api.event.block.BlockChangeEvent;
 import org.spout.api.lang.Translation;
-import org.spout.vanilla.event.block.SignUpdateEvent;
-import org.spout.vanilla.event.cause.PlayerBreakCause;
-import org.spout.vanilla.event.cause.PlayerPlacementCause;
+import org.spout.vanilla.api.event.block.SignUpdateEvent;
+import org.spout.vanilla.api.event.cause.PlayerBreakCause;
+import org.spout.vanilla.api.event.cause.PlayerPlacementCause;
 
 public class BlockListener implements Listener {
 
@@ -56,7 +55,7 @@ public class BlockListener implements Listener {
             return;
         }
 
-        if ( event.getCause() instanceof PlayerBreakCause ) {
+        if ( event.getCause() instanceof PlayerBreakCause) {
 
             player = ((PlayerBreakCause) event.getCause()).getSource();
 
@@ -100,7 +99,7 @@ public class BlockListener implements Listener {
 
             }
 
-        } else if ( event.getCause() instanceof PlayerPlacementCause ) {
+        } else if ( event.getCause() instanceof PlayerPlacementCause) {
 
             player = ((PlayerPlacementCause) event.getCause()).getSource();
 
@@ -180,6 +179,7 @@ public class BlockListener implements Listener {
 
     }
 
+
     @EventHandler (order = Order.MONITOR)
     public void onSignUpdateEventSellPlot( SignUpdateEvent event ) {
 
@@ -190,5 +190,6 @@ public class BlockListener implements Listener {
         // TODO Implement Sell Sign for Plots
 
     }
+
 
 }

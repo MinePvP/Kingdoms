@@ -8,9 +8,9 @@ import org.spout.api.entity.Entity;
 import org.spout.api.entity.Player;
 import org.spout.api.event.EventHandler;
 import org.spout.api.event.Listener;
-import org.spout.vanilla.component.living.Hostile;
-import org.spout.vanilla.component.misc.HealthComponent;
-import org.spout.vanilla.event.entity.VanillaEntityDeathEvent;
+import org.spout.vanilla.api.component.Hostile;
+import org.spout.vanilla.api.component.misc.HealthComponent;
+import org.spout.vanilla.api.event.entity.VanillaEntityDeathEvent;
 
 public class EntityListener implements Listener {
 

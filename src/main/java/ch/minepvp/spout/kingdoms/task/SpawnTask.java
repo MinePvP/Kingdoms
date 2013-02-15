@@ -1,13 +1,11 @@
 package ch.minepvp.spout.kingdoms.task;
 
-import ch.minepvp.spout.kingdoms.Kingdoms;
 import ch.minepvp.spout.kingdoms.database.table.Kingdom;
 import org.spout.api.chat.ChatArguments;
 import org.spout.api.entity.Player;
-import org.spout.api.geo.discrete.Point;
 import org.spout.api.lang.Translation;
 
-public class SpawnTask extends Task {
+public class SpawnTask implements Runnable {
 
     private Player player;
     private Kingdom kingdom;
@@ -38,7 +36,6 @@ public class SpawnTask extends Task {
             player.sendMessage(ChatArguments.fromFormatString(Translation.tr("{{RED}}Teleportation aborted! You have moved!", player)));
         }
 
-        setInactive(true);
     }
 
 }

@@ -1,21 +1,17 @@
 package ch.minepvp.spout.kingdoms.command;
 
 import ch.minepvp.spout.kingdoms.Kingdoms;
-import ch.minepvp.spout.kingdoms.component.KingdomsComponent;
 import ch.minepvp.spout.kingdoms.component.SelectionComponent;
 import ch.minepvp.spout.kingdoms.config.KingdomsConfig;
 import ch.minepvp.spout.kingdoms.database.table.Kingdom;
 import ch.minepvp.spout.kingdoms.database.table.Member;
 import ch.minepvp.spout.kingdoms.database.table.Zone;
-import ch.minepvp.spout.kingdoms.entity.KingdomRank;
 import ch.minepvp.spout.kingdoms.manager.KingdomManager;
 import ch.minepvp.spout.kingdoms.manager.MemberManager;
 import ch.minepvp.spout.kingdoms.manager.TaskManager;
 import ch.minepvp.spout.kingdoms.manager.ZoneManager;
 import ch.minepvp.spout.kingdoms.task.AttackTask;
-import ch.minepvp.spout.kingdoms.task.Task;
 import org.spout.api.chat.ChatArguments;
-import org.spout.api.chat.style.ChatStyle;
 import org.spout.api.command.CommandContext;
 import org.spout.api.command.CommandSource;
 import org.spout.api.command.annotated.Command;
@@ -26,7 +22,7 @@ import org.spout.api.geo.World;
 import org.spout.api.geo.discrete.Point;
 import org.spout.api.lang.Translation;
 import org.spout.api.scheduler.TaskPriority;
-import org.spout.vanilla.material.VanillaMaterials;
+import org.spout.vanilla.plugin.material.VanillaMaterials;
 
 public class ZoneCommands {
 
@@ -371,7 +367,7 @@ public class ZoneCommands {
             return;
         }
 
-        Zone zone = zoneManager.getZoneByPoint(player.getTransform().getPosition());
+        Zone zone = zoneManager.getZoneByPoint(player.getScene().getTransform().getPosition());
 
         if ( zone == null ) {
             player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{RED}}You need to be in a Zone!", player)) );
@@ -414,9 +410,9 @@ public class ZoneCommands {
         }
 
         // Set new Flag
-        zone.setFlagX( player.getTransform().getPosition().getBlockX() );
-        zone.setFlagY(player.getTransform().getPosition().getBlockY());
-        zone.setFlagZ(player.getTransform().getPosition().getBlockZ());
+        zone.setFlagX( player.getScene().getTransform().getPosition().getBlockX() );
+        zone.setFlagY( player.getScene().getTransform().getPosition().getBlockY() );
+        zone.setFlagZ( player.getScene().getTransform().getPosition().getBlockZ() );
 
         // Ground
         world.setBlockMaterial( zone.getFlagX() -1, zone.getFlagY(), zone.getFlagZ() + 1, VanillaMaterials.STONE, (short)0, null);
@@ -688,8 +684,8 @@ public class ZoneCommands {
             return;
         }
 
-        if ( zone.getCornerOne().distance( player.getTransform().getPosition() ) > KingdomsConfig.ZONE_DISTANCE_MAX_SPAWN.getInt() &&
-             zone.getCornerTwo().distance( player.getTransform().getPosition() ) > KingdomsConfig.ZONE_DISTANCE_MAX_SPAWN.getInt()) {
+        if ( zone.getCornerOne().distance( player.getScene().getTransform().getPosition() ) > KingdomsConfig.ZONE_DISTANCE_MAX_SPAWN.getInt() &&
+             zone.getCornerTwo().distance( player.getScene().getTransform().getPosition() ) > KingdomsConfig.ZONE_DISTANCE_MAX_SPAWN.getInt()) {
 
             player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{RED}}You are to far away from the Zone!", player)) );
             return;
@@ -697,15 +693,15 @@ public class ZoneCommands {
 
         if ( args.getString(1).equalsIgnoreCase("attacker") ) {
 
-            zone.setSpawnAttackersX( player.getTransform().getPosition().getBlockX() );
-            zone.setSpawnAttackersY( player.getTransform().getPosition().getBlockY() );
-            zone.setSpawnAttackersZ( player.getTransform().getPosition().getBlockZ() );
+            zone.setSpawnAttackersX( player.getScene().getTransform().getPosition().getBlockX() );
+            zone.setSpawnAttackersY( player.getScene().getTransform().getPosition().getBlockY() );
+            zone.setSpawnAttackersZ( player.getScene().getTransform().getPosition().getBlockZ() );
 
         } else if ( args.getString(1).equalsIgnoreCase("defender") ) {
 
-            zone.setSpawnDefendersX( player.getTransform().getPosition().getBlockX() );
-            zone.setSpawnDefendersY( player.getTransform().getPosition().getBlockY() );
-            zone.setSpawnDefendersZ( player.getTransform().getPosition().getBlockZ() );
+            zone.setSpawnDefendersX( player.getScene().getTransform().getPosition().getBlockX() );
+            zone.setSpawnDefendersY( player.getScene().getTransform().getPosition().getBlockY() );
+            zone.setSpawnDefendersZ( player.getScene().getTransform().getPosition().getBlockZ() );
 
         } else {
             player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{RED}}/zone setspawn <name> <attacker|defender>", player)) );
@@ -792,7 +788,7 @@ public class ZoneCommands {
         Long delay = (zone.getDelay() * 20L) * 60L;
         Long repeating = (zone.getDuration() * 20L) * 60L;
 
-        Task task = new AttackTask(zone, attackKingdom, defenseKingdom);
+        Runnable task = new AttackTask(zone, attackKingdom, defenseKingdom);
         taskManager.createSyncRepeatingTask(task, delay, repeating, TaskPriority.MEDIUM);
 
 

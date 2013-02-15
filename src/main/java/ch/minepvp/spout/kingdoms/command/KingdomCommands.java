@@ -5,12 +5,10 @@ import ch.minepvp.spout.kingdoms.component.KingdomsComponent;
 import ch.minepvp.spout.kingdoms.config.KingdomsConfig;
 import ch.minepvp.spout.kingdoms.database.table.Kingdom;
 import ch.minepvp.spout.kingdoms.database.table.Member;
+import ch.minepvp.spout.kingdoms.database.table.Zone;
 import ch.minepvp.spout.kingdoms.entity.KingdomLevel;
 import ch.minepvp.spout.kingdoms.entity.KingdomRank;
-import ch.minepvp.spout.kingdoms.manager.KingdomManager;
-import ch.minepvp.spout.kingdoms.manager.MemberManager;
-import ch.minepvp.spout.kingdoms.manager.PlotManager;
-import ch.minepvp.spout.kingdoms.manager.TaskManager;
+import ch.minepvp.spout.kingdoms.manager.*;
 import ch.minepvp.spout.kingdoms.task.SpawnTask;
 import org.spout.api.chat.ChatArguments;
 import org.spout.api.command.CommandContext;
@@ -21,6 +19,7 @@ import org.spout.api.entity.Player;
 import org.spout.api.exception.CommandException;
 import org.spout.api.lang.Translation;
 import org.spout.api.scheduler.TaskPriority;
+import org.spout.vanilla.plugin.protocol.codec.player.PlayerChatCodec;
 
 import java.util.ArrayList;
 
@@ -29,6 +28,7 @@ public class KingdomCommands {
     private final Kingdoms plugin;
     private KingdomManager kingdomManager;
     private MemberManager memberManager;
+    private ZoneManager zoneManager;
     private TaskManager taskManager;
 
 
@@ -36,6 +36,7 @@ public class KingdomCommands {
         plugin = instance;
         kingdomManager = plugin.getKingdomManager();
         memberManager = plugin.getMemberManager();
+        zoneManager = plugin.getZoneManager();
         taskManager = plugin.getTaskManager();
     }
 
@@ -154,8 +155,11 @@ public class KingdomCommands {
         }
 
         if ( player.hasPermission("kingdoms.command.kingdom.spawn") ) {
-            player.sendMessage(ChatArguments.fromFormatString(Translation.tr("{{YELLOW}}/%0 spawn", source, args.getCommand())));
-            player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{GOLD}}-> {{WHITE}}Teleport you to the Kingdom Spawn", source)) );
+
+            if ( !player.get(KingdomsComponent.class).getMember().getRank().equals( KingdomRank.NONE ) ) {
+                player.sendMessage(ChatArguments.fromFormatString(Translation.tr("{{YELLOW}}/%0 spawn", source, args.getCommand())));
+                player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{GOLD}}-> {{WHITE}}Teleport you to the Kingdom Spawn", source)) );
+            }
         }
 
         player.sendMessage(ChatArguments.fromFormatString("{{BLUE}}-----------------------------------------------------"));
@@ -437,7 +441,7 @@ public class KingdomCommands {
 
         player.sendMessage( ChatArguments.fromFormatString( Translation.tr("{{GOLD}}Player is invited!", player) ) );
         invitePlayer.sendMessage( ChatArguments.fromFormatString( Translation.tr("{{GOLD}}You are invited from %0 to join the Kingdom %1", invitePlayer, player.getName(), kingdom.getName()) ) );
-        invitePlayer.sendMessage( ChatArguments.fromFormatString( Translation.tr("{{{GOLD}}Type {{DARK_GREEN}}/accept {{GOLD}}ore {{RED}}/reject", invitePlayer) ) );
+        invitePlayer.sendMessage( ChatArguments.fromFormatString( Translation.tr("{{GOLD}}Type {{DARK_GREEN}}/accept {{GOLD}}ore {{RED}}/reject", invitePlayer) ) );
 
     }
 
@@ -817,8 +821,8 @@ public class KingdomCommands {
         }
 
         // Check Ranges
-        if ( player.getTransform().getPosition().distance( player.getWorld().getSpawnPoint().getPosition() ) > KingdomsConfig.KINGDOMS_DISTANCE_MIN_SPAWN.getInt() ) {
-            player.sendMessage( ChatArguments.fromFormatString( Translation.tr("{{RED}}You are to near to the Spawn! %0 of %1 ", player, player.getTransform().getPosition().distance( player.getWorld().getSpawnPoint().getPosition() ), KingdomsConfig.KINGDOMS_DISTANCE_MIN_SPAWN.getInt()) ) );
+        if ( player.getScene().getTransform().getPosition().distance( player.getWorld().getSpawnPoint().getPosition() ) > KingdomsConfig.KINGDOMS_DISTANCE_MIN_SPAWN.getInt() ) {
+            player.sendMessage( ChatArguments.fromFormatString( Translation.tr("{{RED}}You are to near to the Spawn! %0 of %1 ", player, player.getScene().getTransform().getPosition().distance( player.getWorld().getSpawnPoint().getPosition() ), KingdomsConfig.KINGDOMS_DISTANCE_MIN_SPAWN.getInt()) ) );
             return;
         }
 
@@ -828,9 +832,9 @@ public class KingdomCommands {
 
                 if ( nearKingdom.getBaseX() != 0 && nearKingdom.getBaseY() != 0 && nearKingdom.getBaseZ() != 0 ) {
 
-                    if ( player.getTransform().getPosition().distance( nearKingdom.getBasePoint() ) > KingdomsConfig.KINGDOMS_DISTANCE_MIN_KINGDOMS.getInt() ) {
+                    if ( player.getScene().getTransform().getPosition().distance( nearKingdom.getBasePoint() ) > KingdomsConfig.KINGDOMS_DISTANCE_MIN_KINGDOMS.getInt() ) {
 
-                        player.sendMessage( ChatArguments.fromFormatString( Translation.tr("{{RED}}You are to near to the Kingdom %0! %1 of %2 ", player, nearKingdom.getName(), player.getTransform().getPosition().distance( nearKingdom.getBasePoint() ), KingdomsConfig.KINGDOMS_DISTANCE_MIN_KINGDOMS.getInt()) ) );
+                        player.sendMessage( ChatArguments.fromFormatString( Translation.tr("{{RED}}You are to near to the Kingdom %0! %1 of %2 ", player, nearKingdom.getName(), player.getScene().getTransform().getPosition().distance( nearKingdom.getBasePoint() ), KingdomsConfig.KINGDOMS_DISTANCE_MIN_KINGDOMS.getInt()) ) );
                         return;
 
                     }
@@ -841,11 +845,20 @@ public class KingdomCommands {
 
         }
 
-        // TODO Zone in Range
+        if ( zoneManager.getAllZones().size() > 0 ) {
 
-        kingdom.setBaseX( player.getTransform().getPosition().getBlockX() );
-        kingdom.setBaseY( player.getTransform().getPosition().getBlockY() );
-        kingdom.setBaseZ( player.getTransform().getPosition().getBlockZ() );
+            for ( Zone zone : zoneManager.getAllZones() ) {
+
+                // TODO Zone in Range
+
+            }
+
+        }
+
+
+        kingdom.setBaseX( player.getScene().getTransform().getPosition().getBlockX() );
+        kingdom.setBaseY( player.getScene().getTransform().getPosition().getBlockY() );
+        kingdom.setBaseZ( player.getScene().getTransform().getPosition().getBlockZ() );
 
         player.sendMessage( ChatArguments.fromFormatString( Translation.tr("{{GOLD}}Base set!", player) ) );
     }
@@ -874,19 +887,19 @@ public class KingdomCommands {
             return;
         }
 
-        if ( kingdomManager.getKingdomByPoint( player.getTransform().getPosition() ) == null ) {
+        if ( kingdomManager.getKingdomByPoint( player.getScene().getTransform().getPosition() ) == null ) {
             player.sendMessage( ChatArguments.fromFormatString( Translation.tr("{{RED}}You need to in the Kingdom!", player) ) );
             return;
         }
 
-        if ( !kingdomManager.getKingdomByPoint( player.getTransform().getPosition() ).getName().equalsIgnoreCase( kingdom.getName() ) ) {
+        if ( !kingdomManager.getKingdomByPoint( player.getScene().getTransform().getPosition() ).getName().equalsIgnoreCase( kingdom.getName() ) ) {
             player.sendMessage( ChatArguments.fromFormatString( Translation.tr("{{RED}}You need to in your Kingdom!", player) ) );
             return;
         }
 
-        kingdom.setSpawnX( player.getTransform().getPosition().getBlockX() );
-        kingdom.setSpawnY(player.getTransform().getPosition().getBlockY());
-        kingdom.setSpawnZ(player.getTransform().getPosition().getBlockZ());
+        kingdom.setSpawnX( player.getScene().getTransform().getPosition().getBlockX() );
+        kingdom.setSpawnY( player.getScene().getTransform().getPosition().getBlockY() );
+        kingdom.setSpawnZ( player.getScene().getTransform().getPosition().getBlockZ() );
 
         player.sendMessage( ChatArguments.fromFormatString( Translation.tr("{{GOLD}}Spawn set!", player) ) );
     }

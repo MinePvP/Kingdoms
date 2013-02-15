@@ -3,7 +3,7 @@ package ch.minepvp.spout.kingdoms.task;
 import ch.minepvp.spout.kingdoms.database.table.Kingdom;
 import ch.minepvp.spout.kingdoms.database.table.Zone;
 
-public class AttackTask extends Task {
+public class AttackTask implements Runnable {
 
     private Zone zone;
     private Kingdom attacker;
