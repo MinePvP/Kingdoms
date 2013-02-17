@@ -25,11 +25,11 @@ import org.spout.api.event.player.PlayerJoinEvent;
 import org.spout.api.event.player.PlayerLeaveEvent;
 import org.spout.api.geo.cuboid.Block;
 import org.spout.api.lang.Translation;
-import org.spout.vanilla.api.component.Hostile;
-import org.spout.vanilla.api.component.misc.HealthComponent;
-import org.spout.vanilla.api.event.player.PlayerBucketEvent;
-import org.spout.vanilla.api.event.player.PlayerDeathEvent;
-import org.spout.vanilla.plugin.material.VanillaMaterials;
+import org.spout.vanilla.component.Hostile;
+import org.spout.vanilla.component.misc.HealthComponent;
+import org.spout.vanilla.event.player.PlayerBucketEvent;
+import org.spout.vanilla.event.player.PlayerDeathEvent;
+import org.spout.vanilla.material.VanillaMaterials;
 
 public class PlayerListener implements Listener {
 

@@ -19,7 +19,6 @@ import org.spout.api.entity.Player;
 import org.spout.api.exception.CommandException;
 import org.spout.api.lang.Translation;
 import org.spout.api.scheduler.TaskPriority;
-import org.spout.vanilla.plugin.protocol.codec.player.PlayerChatCodec;
 
 import java.util.ArrayList;
 

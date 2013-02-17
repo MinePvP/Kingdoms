@@ -17,9 +17,9 @@ import org.spout.api.event.Listener;
 import org.spout.api.event.Order;
 import org.spout.api.event.block.BlockChangeEvent;
 import org.spout.api.lang.Translation;
-import org.spout.vanilla.api.event.block.SignUpdateEvent;
-import org.spout.vanilla.api.event.cause.PlayerBreakCause;
-import org.spout.vanilla.api.event.cause.PlayerPlacementCause;
+import org.spout.vanilla.event.block.SignUpdateEvent;
+import org.spout.vanilla.event.cause.PlayerBreakCause;
+import org.spout.vanilla.event.cause.PlayerPlacementCause;
 
 public class BlockListener implements Listener {
 
