@@ -55,17 +55,12 @@ public class PlayerListener implements Listener {
 
         Player player = event.getPlayer();
         Member member = memberManager.getMemberByPlayer(player);
-        Kingdom kingdom = kingdomManager.getKingdomByPlayer(player);
-
 
         if ( member == null ) {
             memberManager.createMember(player);
         }
 
-        if ( kingdom == null ) {
-            player.add(KingdomsComponent.class);
-        }
-
+        player.add(KingdomsComponent.class);
         player.add(KingdomsComponent.class).getMember().setOnline(true);
         player.add(SelectionComponent.class);
 
