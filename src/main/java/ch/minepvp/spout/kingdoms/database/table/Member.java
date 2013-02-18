@@ -31,10 +31,10 @@ public class Member {
 
 
     @Field
-    private KingdomChannel channel = KingdomChannel.LOCAL;
+    private String channel = "LOCAL";
 
     @Field
-    private KingdomRank rank = KingdomRank.NONE;
+    private String rank = "NONE";
 
     // Login's
     @Field
@@ -103,19 +103,78 @@ public class Member {
     }
 
     public KingdomChannel getChannel() {
-        return channel;
+
+        if ( KingdomChannel.STAFF.toString().equalsIgnoreCase("STAFF") ) {
+            return KingdomChannel.STAFF;
+
+        } else if ( KingdomChannel.GLOBAL.toString().equalsIgnoreCase("GLOBAL") ) {
+            return KingdomChannel.GLOBAL;
+
+        } else if ( KingdomChannel.KINGDOM.toString().equalsIgnoreCase("KINGDOM") ) {
+            return KingdomChannel.KINGDOM;
+
+        } else {
+            return KingdomChannel.LOCAL;
+        }
+
     }
 
     public void setChannel(KingdomChannel channel) {
-        this.channel = channel;
+
+        if ( KingdomChannel.STAFF.equals(channel) ) {
+            this.channel = "STAFF";
+
+        } else if ( KingdomChannel.GLOBAL.equals(channel) ) {
+            this.channel = "GLOBAL";
+
+        } else if ( KingdomChannel.KINGDOM.equals(channel) ) {
+            this.channel = "KINGDOM";
+
+        } else {
+            this.channel = "LOCAL";
+        }
+
     }
 
     public KingdomRank getRank() {
-        return rank;
+
+        if ( KingdomRank.LEADER.toString().equalsIgnoreCase("LEADER") ) {
+            return KingdomRank.LEADER;
+
+        } else if ( KingdomRank.CAPTAIN.toString().equalsIgnoreCase("CAPTAIN") ) {
+            return KingdomRank.CAPTAIN;
+
+        } else if ( KingdomRank.MEMBER.toString().equalsIgnoreCase("MEMBER") ) {
+            return KingdomRank.MEMBER;
+
+        } else if ( KingdomRank.NOVICE.toString().equalsIgnoreCase("NOVICE") ) {
+            return KingdomRank.NOVICE;
+
+        } else {
+            return KingdomRank.NONE;
+        }
+
     }
 
     public void setRank(KingdomRank rank) {
-        this.rank = rank;
+
+        if ( KingdomRank.LEADER.equals(rank) ) {
+            this.rank = "LEADER";
+
+        } else if ( KingdomRank.CAPTAIN.equals(rank) ) {
+            this.rank = "CAPTAIN";
+
+        } else if ( KingdomRank.MEMBER.equals(rank) ) {
+            this.rank = "MEMBER";
+
+        } else if ( KingdomRank.NOVICE.equals(rank) ) {
+            this.rank = "NOVICE";
+
+        } else {
+            this.rank = "NONE";
+
+        }
+
     }
 
     public int getPlayerKills() {
