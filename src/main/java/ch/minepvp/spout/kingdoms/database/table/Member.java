@@ -103,78 +103,19 @@ public class Member {
     }
 
     public KingdomChannel getChannel() {
-
-        if ( KingdomChannel.STAFF.toString().equalsIgnoreCase("STAFF") ) {
-            return KingdomChannel.STAFF;
-
-        } else if ( KingdomChannel.GLOBAL.toString().equalsIgnoreCase("GLOBAL") ) {
-            return KingdomChannel.GLOBAL;
-
-        } else if ( KingdomChannel.KINGDOM.toString().equalsIgnoreCase("KINGDOM") ) {
-            return KingdomChannel.KINGDOM;
-
-        } else {
-            return KingdomChannel.LOCAL;
-        }
-
+        return KingdomChannel.valueOf( this.channel );
     }
 
     public void setChannel(KingdomChannel channel) {
-
-        if ( KingdomChannel.STAFF.equals(channel) ) {
-            this.channel = "STAFF";
-
-        } else if ( KingdomChannel.GLOBAL.equals(channel) ) {
-            this.channel = "GLOBAL";
-
-        } else if ( KingdomChannel.KINGDOM.equals(channel) ) {
-            this.channel = "KINGDOM";
-
-        } else {
-            this.channel = "LOCAL";
-        }
-
+        this.channel = channel.name();
     }
 
     public KingdomRank getRank() {
-
-        if ( KingdomRank.LEADER.toString().equalsIgnoreCase("LEADER") ) {
-            return KingdomRank.LEADER;
-
-        } else if ( KingdomRank.CAPTAIN.toString().equalsIgnoreCase("CAPTAIN") ) {
-            return KingdomRank.CAPTAIN;
-
-        } else if ( KingdomRank.MEMBER.toString().equalsIgnoreCase("MEMBER") ) {
-            return KingdomRank.MEMBER;
-
-        } else if ( KingdomRank.NOVICE.toString().equalsIgnoreCase("NOVICE") ) {
-            return KingdomRank.NOVICE;
-
-        } else {
-            return KingdomRank.NONE;
-        }
-
+        return KingdomRank.valueOf( this.rank );
     }
 
     public void setRank(KingdomRank rank) {
-
-        if ( KingdomRank.LEADER.equals(rank) ) {
-            this.rank = "LEADER";
-
-        } else if ( KingdomRank.CAPTAIN.equals(rank) ) {
-            this.rank = "CAPTAIN";
-
-        } else if ( KingdomRank.MEMBER.equals(rank) ) {
-            this.rank = "MEMBER";
-
-        } else if ( KingdomRank.NOVICE.equals(rank) ) {
-            this.rank = "NOVICE";
-
-        } else {
-            this.rank = "NONE";
-
-        }
-
+        this.rank = rank.name();
     }
 
     public int getPlayerKills() {
@@ -281,5 +222,13 @@ public class Member {
 
     public void setFirstLogin(Date date) {
         this.firstLogin = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
+    }
+
+    public int getMoney() {
+        return money;
+    }
+
+    public void setMoney(int money) {
+        this.money = money;
     }
 }
