@@ -18,17 +18,17 @@ public class SpawnTask implements Runnable {
         this.player = player;
         this.kingdom = kingdom;
 
-        lastX = player.getTransform().getPosition().getBlockX();
-        lastY = player.getTransform().getPosition().getBlockY();
-        lastZ = player.getTransform().getPosition().getBlockZ();
+        lastX = player.getScene().getPosition().getBlockX();
+        lastY = player.getScene().getPosition().getBlockY();
+        lastZ = player.getScene().getPosition().getBlockZ();
     }
 
     @Override
     public void run() {
 
-        if ( player.getTransform().getPosition().getBlockX() == lastX &&
-             player.getTransform().getPosition().getBlockY() == lastY &&
-             player.getTransform().getPosition().getBlockZ() == lastZ ) {
+        if ( player.getScene().getPosition().getBlockX() == lastX &&
+             player.getScene().getPosition().getBlockY() == lastY &&
+             player.getScene().getPosition().getBlockZ() == lastZ ) {
 
             player.teleport(kingdom.getSpawnPoint());
 

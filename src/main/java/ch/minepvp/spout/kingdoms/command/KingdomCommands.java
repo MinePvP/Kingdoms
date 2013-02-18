@@ -901,9 +901,9 @@ public class KingdomCommands {
             return;
         }
 
-        kingdom.setSpawnX( player.getScene().getTransform().getPosition().getBlockX() );
-        kingdom.setSpawnY( player.getScene().getTransform().getPosition().getBlockY() );
-        kingdom.setSpawnZ( player.getScene().getTransform().getPosition().getBlockZ() );
+        kingdom.setSpawnX( player.getScene().getPosition().getBlockX() );
+        kingdom.setSpawnY( player.getScene().getPosition().getBlockY() );
+        kingdom.setSpawnZ( player.getScene().getPosition().getBlockZ() );
 
         player.sendMessage( ChatArguments.fromFormatString( Translation.tr("{{GOLD}}Spawn set!", player) ) );
     }
