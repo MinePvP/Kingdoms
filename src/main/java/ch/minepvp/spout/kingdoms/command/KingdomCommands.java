@@ -444,7 +444,7 @@ public class KingdomCommands {
         kingdom.addInvitedMember(inviteMember);
 
         player.sendMessage( ChatArguments.fromFormatString( Translation.tr("{{GOLD}}Player is invited!", player) ) );
-        invitePlayer.sendMessage( ChatArguments.fromFormatString( Translation.tr("{{GOLD}}You are invited from %0 to join the Kingdom %1", invitePlayer, player.getName(), kingdom.getName()) ) );
+        invitePlayer.sendMessage( ChatArguments.fromFormatString( Translation.tr("{{GOLD}}You are invited from %0 to join the Kingdom {{YELLOW}}%1", invitePlayer, player.getName(), kingdom.getName()) ) );
         invitePlayer.sendMessage( ChatArguments.fromFormatString( Translation.tr("{{GOLD}}Type {{DARK_GREEN}}/accept {{GOLD}}ore {{RED}}/reject", invitePlayer) ) );
 
     }
