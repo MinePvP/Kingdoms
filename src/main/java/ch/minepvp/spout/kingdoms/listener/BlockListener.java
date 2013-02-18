@@ -73,15 +73,23 @@ public class BlockListener implements Listener {
                 } else {
 
                     // Kingdom
-                    if ( kingdom.getId() != player.get(KingdomsComponent.class).getKingdom().getId() ) {
-                        event.setCancelled(true);
-                        player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{RED}}You cant Build in a other Kingdom!", player) ) );
-                        return;
-                    }
+                    if ( player.get(KingdomsComponent.class).getKingdom() != null ) {
 
-                    if ( player.get(KingdomsComponent.class).getMember().getRank().equals( KingdomRank.NOVICE ) ) {
+                        if ( kingdom.getId() != player.get(KingdomsComponent.class).getKingdom().getId() ) {
+                            event.setCancelled(true);
+                            player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{RED}}You cant Build in a other Kingdom!", player) ) );
+                            return;
+                        }
+
+                        if ( player.get(KingdomsComponent.class).getMember().getRank().equals( KingdomRank.NOVICE ) ) {
+                            event.setCancelled(true);
+                            player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{RED}}You need to be Member in the Kingdom to Build!", player) ) );
+                            return;
+                        }
+
+                    } else {
                         event.setCancelled(true);
-                        player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{RED}}You need to be Member in the Kingdom to Build!", player) ) );
+                        player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{RED}}You cant Build in this Kingdom!", player) ) );
                         return;
                     }
 
@@ -117,15 +125,23 @@ public class BlockListener implements Listener {
                 } else {
 
                     // Kingdom
-                    if ( kingdom.getId() != player.get(KingdomsComponent.class).getKingdom().getId() ) {
-                        event.setCancelled(true);
-                        player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{RED}}You cant Build in a other Kingdom!", player) ) );
-                        return;
-                    }
+                    if ( player.get(KingdomsComponent.class).getKingdom() != null ) {
 
-                    if ( player.get(KingdomsComponent.class).getMember().getRank().equals( KingdomRank.NOVICE ) ) {
+                        if ( kingdom.getId() != player.get(KingdomsComponent.class).getKingdom().getId() ) {
+                            event.setCancelled(true);
+                            player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{RED}}You cant Build in a other Kingdom!", player) ) );
+                            return;
+                        }
+
+                        if ( player.get(KingdomsComponent.class).getMember().getRank().equals( KingdomRank.NOVICE ) ) {
+                            event.setCancelled(true);
+                            player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{RED}}You need to be Member in the Kingdom to Build!", player) ) );
+                            return;
+                        }
+
+                    } else {
                         event.setCancelled(true);
-                        player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{RED}}You need to be Member in the Kingdom to Build!", player) ) );
+                        player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{RED}}You cant Build in this Kingdom!", player) ) );
                         return;
                     }
 

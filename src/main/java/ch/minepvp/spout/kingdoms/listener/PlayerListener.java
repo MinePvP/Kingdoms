@@ -155,6 +155,7 @@ public class PlayerListener implements Listener {
                                VanillaMaterials.FURNACE_BURNING,
                                VanillaMaterials.JUKEBOX,
                                VanillaMaterials.LEVER,
+                               VanillaMaterials.REDSTONE_REPEATER,
                                VanillaMaterials.STONE_BUTTON,
                                VanillaMaterials.WOOD_BUTTON,
                                VanillaMaterials.WOODEN_DOOR) ) {
