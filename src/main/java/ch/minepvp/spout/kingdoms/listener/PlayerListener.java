@@ -227,8 +227,6 @@ public class PlayerListener implements Listener {
 
         Player player = event.getPlayer();
 
-        player.sendMessage("Test");
-
         if ( player.hasPermission("kingdoms.zones.selection") ) {
 
             if ( event.getHeldItem() != null ) {
