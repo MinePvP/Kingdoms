@@ -31,6 +31,8 @@ import org.spout.vanilla.event.player.PlayerBucketEvent;
 import org.spout.vanilla.event.player.PlayerDeathEvent;
 import org.spout.vanilla.material.VanillaMaterials;
 
+import java.sql.Date;
+
 public class PlayerListener implements Listener {
 
     private Kingdoms plugin;
@@ -62,6 +64,7 @@ public class PlayerListener implements Listener {
 
         player.add(KingdomsComponent.class);
         player.add(KingdomsComponent.class).getMember().setOnline(true);
+        player.add(KingdomsComponent.class).getMember().setLastLogin( new Date(System.currentTimeMillis() ) );
         player.add(SelectionComponent.class);
 
     }

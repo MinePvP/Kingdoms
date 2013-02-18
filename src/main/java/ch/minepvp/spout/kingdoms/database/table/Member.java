@@ -7,6 +7,10 @@ import com.alta189.simplesave.Field;
 import com.alta189.simplesave.Id;
 import com.alta189.simplesave.Table;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 @Table("Member")
 public class Member {
 
@@ -32,6 +36,12 @@ public class Member {
     @Field
     private KingdomRank rank = KingdomRank.NONE;
 
+    // Login's
+    @Field
+    private String firstLogin = "";
+
+    @Field
+    private String lastLogin = "";
 
     // Stats
     @Field
@@ -178,5 +188,39 @@ public class Member {
 
     public void setBlockPlace(int blockPlace) {
         this.blockPlace = blockPlace;
+    }
+
+    public Date getLastLogin() {
+
+        Date date = null;
+
+        try {
+            date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(lastLogin);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return date;
+    }
+
+    public void setLastLogin(Date date) {
+        this.lastLogin = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
+    }
+
+    public Date getFirstLogin() {
+
+        Date date = null;
+
+        try {
+            date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(firstLogin);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return date;
+    }
+
+    public void setFirstLogin(Date date) {
+        this.firstLogin = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
     }
 }

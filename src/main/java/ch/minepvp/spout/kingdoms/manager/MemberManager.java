@@ -5,6 +5,7 @@ import ch.minepvp.spout.kingdoms.database.table.Member;
 import com.alta189.simplesave.Database;
 import org.spout.api.entity.Player;
 
+import java.sql.Date;
 import java.util.ArrayList;
 
 public class MemberManager {
@@ -125,6 +126,7 @@ public class MemberManager {
 
         Member member = new Member();
         member.setName( player.getName() );
+        member.setFirstLogin( new Date( System.currentTimeMillis() ) );
 
         members.add(member);
         save(player);
