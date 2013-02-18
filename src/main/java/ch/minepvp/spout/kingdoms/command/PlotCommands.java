@@ -250,7 +250,7 @@ public class PlotCommands {
             return;
         }
 
-        if ( !player.get(KingdomsComponent.class).getMember().getRank().equals(KingdomRank.LEADER) ||
+        if ( !player.get(KingdomsComponent.class).getMember().getRank().equals(KingdomRank.LEADER) &&
              !player.get(KingdomsComponent.class).getMember().getRank().equals( KingdomRank.CAPTAIN ) ) {
             player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{RED}}You need to be a Captain oder Leader to do this!", player)) );
             return;

@@ -26,6 +26,10 @@ public class KingdomsComponent extends EntityComponent {
         Player player = (Player)getOwner();
         SceneComponent scene = getOwner().getScene();
 
+        if ( player.add(Human.class).getLivePosition() == null ) {
+            return;
+        }
+
         if ( scene.getPosition().getBlockX() == player.add(Human.class).getLivePosition().getBlockX() &&
              scene.getPosition().getBlockY() == player.add(Human.class).getLivePosition().getBlockY() &&
              scene.getPosition().getBlockZ() == player.add(Human.class).getLivePosition().getBlockZ() ) {
