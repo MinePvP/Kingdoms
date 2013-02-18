@@ -119,7 +119,7 @@ public class PlotCommands {
 
         player.sendMessage( ChatArguments.fromFormatString("{{YELLOW}}Id - Owner - Size") );
 
-        if ( plotManager.getPlotsByKingdom(kingdom).size() > 0 ) {
+        if ( plotManager.getPlotsByKingdom(kingdom) != null ) {
 
             for ( Plot plot : plotManager.getPlotsByKingdom(kingdom) ) {
 
@@ -187,8 +187,8 @@ public class PlotCommands {
             return;
         }
 
-        if ( player.get(KingdomsComponent.class).getMember().getRank().equals(KingdomRank.LEADER) == false &&
-             player.get(KingdomsComponent.class).getMember().getRank().equals( KingdomRank.CAPTAIN ) == false ) {
+        if ( !player.get(KingdomsComponent.class).getMember().getRank().equals(KingdomRank.LEADER) &&
+             !player.get(KingdomsComponent.class).getMember().getRank().equals( KingdomRank.CAPTAIN ) ) {
             player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{RED}}You need to be a Captain oder Leader to do this!", player)) );
             return;
         }
@@ -250,8 +250,8 @@ public class PlotCommands {
             return;
         }
 
-        if ( player.get(KingdomsComponent.class).getMember().getRank().equals(KingdomRank.LEADER) ||
-                player.get(KingdomsComponent.class).getMember().getRank().equals( KingdomRank.CAPTAIN ) ) {
+        if ( !player.get(KingdomsComponent.class).getMember().getRank().equals(KingdomRank.LEADER) ||
+             !player.get(KingdomsComponent.class).getMember().getRank().equals( KingdomRank.CAPTAIN ) ) {
             player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{RED}}You need to be a Captain oder Leader to do this!", player)) );
             return;
         }

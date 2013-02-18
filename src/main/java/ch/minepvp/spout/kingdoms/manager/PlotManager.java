@@ -98,7 +98,7 @@ public class PlotManager {
 
     public Plot getPlotFromKingdomByPoint( Kingdom kingdom, Point point ) {
 
-        if ( getPlotsByKingdom(kingdom).size() > 0 ) {
+        if ( getPlotsByKingdom(kingdom) != null ) {
 
             for ( Plot plot : getPlotsByKingdom(kingdom) ) {
 
