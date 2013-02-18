@@ -134,10 +134,14 @@ public class Plot {
 
     public boolean contains(Point point) {
 
-        if ( getCornerTwoX() > point.getBlockX() && getCornerOneX() < point.getBlockX()) {
+        if ( getCornerTwoX() >= point.getBlockX() && getCornerOneX() <= point.getBlockX()) {
 
-            if ( getCornerTwoZ() > point.getBlockZ() && getCornerOneZ() < point.getBlockZ() ) {
-                return true;
+            if ( getCornerTwoZ() >= point.getBlockZ() && getCornerOneZ() <= point.getBlockZ() ) {
+
+                if ( getCornerTwoY() >= point.getBlockY() && getCornerOneY() <= point.getBlockY() ) {
+                    return true;
+                }
+
             }
 
         }
