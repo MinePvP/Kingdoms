@@ -7,9 +7,8 @@ import org.spout.api.chat.ChatArguments;
 import org.spout.api.component.impl.SceneComponent;
 import org.spout.api.component.type.EntityComponent;
 import org.spout.api.entity.Player;
-import org.spout.api.geo.discrete.Transform;
 import org.spout.api.lang.Translation;
-import org.spout.vanilla.plugin.component.living.neutral.Human;
+import org.spout.vanilla.component.living.neutral.Human;
 
 public class KingdomsComponent extends EntityComponent {
 
