@@ -43,6 +43,9 @@ public class Member {
     @Field
     private String lastLogin = "";
 
+    @Field
+    private String lastLogout = "";
+
     // Stats
     @Field
     private int playerKills = 0;
@@ -196,6 +199,23 @@ public class Member {
 
         try {
             date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(lastLogin);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return date;
+    }
+
+    public void setLastLogout(Date date) {
+        this.lastLogout = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
+    }
+
+    public Date getLastLogout() {
+
+        Date date = null;
+
+        try {
+            date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(lastLogout);
         } catch (ParseException e) {
             e.printStackTrace();
         }

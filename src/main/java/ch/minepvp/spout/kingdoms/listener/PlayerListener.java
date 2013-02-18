@@ -67,11 +67,13 @@ public class PlayerListener implements Listener {
         player.add(KingdomsComponent.class).getMember().setLastLogin( new Date(System.currentTimeMillis() ) );
         player.add(SelectionComponent.class);
 
+        memberManager.save(player);
     }
 
     @EventHandler (order = Order.MONITOR)
     public void onPlayerQuitEvent( PlayerLeaveEvent event ) {
         event.getPlayer().add(KingdomsComponent.class).getMember().setOnline(false);
+        event.getPlayer().add(KingdomsComponent.class).getMember().setLastLogout( new Date(System.currentTimeMillis()) );
         memberManager.save(event.getPlayer());
     }
 
