@@ -208,9 +208,14 @@ public class KingdomCommands {
         Kingdom kingdom = null;
 
         if ( args.length() > 0 ) {
-            kingdomManager.getKingdomByName( args.getString(0) );
+            kingdom = kingdomManager.getKingdomByName( args.getString(0) );
+
+            if ( kingdom == null ) {
+                kingdom = kingdomManager.getKingdomByTag( args.getString(0) );
+            }
+
         } else {
-            kingdomManager.getKingdomByPlayer(player);
+            kingdom = kingdomManager.getKingdomByPlayer(player);
         }
 
         if ( kingdom == null ) {
