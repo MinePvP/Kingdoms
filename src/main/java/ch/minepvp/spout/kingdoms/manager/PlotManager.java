@@ -2,10 +2,8 @@ package ch.minepvp.spout.kingdoms.manager;
 
 import ch.minepvp.spout.kingdoms.Kingdoms;
 import ch.minepvp.spout.kingdoms.database.table.Kingdom;
-import ch.minepvp.spout.kingdoms.database.table.Member;
 import ch.minepvp.spout.kingdoms.database.table.Plot;
 import com.alta189.simplesave.Database;
-import org.spout.api.entity.Player;
 import org.spout.api.geo.discrete.Point;
 
 import java.util.ArrayList;
@@ -121,12 +119,8 @@ public class PlotManager {
 
             for ( Plot plot : plots ) {
 
-                if ( plot.getCornerTwoX() > point.getBlockX() && plot.getCornerOneX() < point.getBlockX()) {
-
-                    if ( plot.getCornerTwoZ() > point.getBlockZ() && plot.getCornerTwoZ() < point.getBlockZ() ) {
-                        return plot;
-                    }
-
+                if ( plot.contains( point ) ) {
+                    return plot;
                 }
 
             }

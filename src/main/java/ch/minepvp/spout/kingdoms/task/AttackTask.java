@@ -57,6 +57,8 @@ public class AttackTask implements Runnable {
         zone.setAttacker(null);
         zone.setDefender(null);
 
+        zone.setAttack(false);
+
     }
 
 }

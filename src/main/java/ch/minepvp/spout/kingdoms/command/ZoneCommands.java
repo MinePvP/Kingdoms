@@ -22,7 +22,7 @@ import org.spout.api.geo.World;
 import org.spout.api.geo.discrete.Point;
 import org.spout.api.lang.Translation;
 import org.spout.api.scheduler.TaskPriority;
-import org.spout.vanilla.plugin.material.VanillaMaterials;
+import org.spout.vanilla.material.VanillaMaterials;
 
 public class ZoneCommands {
 
