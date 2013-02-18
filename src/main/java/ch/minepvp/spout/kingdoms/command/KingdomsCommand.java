@@ -2,6 +2,7 @@ package ch.minepvp.spout.kingdoms.command;
 
 import ch.minepvp.spout.kingdoms.Kingdoms;
 import ch.minepvp.spout.kingdoms.component.KingdomsComponent;
+import ch.minepvp.spout.kingdoms.component.SelectionComponent;
 import ch.minepvp.spout.kingdoms.database.table.Kingdom;
 import ch.minepvp.spout.kingdoms.database.table.Member;
 import ch.minepvp.spout.kingdoms.entity.KingdomChannel;
@@ -13,6 +14,7 @@ import org.spout.api.command.CommandContext;
 import org.spout.api.command.CommandSource;
 import org.spout.api.command.annotated.Command;
 import org.spout.api.command.annotated.NestedCommand;
+import org.spout.api.component.impl.SceneComponent;
 import org.spout.api.entity.Player;
 import org.spout.api.exception.CommandException;
 import org.spout.api.lang.Translation;
@@ -168,6 +170,35 @@ public class KingdomsCommand {
         }
 
         kingdom.removeInvitedMember(member);
+
+    }
+
+    @Command(aliases = {"setpos"}, usage = "", desc = "Set Postitons", min = 0, max = 0)
+    public void setpos(CommandContext args, CommandSource source) throws CommandException {
+
+        Player player = plugin.getEngine().getPlayer( source.getName(), true );
+
+        if ( player == null ) {
+            source.sendMessage( ChatArguments.fromFormatString(Translation.tr("You must be a Player!", source)) );
+            return;
+        }
+
+        if ( args.length() == 1 ) {
+            player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{RED}}/setpos <1|2>", player)) );
+            return;
+        }
+
+        SceneComponent scene = player.getScene();
+
+        if ( args.get(1).equals("1") ) {
+            player.add(SelectionComponent.class).getSelection().setPoint1( player.getScene().getPosition() );
+            player.sendMessage(ChatArguments.fromFormatString(Translation.tr("Point 1 : %0, X : %1  Y : %2 Z : %3",
+                    player, scene.getWorld(), scene.getPosition().getBlockX(), scene.getPosition().getBlockY(), scene.getPosition().getBlockZ() )));
+        } else {
+            player.add(SelectionComponent.class).getSelection().setPoint2( player.getScene().getPosition() );
+            player.sendMessage(ChatArguments.fromFormatString(Translation.tr("Point 2 : %0, X : %1  Y : %2 Z : %3",
+                    player, scene.getWorld(), scene.getPosition().getBlockX(), scene.getPosition().getBlockY(), scene.getPosition().getBlockZ() )));
+        }
 
     }
 
