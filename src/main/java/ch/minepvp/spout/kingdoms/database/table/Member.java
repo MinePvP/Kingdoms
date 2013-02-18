@@ -65,6 +65,9 @@ public class Member {
     @Field
     private int blockPlace = 0;
 
+    @Field
+    private int playtime = 0;
+
 
     public int getId() {
         return id;
@@ -208,6 +211,8 @@ public class Member {
 
     public void setLastLogout(Date date) {
         this.lastLogout = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
+
+        calculatePlaytime();
     }
 
     public Date getLastLogout() {
@@ -250,5 +255,25 @@ public class Member {
 
     public void setMoney(int money) {
         this.money = money;
+    }
+
+    public int getPlaytime() {
+        return this.playtime;
+    }
+
+    public void addPlaytime(int time) {
+        this.playtime += time;
+    }
+
+    private void calculatePlaytime() {
+
+        long diff = getLastLogout().getTime() - getLastLogin().getTime();
+        int seconds = (int)diff / 1000;
+
+        addPlaytime( seconds );
+    }
+
+    public void setPlaytime(int playtime) {
+        this.playtime = playtime;
     }
 }
