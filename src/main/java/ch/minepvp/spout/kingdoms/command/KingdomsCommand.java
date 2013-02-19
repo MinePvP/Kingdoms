@@ -1,6 +1,7 @@
 package ch.minepvp.spout.kingdoms.command;
 
 import ch.minepvp.spout.kingdoms.Kingdoms;
+import ch.minepvp.spout.kingdoms.command.admin.AdminCommands;
 import ch.minepvp.spout.kingdoms.component.KingdomsComponent;
 import ch.minepvp.spout.kingdoms.component.SelectionComponent;
 import ch.minepvp.spout.kingdoms.database.table.Kingdom;
@@ -30,6 +31,12 @@ public class KingdomsCommand {
 
         kingdomManager = plugin.getKingdomManager();
         memberManager = plugin.getMemberManager();
+    }
+
+    @Command(aliases = {"admin"}, usage = "", desc = "Admin Commands", min = 1, max = 4)
+    @NestedCommand(AdminCommands.class)
+    public void admin(CommandContext args, CommandSource source) throws CommandException {
+
     }
 
     @Command(aliases = {"kingdom", "king"}, usage = "", desc = "Kingdom Commands", min = 1, max = 4)
