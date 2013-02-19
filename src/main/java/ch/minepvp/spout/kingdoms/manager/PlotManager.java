@@ -2,6 +2,7 @@ package ch.minepvp.spout.kingdoms.manager;
 
 import ch.minepvp.spout.kingdoms.Kingdoms;
 import ch.minepvp.spout.kingdoms.database.table.Kingdom;
+import ch.minepvp.spout.kingdoms.database.table.Member;
 import ch.minepvp.spout.kingdoms.database.table.Plot;
 import com.alta189.simplesave.Database;
 import org.spout.api.geo.discrete.Point;
@@ -81,16 +82,20 @@ public class PlotManager {
 
         ArrayList<Plot> plots = new ArrayList<Plot>();
 
-        for ( Plot plot : this.plots ) {
+        if ( plots.size() > 0 ) {
 
-            if ( plot.getKingdom().equalsIgnoreCase( kingdom.getName() ) ) {
-                plots.add(plot);
+            for ( Plot plot : this.plots ) {
+
+                if ( plot.getKingdom().equalsIgnoreCase( kingdom.getName() ) ) {
+                    plots.add(plot);
+                }
+
             }
 
-        }
+            if ( plots.size() > 0 ) {
+                return plots;
+            }
 
-        if ( plots.size() > 0 ) {
-            return plots;
         }
 
         return null;
@@ -145,6 +150,45 @@ public class PlotManager {
         }
 
         return null;
+    }
+
+    public ArrayList<Plot> getPlotsByMember( Member member ) {
+
+        ArrayList<Plot> plots = new ArrayList<Plot>();
+
+        if ( plots.size() > 0 ) {
+
+            for ( Plot plot : this.plots ) {
+
+                if ( plot.getOwner().equalsIgnoreCase( member.getName() ) ) {
+                    plots.add(plot);
+                }
+
+            }
+
+            if ( plots.size() > 0 ) {
+                return plots;
+            }
+
+        }
+
+        return null;
+    }
+
+    public void removeOwnerFromPlots( Member member ) {
+
+        if ( plots.size() > 0 ) {
+
+            for ( Plot plot : this.plots ) {
+
+                if ( plot.getOwner().equalsIgnoreCase( member.getName() ) ) {
+                    plot.setOwner(0);
+                }
+
+            }
+
+        }
+
     }
 
 }

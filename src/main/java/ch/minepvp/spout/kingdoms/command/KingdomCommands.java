@@ -27,6 +27,7 @@ public class KingdomCommands {
     private final Kingdoms plugin;
     private KingdomManager kingdomManager;
     private MemberManager memberManager;
+    private PlotManager plotManager;
     private ZoneManager zoneManager;
     private TaskManager taskManager;
 
@@ -35,6 +36,7 @@ public class KingdomCommands {
         plugin = instance;
         kingdomManager = plugin.getKingdomManager();
         memberManager = plugin.getMemberManager();
+        plotManager = plugin.getPlotManager();
         zoneManager = plugin.getZoneManager();
         taskManager = plugin.getTaskManager();
     }
@@ -499,6 +501,7 @@ public class KingdomCommands {
             return;
         }
 
+        plotManager.removeOwnerFromPlots(kickMember);
         kingdom.removeMember(kickMember);
 
         for ( Member toMember : kingdom.getMembers()  ) {
@@ -551,7 +554,7 @@ public class KingdomCommands {
 
         if ( kingdom.getMembers().size() > 1 ) {
 
-
+            plotManager.removeOwnerFromPlots(member);
             kingdom.removeMember(member);
             player.sendMessage( ChatArguments.fromFormatString( Translation.tr("{{GOLD}}You have leave the Kingdom!", player) ) );
 
