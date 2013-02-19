@@ -191,11 +191,11 @@ public class KingdomsCommand {
         SceneComponent scene = player.getScene();
 
         if ( args.getInteger(0) == 1 ) {
-            player.add(SelectionComponent.class).getSelection().setPoint1( player.getScene().getPosition() );
+            player.get(SelectionComponent.class).getSelection().setPoint1( player.getScene().getPosition() );
             player.sendMessage(ChatArguments.fromFormatString(Translation.tr("Point 1 : %0, X : %1  Y : %2 Z : %3",
                     player, scene.getWorld().getName(), scene.getPosition().getBlockX(), scene.getPosition().getBlockY(), scene.getPosition().getBlockZ() )));
         } else {
-            player.add(SelectionComponent.class).getSelection().setPoint2( player.getScene().getPosition() );
+            player.get(SelectionComponent.class).getSelection().setPoint2( player.getScene().getPosition() );
             player.sendMessage(ChatArguments.fromFormatString(Translation.tr("Point 2 : %0, X : %1  Y : %2 Z : %3",
                     player, scene.getWorld().getName(), scene.getPosition().getBlockX(), scene.getPosition().getBlockY(), scene.getPosition().getBlockZ() )));
         }

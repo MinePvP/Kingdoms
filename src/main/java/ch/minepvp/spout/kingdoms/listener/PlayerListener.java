@@ -63,17 +63,17 @@ public class PlayerListener implements Listener {
         }
 
         player.add(KingdomsComponent.class);
-        player.add(KingdomsComponent.class).getMember().setOnline(true);
-        player.add(KingdomsComponent.class).getMember().setLastLogin( new Date(System.currentTimeMillis() ) );
-        player.add(SelectionComponent.class);
+        player.get(KingdomsComponent.class).getMember().setOnline(true);
+        player.get(KingdomsComponent.class).getMember().setLastLogin( new Date(System.currentTimeMillis() ) );
+        player.get(SelectionComponent.class);
 
         memberManager.save(player);
     }
 
     @EventHandler (order = Order.MONITOR)
     public void onPlayerQuitEvent( PlayerLeaveEvent event ) {
-        event.getPlayer().add(KingdomsComponent.class).getMember().setOnline(false);
-        event.getPlayer().add(KingdomsComponent.class).getMember().setLastLogout( new Date(System.currentTimeMillis()) );
+        event.getPlayer().get(KingdomsComponent.class).getMember().setOnline(false);
+        event.getPlayer().get(KingdomsComponent.class).getMember().setLastLogout( new Date(System.currentTimeMillis()) );
         memberManager.save(event.getPlayer());
     }
 

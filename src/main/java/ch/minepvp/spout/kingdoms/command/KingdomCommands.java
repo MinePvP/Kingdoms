@@ -469,8 +469,8 @@ public class KingdomCommands {
             return;
         }
 
-        if ( member.getRank().equals( KingdomRank.LEADER ) == false &&
-                member.getRank().equals( KingdomRank.CAPTAIN ) == false   ) {
+        if ( !member.getRank().equals( KingdomRank.LEADER ) &&
+             !member.getRank().equals( KingdomRank.CAPTAIN ) ) {
 
             player.sendMessage( ChatArguments.fromFormatString( Translation.tr("{{RED}}You need to be a Captain ore Leader to do this!", player) ) );
             return;

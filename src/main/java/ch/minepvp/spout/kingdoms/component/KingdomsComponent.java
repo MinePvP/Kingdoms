@@ -26,13 +26,13 @@ public class KingdomsComponent extends EntityComponent {
         Player player = (Player)getOwner();
         SceneComponent scene = getOwner().getScene();
 
-        if ( player.add(Human.class).getLivePosition() == null ) {
+        if ( player.get(Human.class).getLivePosition() == null ) {
             return;
         }
 
-        if ( scene.getPosition().getBlockX() == player.add(Human.class).getLivePosition().getBlockX() &&
-             scene.getPosition().getBlockY() == player.add(Human.class).getLivePosition().getBlockY() &&
-             scene.getPosition().getBlockZ() == player.add(Human.class).getLivePosition().getBlockZ() ) {
+        if ( scene.getPosition().getBlockX() == player.get(Human.class).getLivePosition().getBlockX() &&
+             scene.getPosition().getBlockY() == player.get(Human.class).getLivePosition().getBlockY() &&
+             scene.getPosition().getBlockZ() == player.get(Human.class).getLivePosition().getBlockZ() ) {
 
 
             //player.sendMessage("not move");
@@ -46,7 +46,7 @@ public class KingdomsComponent extends EntityComponent {
 
 
         Kingdom lastKingdom = Kingdoms.getInstance().getKingdomManager().getKingdomByPoint( scene.getPosition() );
-        Kingdom nowKingdom = Kingdoms.getInstance().getKingdomManager().getKingdomByPoint( player.add(Human.class).getLivePosition() );
+        Kingdom nowKingdom = Kingdoms.getInstance().getKingdomManager().getKingdomByPoint( player.get(Human.class).getLivePosition() );
 
         if ( lastKingdom == null ) {
 

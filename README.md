@@ -53,6 +53,7 @@ to create her own Kingdom and fight against other Kingdoms.
 - /channel
 - /accept
 - /reject
+- /setpos
 
 
 ### Admin

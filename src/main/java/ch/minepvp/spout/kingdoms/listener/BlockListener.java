@@ -176,19 +176,19 @@ public class BlockListener implements Listener {
         if ( event.getCause() instanceof PlayerBreakCause ) {
 
             player = ((PlayerBreakCause) event.getCause()).getSource();
-            player.add(KingdomsComponent.class).getMember().addBlockBreak();
+            player.get(KingdomsComponent.class).getMember().addBlockBreak();
 
-            if ( player.add(KingdomsComponent.class).getKingdom() != null ) {
-                player.add(KingdomsComponent.class).getKingdom().addBlockBreak();
+            if ( player.get(KingdomsComponent.class).getKingdom() != null ) {
+                player.get(KingdomsComponent.class).getKingdom().addBlockBreak();
             }
 
         } else if ( event.getCause() instanceof PlayerPlacementCause ) {
 
             player = ((PlayerPlacementCause) event.getCause()).getSource();
-            player.add(KingdomsComponent.class).getMember().addBlockPlace();
+            player.get(KingdomsComponent.class).getMember().addBlockPlace();
 
-            if ( player.add(KingdomsComponent.class).getKingdom() != null ) {
-                player.add(KingdomsComponent.class).getKingdom().addBlockPlace();
+            if ( player.get(KingdomsComponent.class).getKingdom() != null ) {
+                player.get(KingdomsComponent.class).getKingdom().addBlockPlace();
             }
 
         }
