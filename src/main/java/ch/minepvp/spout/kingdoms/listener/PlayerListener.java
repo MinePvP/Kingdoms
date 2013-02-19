@@ -65,7 +65,8 @@ public class PlayerListener implements Listener {
         player.add(KingdomsComponent.class);
         player.get(KingdomsComponent.class).getMember().setOnline(true);
         player.get(KingdomsComponent.class).getMember().setLastLogin( new Date(System.currentTimeMillis() ) );
-        player.get(SelectionComponent.class);
+
+        player.add(SelectionComponent.class);
 
         memberManager.save(player);
     }
