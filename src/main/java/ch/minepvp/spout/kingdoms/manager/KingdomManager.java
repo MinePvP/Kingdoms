@@ -285,8 +285,12 @@ public class KingdomManager {
 
             for ( Kingdom kingdom : kingdoms ) {
 
-                if ( kingdom.getBasePoint().distance( point ) < distance ) {
-                    nearKingdoms.add(kingdom);
+                if ( kingdom.getBasePoint().getBlockX() != 0 && kingdom.getBasePoint().getBlockY() != 0 && kingdom.getBasePoint().getBlockZ() != 0 ) {
+
+                    if ( kingdom.getBasePoint().distance( point ) < distance ) {
+                        nearKingdoms.add(kingdom);
+                    }
+
                 }
 
             }

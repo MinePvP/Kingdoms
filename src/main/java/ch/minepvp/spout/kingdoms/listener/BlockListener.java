@@ -99,7 +99,33 @@ public class BlockListener implements Listener {
 
             if ( zone!= null ) {
 
-                if ( zone.isBuild() == false ) {
+                if ( !zone.isBuild() ) {
+                    event.setCancelled(true);
+                    player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{RED}}You cant Build in this Zone!", player) ) );
+                    return;
+                }
+
+                if ( zone.getKingdom() == null ) {
+                    event.setCancelled(true);
+                    player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{RED}}No Kingdom has this Zone!", player) ) );
+                    return;
+                }
+
+                if ( !zone.isAttack() ) {
+                    event.setCancelled(true);
+                    player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{RED}}This Zone is not attacked!", player) ) );
+                    return;
+                }
+
+                if ( player.get(KingdomsComponent.class).getKingdom() == null ) {
+                    event.setCancelled(true);
+                    player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{RED}}You cant Build in this Zone!", player) ) );
+                    return;
+                }
+
+                if ( !player.get(KingdomsComponent.class).getKingdom().getName().equalsIgnoreCase( zone.getKingdom().getName() ) &&
+                     !player.get(KingdomsComponent.class).getKingdom().getName().equalsIgnoreCase( zone.getAttacker().getName() ) ) {
+
                     event.setCancelled(true);
                     player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{RED}}You cant Build in this Zone!", player) ) );
                     return;

@@ -278,14 +278,14 @@ public class ZoneCommands {
             return;
         }
 
-        if ( Boolean.getBoolean(args.getString(1)) ) {
+        if ( Boolean.parseBoolean(args.getString(1)) != true && Boolean.parseBoolean(args.getString(1)) != false ) {
             player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{RED}}/zone setactive <name> <true|false>", player)) );
             return;
         }
 
-        zone.setActive( Boolean.getBoolean(args.getString(1)) );
+        zone.setActive( Boolean.parseBoolean(args.getString(1)) );
 
-        player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{RED}}Zone Property is set!", player)) );
+        player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{GOLD}}Zone Property is set!", player)) );
     }
 
     @Command(aliases = {"setbuild"}, usage = "", desc = "Set the build Property of a Zone")
@@ -311,14 +311,14 @@ public class ZoneCommands {
             return;
         }
 
-        if ( Boolean.getBoolean(args.getString(1)) ) {
+        if ( Boolean.parseBoolean(args.getString(1)) != true && Boolean.parseBoolean(args.getString(1)) != false ) {
             player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{RED}}/zone setbuild <name> <true|false>", player)) );
             return;
         }
 
-        zone.setBuild( Boolean.getBoolean(args.getString(1)) );
+        zone.setBuild( Boolean.parseBoolean(args.getString(1)) );
 
-        player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{RED}}Zone Property is set!", player)) );
+        player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{GOLD}}Zone Property is set!", player)) );
     }
 
     @Command(aliases = {"setkingdom"}, usage = "", desc = "Set the kingdom Property of a Zone")
@@ -380,65 +380,15 @@ public class ZoneCommands {
 
         // Reset old Flag
         if ( zone.getFlagX() != 0 && zone.getFlagY() != 0 && zone.getFlagZ() != 0 ) {
-
-            // Ground
-            world.setBlockMaterial( zone.getFlagX() -1, zone.getFlagY(), zone.getFlagZ() + 1, VanillaMaterials.DIRT, (short)0, null);
-            world.setBlockMaterial( zone.getFlagX() -1, zone.getFlagY(), zone.getFlagZ(), VanillaMaterials.DIRT, (short)0, null);
-            world.setBlockMaterial( zone.getFlagX() -1, zone.getFlagY(), zone.getFlagZ() - 1, VanillaMaterials.DIRT, (short)0, null);
-            world.setBlockMaterial( zone.getFlagX() + 1, zone.getFlagY(), zone.getFlagZ() + 1, VanillaMaterials.DIRT, (short)0, null);
-            world.setBlockMaterial( zone.getFlagX() + 1, zone.getFlagY(), zone.getFlagZ(), VanillaMaterials.DIRT, (short)0, null);
-            world.setBlockMaterial( zone.getFlagX() + 1, zone.getFlagY(), zone.getFlagZ() - 1, VanillaMaterials.DIRT, (short)0, null);
-            world.setBlockMaterial( zone.getFlagX(), zone.getFlagY(), zone.getFlagZ() + 1, VanillaMaterials.DIRT, (short)0, null);
-            world.setBlockMaterial( zone.getFlagX(), zone.getFlagY(), zone.getFlagZ() - 1, VanillaMaterials.DIRT, (short)0, null);
-            world.setBlockMaterial( zone.getFlagX(), zone.getFlagY(), zone.getFlagZ(), VanillaMaterials.DIRT, (short)0, null);
-
-            //
-            world.setBlockMaterial( zone.getFlagX(), zone.getFlagY() + 1, zone.getFlagZ(), VanillaMaterials.AIR, (short)0, null);
-            world.setBlockMaterial( zone.getFlagX(), zone.getFlagY() + 2, zone.getFlagZ(), VanillaMaterials.AIR, (short)0, null);
-            world.setBlockMaterial( zone.getFlagX(), zone.getFlagY() + 3, zone.getFlagZ(), VanillaMaterials.AIR, (short)0, null);
-            world.setBlockMaterial( zone.getFlagX(), zone.getFlagY() + 4, zone.getFlagZ(), VanillaMaterials.AIR, (short)0, null);
-            world.setBlockMaterial( zone.getFlagX(), zone.getFlagY() + 5, zone.getFlagZ(), VanillaMaterials.AIR, (short)0, null);
-            world.setBlockMaterial( zone.getFlagX(), zone.getFlagY() + 6, zone.getFlagZ(), VanillaMaterials.AIR, (short)0, null);
-            world.setBlockMaterial( zone.getFlagX(), zone.getFlagY() + 7, zone.getFlagZ(), VanillaMaterials.AIR, (short)0, null);
-            world.setBlockMaterial( zone.getFlagX(), zone.getFlagY() + 8, zone.getFlagZ(), VanillaMaterials.AIR, (short)0, null);
-            world.setBlockMaterial( zone.getFlagX(), zone.getFlagY() + 9, zone.getFlagZ(), VanillaMaterials.AIR, (short)0, null);
-            world.setBlockMaterial( zone.getFlagX(), zone.getFlagY() +10, zone.getFlagZ(), VanillaMaterials.AIR, (short)0, null);
-
-            // Flag
-            world.setBlockMaterial( zone.getFlagX() + 1, zone.getFlagY() +10, zone.getFlagZ(), VanillaMaterials.AIR, (short)0, null);
-
+            zoneManager.resetFlag(world, zone);
         }
 
         // Set new Flag
         zone.setFlagX( player.getScene().getTransform().getPosition().getBlockX() );
-        zone.setFlagY( player.getScene().getTransform().getPosition().getBlockY() );
+        zone.setFlagY( player.getScene().getTransform().getPosition().getBlockY() - 1 );
         zone.setFlagZ( player.getScene().getTransform().getPosition().getBlockZ() );
 
-        // Ground
-        world.setBlockMaterial( zone.getFlagX() -1, zone.getFlagY(), zone.getFlagZ() + 1, VanillaMaterials.STONE, (short)0, null);
-        world.setBlockMaterial( zone.getFlagX() -1, zone.getFlagY(), zone.getFlagZ(), VanillaMaterials.STONE, (short)0, null);
-        world.setBlockMaterial( zone.getFlagX() -1, zone.getFlagY(), zone.getFlagZ() - 1, VanillaMaterials.STONE, (short)0, null);
-        world.setBlockMaterial( zone.getFlagX() + 1, zone.getFlagY(), zone.getFlagZ() + 1, VanillaMaterials.STONE, (short)0, null);
-        world.setBlockMaterial( zone.getFlagX() + 1, zone.getFlagY(), zone.getFlagZ(), VanillaMaterials.STONE, (short)0, null);
-        world.setBlockMaterial( zone.getFlagX() + 1, zone.getFlagY(), zone.getFlagZ() - 1, VanillaMaterials.STONE, (short)0, null);
-        world.setBlockMaterial( zone.getFlagX(), zone.getFlagY(), zone.getFlagZ() + 1, VanillaMaterials.STONE, (short)0, null);
-        world.setBlockMaterial( zone.getFlagX(), zone.getFlagY(), zone.getFlagZ() - 1, VanillaMaterials.STONE, (short)0, null);
-        world.setBlockMaterial( zone.getFlagX(), zone.getFlagY(), zone.getFlagZ(), VanillaMaterials.GLOWSTONE_BLOCK, (short)0, null);
-
-        // Pole
-        world.setBlockMaterial( zone.getFlagX(), zone.getFlagY() + 1, zone.getFlagZ(), VanillaMaterials.GLOWSTONE_BLOCK, (short)0, null);
-        world.setBlockMaterial( zone.getFlagX(), zone.getFlagY() + 2, zone.getFlagZ(), VanillaMaterials.GLOWSTONE_BLOCK, (short)0, null);
-        world.setBlockMaterial( zone.getFlagX(), zone.getFlagY() + 3, zone.getFlagZ(), VanillaMaterials.GLOWSTONE_BLOCK, (short)0, null);
-        world.setBlockMaterial( zone.getFlagX(), zone.getFlagY() + 4, zone.getFlagZ(), VanillaMaterials.GLOWSTONE_BLOCK, (short)0, null);
-        world.setBlockMaterial( zone.getFlagX(), zone.getFlagY() + 5, zone.getFlagZ(), VanillaMaterials.GLOWSTONE_BLOCK, (short)0, null);
-        world.setBlockMaterial( zone.getFlagX(), zone.getFlagY() + 6, zone.getFlagZ(), VanillaMaterials.GLOWSTONE_BLOCK, (short)0, null);
-        world.setBlockMaterial( zone.getFlagX(), zone.getFlagY() + 7, zone.getFlagZ(), VanillaMaterials.GLOWSTONE_BLOCK, (short)0, null);
-        world.setBlockMaterial( zone.getFlagX(), zone.getFlagY() + 8, zone.getFlagZ(), VanillaMaterials.GLOWSTONE_BLOCK, (short)0, null);
-        world.setBlockMaterial( zone.getFlagX(), zone.getFlagY() + 9, zone.getFlagZ(), VanillaMaterials.GLOWSTONE_BLOCK, (short)0, null);
-        world.setBlockMaterial( zone.getFlagX(), zone.getFlagY() +10, zone.getFlagZ(), VanillaMaterials.GLOWSTONE_BLOCK, (short)0, null);
-
-        // Flag
-        world.setBlockMaterial( zone.getFlagX() + 1, zone.getFlagY() +10, zone.getFlagZ(), VanillaMaterials.WOOL, (short)0, null);
+        zoneManager.createFlag(world, zone);
 
         player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{RED}}Flag is created!", player)) );
     }

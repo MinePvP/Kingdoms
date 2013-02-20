@@ -33,11 +33,13 @@ public class KingdomsCommand {
         memberManager = plugin.getMemberManager();
     }
 
+    /*
     @Command(aliases = {"admin"}, usage = "", desc = "Admin Commands", min = 1, max = 4)
     @NestedCommand(AdminCommands.class)
     public void admin(CommandContext args, CommandSource source) throws CommandException {
 
     }
+    */
 
     @Command(aliases = {"kingdom", "king"}, usage = "", desc = "Kingdom Commands", min = 1, max = 4)
     @NestedCommand(KingdomCommands.class)

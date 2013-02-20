@@ -4,7 +4,11 @@ package ch.minepvp.spout.kingdoms.manager;
 import ch.minepvp.spout.kingdoms.Kingdoms;
 import ch.minepvp.spout.kingdoms.database.table.Zone;
 import com.alta189.simplesave.Database;
+import org.spout.api.geo.World;
 import org.spout.api.geo.discrete.Point;
+import org.spout.api.math.IntVector3;
+import org.spout.api.util.OutwardIterator;
+import org.spout.vanilla.material.VanillaMaterials;
 
 import java.util.ArrayList;
 
@@ -108,6 +112,52 @@ public class ZoneManager {
         }
 
         return null;
+    }
+
+    public void createFlag( World world, Zone zone ) {
+
+        // Ground
+        OutwardIterator iterator = new OutwardIterator( zone.getFlagX(), zone.getFlagY(), zone.getFlagZ(), 5);
+
+        while ( iterator.hasNext() ) {
+            world.setBlockMaterial( iterator.next().getX(), zone.getFlagY() + 1, iterator.next().getZ(), VanillaMaterials.STONE, (short)0, null);
+        }
+
+        /*
+
+        // Ground
+        world.setBlockMaterial( zone.getFlagX() -1, zone.getFlagY() + 1, zone.getFlagZ() + 1, VanillaMaterials.PLANK, (short)0, null);
+        world.setBlockMaterial( zone.getFlagX() -1, zone.getFlagY() + 1, zone.getFlagZ(), VanillaMaterials.PLANK, (short)0, null);
+        world.setBlockMaterial( zone.getFlagX() -1, zone.getFlagY() + 1, zone.getFlagZ() - 1, VanillaMaterials.PLANK, (short)0, null);
+        world.setBlockMaterial( zone.getFlagX() + 1, zone.getFlagY() + 1, zone.getFlagZ() + 1, VanillaMaterials.PLANK, (short)0, null);
+        world.setBlockMaterial( zone.getFlagX() + 1, zone.getFlagY() + 1, zone.getFlagZ(), VanillaMaterials.PLANK, (short)0, null);
+        world.setBlockMaterial( zone.getFlagX() + 1, zone.getFlagY() + 1, zone.getFlagZ() - 1, VanillaMaterials.PLANK, (short)0, null);
+        world.setBlockMaterial( zone.getFlagX(), zone.getFlagY() + 1, zone.getFlagZ() + 1, VanillaMaterials.PLANK, (short)0, null);
+        world.setBlockMaterial( zone.getFlagX(), zone.getFlagY() + 1, zone.getFlagZ() - 1, VanillaMaterials.PLANK, (short)0, null);
+        world.setBlockMaterial( zone.getFlagX(), zone.getFlagY() + 1, zone.getFlagZ(), VanillaMaterials.GLOWSTONE_BLOCK, (short)0, null);
+
+        // Pole
+        for ( int i = 1; i <= 11; i++ ) {
+            world.setBlockMaterial( zone.getFlagX(), zone.getFlagY() + i, zone.getFlagZ(), VanillaMaterials.FENCE_GATE, (short)0, null);
+        }
+
+        // Flag
+        world.setBlockMaterial( zone.getFlagX() + 1, zone.getFlagY() +10, zone.getFlagZ(), VanillaMaterials.WOOL, (short)0, null);
+        world.setBlockMaterial( zone.getFlagX() + 2, zone.getFlagY() +10, zone.getFlagZ(), VanillaMaterials.WOOL, (short)0, null);
+        world.setBlockMaterial( zone.getFlagX() + 1, zone.getFlagY() +9, zone.getFlagZ(), VanillaMaterials.WOOL, (short)0, null);
+        world.setBlockMaterial( zone.getFlagX() + 2, zone.getFlagY() +9, zone.getFlagZ(), VanillaMaterials.WOOL, (short)0, null);
+        */
+
+    }
+
+    public void resetFlag( World world, Zone zone ) {
+
+        // TODO
+
+    }
+
+    public void updateFlag( World world, Zone zone, Integer difference ) {
+
     }
 
 
