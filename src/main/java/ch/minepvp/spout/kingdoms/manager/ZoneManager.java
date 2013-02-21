@@ -1,6 +1,5 @@
 package ch.minepvp.spout.kingdoms.manager;
 
-
 import ch.minepvp.spout.kingdoms.Kingdoms;
 import ch.minepvp.spout.kingdoms.database.table.Zone;
 import com.alta189.simplesave.Database;

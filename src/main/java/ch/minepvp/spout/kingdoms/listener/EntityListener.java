@@ -8,8 +8,8 @@ import org.spout.api.entity.Entity;
 import org.spout.api.entity.Player;
 import org.spout.api.event.EventHandler;
 import org.spout.api.event.Listener;
-import org.spout.vanilla.component.Hostile;
-import org.spout.vanilla.component.misc.HealthComponent;
+import org.spout.vanilla.component.entity.Hostile;
+import org.spout.vanilla.component.entity.misc.Health;
 import org.spout.vanilla.event.entity.VanillaEntityDeathEvent;
 
 public class EntityListener implements Listener {
@@ -34,9 +34,9 @@ public class EntityListener implements Listener {
 
         if ( entity instanceof Hostile) {
 
-            if ( entity.get(HealthComponent.class).getLastDamager() instanceof Player) {
+            if ( entity.get(Health.class).getLastDamager() instanceof Player) {
 
-                Player killer = (Player)entity.get(HealthComponent.class).getLastDamager();
+                Player killer = (Player)entity.get(Health.class).getLastDamager();
 
                 killer.get(KingdomsComponent.class).getMember().addMonsterKill();
 

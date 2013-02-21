@@ -25,8 +25,8 @@ import org.spout.api.event.player.PlayerJoinEvent;
 import org.spout.api.event.player.PlayerLeaveEvent;
 import org.spout.api.geo.cuboid.Block;
 import org.spout.api.lang.Translation;
-import org.spout.vanilla.component.Hostile;
-import org.spout.vanilla.component.misc.HealthComponent;
+import org.spout.vanilla.component.entity.Hostile;
+import org.spout.vanilla.component.entity.misc.Health;
 import org.spout.vanilla.event.player.PlayerBucketEvent;
 import org.spout.vanilla.event.player.PlayerDeathEvent;
 import org.spout.vanilla.material.VanillaMaterials;
@@ -258,7 +258,7 @@ public class PlayerListener implements Listener {
 
         Player player = event.getPlayer();
 
-        if ( player.get(HealthComponent.class).getLastDamager() instanceof Player) {
+        if ( player.get(Health.class).getLastDamager() instanceof Player) {
 
             player.get(KingdomsComponent.class).getMember().addPlayerDeath();
 
@@ -266,7 +266,7 @@ public class PlayerListener implements Listener {
                 player.get(KingdomsComponent.class).getKingdom().addPlayerDeath();
             }
 
-            Player killer = (Player)player.get(HealthComponent.class).getLastDamager();
+            Player killer = (Player)player.get(Health.class).getLastDamager();
 
             killer.get(KingdomsComponent.class).getMember().addPlayerKill();
 
@@ -274,7 +274,7 @@ public class PlayerListener implements Listener {
                 killer.get(KingdomsComponent.class).getKingdom().addPlayerKill();
             }
 
-        } else if ( player.get(HealthComponent.class).getLastDamager() instanceof Hostile) {
+        } else if ( player.get(Health.class).getLastDamager() instanceof Hostile) {
 
             player.get(KingdomsComponent.class).getMember().addMonsterDeath();
 
