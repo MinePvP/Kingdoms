@@ -6,8 +6,6 @@ import ch.minepvp.spout.kingdoms.entity.KingdomLevel;
 import com.alta189.simplesave.Field;
 import com.alta189.simplesave.Id;
 import com.alta189.simplesave.Table;
-import org.spout.api.entity.Player;
-import org.spout.api.geo.World;
 import org.spout.api.geo.discrete.Point;
 
 import java.util.ArrayList;

@@ -7,13 +7,9 @@ import ch.minepvp.spout.kingdoms.database.table.Plot;
 import ch.minepvp.spout.kingdoms.entity.KingdomRank;
 import com.alta189.simplesave.Database;
 import org.spout.api.entity.Player;
-import org.spout.api.geo.Protection;
-import org.spout.api.geo.World;
 import org.spout.api.geo.discrete.Point;
-import org.spout.api.plugin.services.ProtectionService;
 
 import java.util.ArrayList;
-import java.util.Collection;
 
 public class KingdomManager {
 

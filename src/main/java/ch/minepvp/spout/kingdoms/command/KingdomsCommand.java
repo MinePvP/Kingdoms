@@ -1,7 +1,6 @@
 package ch.minepvp.spout.kingdoms.command;
 
 import ch.minepvp.spout.kingdoms.Kingdoms;
-import ch.minepvp.spout.kingdoms.command.admin.AdminCommands;
 import ch.minepvp.spout.kingdoms.component.KingdomsComponent;
 import ch.minepvp.spout.kingdoms.component.SelectionComponent;
 import ch.minepvp.spout.kingdoms.database.table.Kingdom;

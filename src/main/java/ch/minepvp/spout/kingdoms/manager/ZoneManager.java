@@ -6,7 +6,6 @@ import ch.minepvp.spout.kingdoms.database.table.Zone;
 import com.alta189.simplesave.Database;
 import org.spout.api.geo.World;
 import org.spout.api.geo.discrete.Point;
-import org.spout.api.math.IntVector3;
 import org.spout.api.util.OutwardIterator;
 import org.spout.vanilla.material.VanillaMaterials;
 
