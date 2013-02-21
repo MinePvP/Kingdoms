@@ -10,7 +10,7 @@ import ch.minepvp.spout.kingdoms.manager.KingdomManager;
 import ch.minepvp.spout.kingdoms.manager.MemberManager;
 import ch.minepvp.spout.kingdoms.manager.TaskManager;
 import ch.minepvp.spout.kingdoms.manager.ZoneManager;
-import ch.minepvp.spout.kingdoms.task.AttackTask;
+import ch.minepvp.spout.kingdoms.task.zone.AttackTask;
 import org.spout.api.chat.ChatArguments;
 import org.spout.api.command.CommandContext;
 import org.spout.api.command.CommandSource;
@@ -22,7 +22,6 @@ import org.spout.api.geo.World;
 import org.spout.api.geo.discrete.Point;
 import org.spout.api.lang.Translation;
 import org.spout.api.scheduler.TaskPriority;
-import org.spout.vanilla.material.VanillaMaterials;
 
 public class ZoneCommands {
 
@@ -705,7 +704,11 @@ public class ZoneCommands {
             return;
         }
 
-        // TODO Check Cooldown
+        if ( zone.getAttackCooldown() ) {
+            // TODO Cooldown left
+            player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{RED}}You can't attack this Zone right now! You need to wait some Minutes.", player)) );
+            return;
+        }
 
         if ( zone.getMinDefenders() <= defenseKingdom.getOnlineMembers().size() ) {
             player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{RED}}There are not enough Defenders Online!", player)) );
@@ -722,7 +725,6 @@ public class ZoneCommands {
 
         }
 
-
         for ( Member member : defenseKingdom.getMembers() ) {
 
             Player toPlayer = plugin.getServer().getPlayer(member.getName(), true);
@@ -733,20 +735,12 @@ public class ZoneCommands {
 
         }
 
-
         // Start Attack Tasks
         Long delay = (zone.getDelay() * 20L) * 60L;
         Long repeating = (zone.getDuration() * 20L) * 60L;
 
         Runnable task = new AttackTask(zone, attackKingdom, defenseKingdom);
         taskManager.createSyncRepeatingTask(task, delay, repeating, TaskPriority.MEDIUM);
-
-
-
-
-
-
-
 
     }
 

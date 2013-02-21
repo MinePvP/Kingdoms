@@ -1,7 +1,9 @@
-package ch.minepvp.spout.kingdoms.task;
+package ch.minepvp.spout.kingdoms.task.zone;
 
+import ch.minepvp.spout.kingdoms.Kingdoms;
 import ch.minepvp.spout.kingdoms.database.table.Kingdom;
 import ch.minepvp.spout.kingdoms.database.table.Zone;
+import org.spout.api.scheduler.TaskPriority;
 
 public class AttackTask implements Runnable {
 
@@ -42,7 +44,8 @@ public class AttackTask implements Runnable {
 
         // Start Zone Task
 
-
+        Runnable task = new FlagTask(zone, attacker, defender);
+        Kingdoms.getInstance().getTaskManager().createSyncRepeatingTask(task, 0L, 40L, TaskPriority.HIGH);
 
         isAttacked = true;
 
@@ -50,9 +53,13 @@ public class AttackTask implements Runnable {
 
     private void stopAttack() {
 
-        // Set Zone Task inactive
+        // Start Cooldown Task
+        zone.setAttackCooldown(true);
 
+        Long delay = (zone.getCooldown() * 20L) * 60L;
 
+        Runnable task = new CooldownTask(zone);
+        Kingdoms.getInstance().getTaskManager().createAsyncDelayedTask(task, delay, TaskPriority.LOW);
 
         zone.setAttacker(null);
         zone.setDefender(null);

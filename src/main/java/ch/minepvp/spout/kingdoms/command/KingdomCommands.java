@@ -9,7 +9,7 @@ import ch.minepvp.spout.kingdoms.database.table.Zone;
 import ch.minepvp.spout.kingdoms.entity.KingdomLevel;
 import ch.minepvp.spout.kingdoms.entity.KingdomRank;
 import ch.minepvp.spout.kingdoms.manager.*;
-import ch.minepvp.spout.kingdoms.task.SpawnTask;
+import ch.minepvp.spout.kingdoms.task.kingdom.SpawnTask;
 import org.spout.api.chat.ChatArguments;
 import org.spout.api.command.CommandContext;
 import org.spout.api.command.CommandSource;

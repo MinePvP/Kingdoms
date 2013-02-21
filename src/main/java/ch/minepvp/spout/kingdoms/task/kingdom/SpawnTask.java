@@ -1,4 +1,4 @@
-package ch.minepvp.spout.kingdoms.task;
+package ch.minepvp.spout.kingdoms.task.kingdom;
 
 import ch.minepvp.spout.kingdoms.database.table.Kingdom;
 import org.spout.api.chat.ChatArguments;

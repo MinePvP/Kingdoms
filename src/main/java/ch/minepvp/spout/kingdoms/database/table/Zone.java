@@ -112,7 +112,7 @@ public class Zone {
 
     // Other Stuff
     private boolean attack = false;
-    private int attackCooldown = 0;
+    private boolean attackCooldown = false;
 
     private Kingdom attacker = null;
     private Kingdom defender = null;
@@ -378,11 +378,11 @@ public class Zone {
         this.attack = attack;
     }
 
-    public int getAttackCooldown() {
+    public boolean getAttackCooldown() {
         return attackCooldown;
     }
 
-    public void setAttackCooldown(int attackCooldown) {
+    public void setAttackCooldown(boolean attackCooldown) {
         this.attackCooldown = attackCooldown;
     }
 
