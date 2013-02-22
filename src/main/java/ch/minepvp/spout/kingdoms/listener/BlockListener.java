@@ -17,6 +17,7 @@ import org.spout.api.event.Listener;
 import org.spout.api.event.Order;
 import org.spout.api.event.block.BlockChangeEvent;
 import org.spout.api.lang.Translation;
+import org.spout.vanilla.component.entity.living.neutral.Human;
 import org.spout.vanilla.event.block.SignUpdateEvent;
 import org.spout.vanilla.event.cause.PlayerBreakCause;
 import org.spout.vanilla.event.cause.PlayerPlacementCause;
@@ -99,7 +100,7 @@ public class BlockListener implements Listener {
 
             if ( zone!= null ) {
 
-                if ( player.hasPermission("kingdoms.zone.build.bypass") ) {
+                if ( !player.hasPermission("kingdoms.zone.build.bypass") ) {
 
                     if ( !zone.isBuild() ) {
                         event.setCancelled(true);
@@ -181,7 +182,7 @@ public class BlockListener implements Listener {
 
             if ( zone!= null ) {
 
-                if ( player.hasPermission("kingdoms.zone.build.bypass") ) {
+                if ( !player.hasPermission("kingdoms.zone.build.bypass") ) {
 
                     if ( !zone.isBuild() ) {
                         event.setCancelled(true);
