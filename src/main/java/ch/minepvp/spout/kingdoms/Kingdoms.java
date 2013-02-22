@@ -37,11 +37,11 @@ public class Kingdoms extends CommonPlugin {
     private Database db;
 
     // Manager
-    TaskManager taskManager;
-    MemberManager memberManager;
-    KingdomManager kingdomManager;
-    PlotManager plotManager;
-    ZoneManager zoneManager;
+    private TaskManager taskManager;
+    private MemberManager memberManager;
+    private KingdomManager kingdomManager;
+    private PlotManager plotManager;
+    private ZoneManager zoneManager;
 
     // Listener
     private PlayerListener playerListener;
