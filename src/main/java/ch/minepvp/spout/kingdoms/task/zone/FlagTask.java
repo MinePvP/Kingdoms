@@ -3,7 +3,6 @@ package ch.minepvp.spout.kingdoms.task.zone;
 import ch.minepvp.spout.kingdoms.Kingdoms;
 import ch.minepvp.spout.kingdoms.database.table.Kingdom;
 import ch.minepvp.spout.kingdoms.database.table.Zone;
-import org.spout.api.entity.Player;
 import org.spout.api.geo.World;
 
 public class FlagTask implements Runnable {

@@ -1,22 +1,22 @@
 package ch.minepvp.spout.kingdoms.task.kingdom;
 
-import ch.minepvp.spout.kingdoms.database.table.Kingdom;
 import org.spout.api.chat.ChatArguments;
 import org.spout.api.entity.Player;
+import org.spout.api.geo.discrete.Point;
 import org.spout.api.lang.Translation;
 
 public class SpawnTask implements Runnable {
 
     private Player player;
-    private Kingdom kingdom;
+    private Point point;
 
     private int lastX;
     private int lastY;
     private int lastZ;
 
-    public SpawnTask( Player player, Kingdom kingdom ) {
+    public SpawnTask( Player player, Point point ) {
         this.player = player;
-        this.kingdom = kingdom;
+        this.point = point;
 
         lastX = player.getScene().getPosition().getBlockX();
         lastY = player.getScene().getPosition().getBlockY();
@@ -30,7 +30,7 @@ public class SpawnTask implements Runnable {
              player.getScene().getPosition().getBlockY() == lastY &&
              player.getScene().getPosition().getBlockZ() == lastZ ) {
 
-            player.teleport(kingdom.getSpawnPoint());
+            player.teleport( point );
 
         } else {
             player.sendMessage(ChatArguments.fromFormatString(Translation.tr("{{RED}}Teleportation aborted! You have moved!", player)));

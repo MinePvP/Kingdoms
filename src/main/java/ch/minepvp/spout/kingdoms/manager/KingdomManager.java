@@ -48,6 +48,7 @@ public class KingdomManager {
 
                 for ( Member member : memberManager.getMembers() ) {
 
+
                     if ( kingdom.getName().equalsIgnoreCase( member.getKingdom() ) ) {
 
                         kingdom.addMember(member);

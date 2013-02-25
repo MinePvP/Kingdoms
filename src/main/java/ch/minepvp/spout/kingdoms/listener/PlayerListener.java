@@ -203,7 +203,7 @@ public class PlayerListener implements Listener {
 
                 if ( zone.getKingdom() != null ) {
 
-                    if ( zone.getKingdom().getId() != player.get(KingdomsComponent.class).getKingdom().getId() ) {
+                    if ( !zone.getKingdom().equalsIgnoreCase( player.get(KingdomsComponent.class).getKingdom().getName() ) ) {
                         event.setCancelled(true);
                         player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{RED}}You cant do this!", player) ) );
                         return;
@@ -333,7 +333,7 @@ public class PlayerListener implements Listener {
 
             if ( zone.getKingdom() != null ) {
 
-                if ( zone.getKingdom().getId() != player.get(KingdomsComponent.class).getKingdom().getId() ) {
+                if ( !zone.getKingdom().equalsIgnoreCase( player.get(KingdomsComponent.class).getKingdom().getName() ) ) {
                     event.setCancelled(true);
                     player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{RED}}You can't do this!", player) ) );
                     return;

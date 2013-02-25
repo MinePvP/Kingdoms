@@ -126,7 +126,7 @@ public class BlockListener implements Listener {
                         return;
                     }
 
-                    if ( !player.get(KingdomsComponent.class).getKingdom().getName().equalsIgnoreCase( zone.getKingdom().getName() ) &&
+                    if ( !player.get(KingdomsComponent.class).getKingdom().getName().equalsIgnoreCase( zone.getKingdom() ) &&
                             !player.get(KingdomsComponent.class).getKingdom().getName().equalsIgnoreCase( zone.getAttacker().getName() ) ) {
 
                         event.setCancelled(true);
@@ -208,7 +208,7 @@ public class BlockListener implements Listener {
                         return;
                     }
 
-                    if ( !player.get(KingdomsComponent.class).getKingdom().getName().equalsIgnoreCase( zone.getKingdom().getName() ) &&
+                    if ( !player.get(KingdomsComponent.class).getKingdom().getName().equalsIgnoreCase( zone.getKingdom() ) &&
                             !player.get(KingdomsComponent.class).getKingdom().getName().equalsIgnoreCase( zone.getAttacker().getName() ) ) {
 
                         event.setCancelled(true);

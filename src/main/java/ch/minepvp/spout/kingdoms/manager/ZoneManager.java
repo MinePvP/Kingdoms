@@ -117,6 +117,46 @@ public class ZoneManager {
         return null;
     }
 
+    public ArrayList<Zone> getAllZonesByKingdom( Kingdom kingdom ) {
+
+        ArrayList<Zone> zones = new ArrayList<Zone>();
+
+        if ( this.zones != null ) {
+
+            for ( Zone zone : this.zones ) {
+
+                if ( zone.getKingdom().equals( kingdom ) ) {
+                    zones.add(zone);
+                }
+
+            }
+
+        }
+
+        if ( zones.size() > 0 ) {
+            return zones;
+        }
+
+        return null;
+    }
+
+    public Zone getAttackedZoneByKingdom( Kingdom kingdom ) {
+
+        if ( this.zones != null ) {
+
+            for ( Zone zone : this.zones ) {
+
+                if ( zone.getAttacker().equals( kingdom ) ) {
+                    return zone;
+                }
+
+            }
+
+        }
+
+        return null;
+    }
+
     public ArrayList<Player> getOnlinePlayersInZone( Zone zone ) {
 
         ArrayList<Player> players = new ArrayList<Player>();
