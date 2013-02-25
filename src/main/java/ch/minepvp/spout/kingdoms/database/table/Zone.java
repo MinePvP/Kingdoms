@@ -439,4 +439,17 @@ public class Zone {
         return false;
     }
 
+    public boolean isNearFlag( Point point ) {
+
+        if ( getCornerTwoX() > point.getBlockX() && getCornerOneX() < point.getBlockX()) {
+
+            if ( getCornerTwoZ() > point.getBlockZ() && getCornerOneZ() < point.getBlockZ() ) {
+                return true;
+            }
+
+        }
+
+        return false;
+    }
+
 }
