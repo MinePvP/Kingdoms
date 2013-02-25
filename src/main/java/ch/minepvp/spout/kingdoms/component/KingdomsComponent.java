@@ -3,6 +3,7 @@ package ch.minepvp.spout.kingdoms.component;
 import ch.minepvp.spout.kingdoms.Kingdoms;
 import ch.minepvp.spout.kingdoms.database.table.Kingdom;
 import ch.minepvp.spout.kingdoms.database.table.Member;
+import ch.minepvp.spout.kingdoms.database.table.Zone;
 import org.spout.api.chat.ChatArguments;
 import org.spout.api.component.impl.SceneComponent;
 import org.spout.api.component.type.EntityComponent;
@@ -34,17 +35,10 @@ public class KingdomsComponent extends EntityComponent {
              scene.getPosition().getBlockY() == player.get(Human.class).getLivePosition().getBlockY() &&
              scene.getPosition().getBlockZ() == player.get(Human.class).getLivePosition().getBlockZ() ) {
 
-
-            //player.sendMessage("not move");
-
-
             return;
         }
 
-
-        //player.sendMessage("move");
-
-
+        // Kingdom
         Kingdom lastKingdom = Kingdoms.getInstance().getKingdomManager().getKingdomByPoint( scene.getPosition() );
         Kingdom nowKingdom = Kingdoms.getInstance().getKingdomManager().getKingdomByPoint( player.get(Human.class).getLivePosition() );
 
@@ -61,6 +55,28 @@ public class KingdomsComponent extends EntityComponent {
             if ( nowKingdom == null ) {
 
                player.sendMessage(ChatArguments.fromFormatString( Translation.tr("{{RED}}You leave the Kingdom %0", player, lastKingdom.getName()) ));
+
+            }
+
+        }
+
+        // Zone
+        Zone lastZone = Kingdoms.getInstance().getZoneManager().getZoneByPoint( scene.getPosition() );
+        Zone nowZone = Kingdoms.getInstance().getZoneManager().getZoneByPoint( player.get(Human.class).getLivePosition() );
+
+        if ( lastZone == null ) {
+
+            if ( nowZone != null ) {
+
+                player.sendMessage(ChatArguments.fromFormatString( Translation.tr("{{GOLD}}You are now in Zone %0", player, nowZone.getName()) ));
+
+            }
+
+        } else {
+
+            if ( nowZone == null ) {
+
+                player.sendMessage(ChatArguments.fromFormatString( Translation.tr("{{RED}}You leave the Zone %0", player, lastZone.getName()) ));
 
             }
 

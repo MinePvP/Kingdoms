@@ -316,6 +316,10 @@ public class Kingdom {
 
     public boolean contains(Point point) {
 
+        if ( baseX == 0 && baseY == 0 && baseZ == 0 ) {
+            return false;
+        }
+
         if ( getBaseCornerTwo().getBlockX() > point.getBlockX() && getBaseCornerOne().getBlockX() < point.getBlockX()) {
 
             if ( getBaseCornerTwo().getBlockZ() > point.getBlockZ() && getBaseCornerOne().getBlockZ() < point.getBlockZ() ) {
@@ -325,7 +329,6 @@ public class Kingdom {
         }
 
         return false;
-
     }
 
     public ArrayList<Member> getOnlineMembers() {
