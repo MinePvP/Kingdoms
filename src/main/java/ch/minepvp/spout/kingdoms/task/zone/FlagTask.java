@@ -3,9 +3,10 @@ package ch.minepvp.spout.kingdoms.task.zone;
 import ch.minepvp.spout.kingdoms.Kingdoms;
 import ch.minepvp.spout.kingdoms.database.table.Kingdom;
 import ch.minepvp.spout.kingdoms.database.table.Zone;
+import ch.minepvp.spout.kingdoms.task.Task;
 import org.spout.api.geo.World;
 
-public class FlagTask implements Runnable {
+public class FlagTask extends Task {
 
     private Zone zone;
     private Kingdom attacker;
@@ -31,6 +32,15 @@ public class FlagTask implements Runnable {
 
     @Override
     public void run() {
+
+        if ( !zone.isAttack() ) {
+
+            if ( isActive() ) {
+                setActive(false);
+            }
+
+            return;
+        }
 
         int attackers = 0;
         int defenders = 0;

@@ -1,6 +1,6 @@
 package ch.minepvp.spout.kingdoms.task;
 
-public class CleanUpTask implements Runnable {
+public class CleanUpTask extends Task {
 
     @Override
     public void run() {

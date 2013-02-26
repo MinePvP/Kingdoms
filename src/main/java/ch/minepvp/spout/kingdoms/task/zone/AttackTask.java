@@ -4,12 +4,13 @@ import ch.minepvp.spout.kingdoms.Kingdoms;
 import ch.minepvp.spout.kingdoms.database.table.Kingdom;
 import ch.minepvp.spout.kingdoms.database.table.Member;
 import ch.minepvp.spout.kingdoms.database.table.Zone;
+import ch.minepvp.spout.kingdoms.task.Task;
 import org.spout.api.chat.ChatArguments;
 import org.spout.api.entity.Player;
 import org.spout.api.lang.Translation;
 import org.spout.api.scheduler.TaskPriority;
 
-public class AttackTask implements Runnable {
+public class AttackTask extends Task {
 
     private Zone zone;
     private Kingdom attacker;
@@ -30,10 +31,14 @@ public class AttackTask implements Runnable {
     @Override
     public void run() {
 
-        if ( isAttacked ) {
-            stopAttack();
-        } else {
-            startAttack();
+        if ( isActive() ) {
+
+            if ( isAttacked ) {
+                stopAttack();
+            } else {
+                startAttack();
+            }
+
         }
 
 
@@ -68,7 +73,7 @@ public class AttackTask implements Runnable {
 
         // Start Zone Task
 
-        Runnable task = new FlagTask(zone, attacker, defender);
+        Task task = new FlagTask(zone, attacker, defender);
         Kingdoms.getInstance().getTaskManager().createSyncRepeatingTask(task, 0L, 100L, TaskPriority.HIGH);
 
         isAttacked = true;
@@ -102,7 +107,7 @@ public class AttackTask implements Runnable {
 
         Long delay = (zone.getCooldown() * 20L) * 60L;
 
-        Runnable task = new CooldownTask(zone);
+        Task task = new CooldownTask(zone);
         Kingdoms.getInstance().getTaskManager().createAsyncDelayedTask(task, delay, TaskPriority.LOW);
 
         zone.setAttacker(null);
@@ -110,6 +115,7 @@ public class AttackTask implements Runnable {
 
         zone.setAttack(false);
 
+        setActive(false);
     }
 
 }

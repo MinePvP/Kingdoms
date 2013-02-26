@@ -1,8 +1,9 @@
 package ch.minepvp.spout.kingdoms.task.zone;
 
 import ch.minepvp.spout.kingdoms.database.table.Zone;
+import ch.minepvp.spout.kingdoms.task.Task;
 
-public class CooldownTask implements Runnable {
+public class CooldownTask extends Task {
 
     private Zone zone;
 
@@ -13,6 +14,7 @@ public class CooldownTask implements Runnable {
     @Override
     public void run() {
         zone.setAttackCooldown(false);
+        setActive(false);
     }
 
 }
