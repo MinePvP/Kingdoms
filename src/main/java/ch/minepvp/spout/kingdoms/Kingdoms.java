@@ -132,6 +132,8 @@ public class Kingdoms extends CommonPlugin {
     @Override
     public void onDisable() {
 
+        zoneManager.resetAllZones();
+
         taskManager.stopAllTasks();
 
         memberManager.saveAll();

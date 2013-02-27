@@ -26,9 +26,11 @@ import org.spout.api.event.player.PlayerLeaveEvent;
 import org.spout.api.geo.cuboid.Block;
 import org.spout.api.lang.Translation;
 import org.spout.vanilla.component.entity.Hostile;
+import org.spout.vanilla.component.entity.living.neutral.Human;
 import org.spout.vanilla.component.entity.misc.Health;
 import org.spout.vanilla.event.player.PlayerBucketEvent;
 import org.spout.vanilla.event.player.PlayerDeathEvent;
+import org.spout.vanilla.event.player.PlayerRespawnEvent;
 import org.spout.vanilla.material.VanillaMaterials;
 
 import java.sql.Date;
@@ -217,6 +219,49 @@ public class PlayerListener implements Listener {
 
     }
 
+    @EventHandler (order = Order.MONITOR)
+    public void PlayerRespawnEventZone( PlayerRespawnEvent event ) {
+
+        Player player = event.getPlayer();
+
+        if ( player.get(KingdomsComponent.class).getKingdom() == null ) {
+            return;
+        }
+
+        Zone zone = zoneManager.getZoneByPoint( player.getScene().getPosition() );
+
+        if ( zone == null ) {
+            return;
+        }
+
+        if ( !zone.isAttack() ) {
+            return;
+        }
+
+        if ( zone.getAttacker().getName().equalsIgnoreCase( player.get(KingdomsComponent.class).getKingdom().getName() ) ) {
+
+            if ( zone.getDeathCounterAttacker() == zone.getLifePoolAttackers() ) {
+                return;
+            }
+
+            zone.addDeathCounterAttacker();
+
+            event.setPoint( zone.getSpawnAttackers() );
+
+        } else if ( zone.getDefender().getName().equalsIgnoreCase( player.get(KingdomsComponent.class).getKingdom().getName() ) ) {
+
+            if ( zone.getDeathCounterDefenders() == zone.getLifePoolDefenders() ) {
+                return;
+            }
+
+            zone.addDeathCounterDefenders();
+
+            event.setPoint( zone.getSpawnDefenders() );
+
+        }
+
+    }
+
 
     @EventHandler (order = Order.MONITOR)
     public void onPlayerInteractEventSelection( PlayerInteractEvent event) {
@@ -254,7 +299,7 @@ public class PlayerListener implements Listener {
     }
 
     @EventHandler (order = Order.MONITOR)
-    public void onPlayerDeathEvent( PlayerDeathEvent event ) {
+    public void onPlayerDeathEventStats( PlayerDeathEvent event ) {
 
         Player player = event.getPlayer();
 

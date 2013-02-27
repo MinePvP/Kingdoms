@@ -53,27 +53,53 @@ public class FlagTask extends Task {
             defenders = Kingdoms.getInstance().getZoneManager().getOnlinePlayersFromKingdomNearZoneFlag( zone, defender ).size();
         }
 
-        if ( attackers == 0 ) {
-            return;
-        }
+        Kingdoms.getInstance().getLogger().info("Attackers : " + attackers + " Defenders :" + defenders);
+        Kingdoms.getInstance().getLogger().info("LastAttackers : " + lastAttackers + " LastDefenders :" + lastDefenders);
 
         if ( attackers > defenders && lastAttackers > lastDefenders ) {
 
-            // Update Flag
-            Kingdoms.getInstance().getZoneManager().updateFlag( world, zone, flagStateOld, -1 );
 
-            flagStateOld--;
+            Kingdoms.getInstance().getLogger().info("Flag for Attackers");
+
+
+            if ( flagStateOld > 0 ) {
+
+                // Update Flag
+                Kingdoms.getInstance().getZoneManager().updateFlag( world, zone, flagStateOld, -1 );
+
+                flagStateOld--;
+
+            }
+
 
         } else if ( attackers < defenders && lastAttackers < lastDefenders ) {
 
-            // Update Flag
-            Kingdoms.getInstance().getZoneManager().updateFlag( world, zone, flagStateOld, +1 );
 
-            flagStateOld++;
+            Kingdoms.getInstance().getLogger().info("Flag for Defenders");
+
+
+            if ( flagStateOld < 10 ) {
+
+                // Update Flag
+                Kingdoms.getInstance().getZoneManager().updateFlag( world, zone, flagStateOld, +1 );
+
+                flagStateOld++;
+
+            }
+
         }
 
         lastAttackers = attackers;
         lastDefenders = defenders;
 
+    }
+
+    public boolean wasAttackSuccessfully() {
+
+        if ( flagStateOld == 0 ) {
+            return true;
+        }
+
+        return false;
     }
 }

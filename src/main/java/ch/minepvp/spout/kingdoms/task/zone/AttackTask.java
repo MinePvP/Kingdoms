@@ -16,6 +16,7 @@ public class AttackTask extends Task {
     private Kingdom attacker;
     private Kingdom defender;
 
+    private FlagTask flagTask;
     private boolean isAttacked = false;
 
     public AttackTask( Zone zone, Kingdom attacker, Kingdom defender ) {
@@ -73,8 +74,8 @@ public class AttackTask extends Task {
 
         // Start Zone Task
 
-        Task task = new FlagTask(zone, attacker, defender);
-        Kingdoms.getInstance().getTaskManager().createSyncRepeatingTask(task, 0L, 100L, TaskPriority.HIGH);
+        flagTask = new FlagTask(zone, attacker, defender);
+        Kingdoms.getInstance().getTaskManager().createSyncRepeatingTask(flagTask, 0L, 12000L, TaskPriority.HIGH);
 
         isAttacked = true;
 
@@ -82,22 +83,50 @@ public class AttackTask extends Task {
 
     private void stopAttack() {
 
-        for ( Member member : attacker.getMembers() ) {
+        // Winner?
+        if ( flagTask.wasAttackSuccessfully() ) {
+            zone.setKingdom( attacker.getId() );
 
-            Player toPlayer = Kingdoms.getInstance().getServer().getPlayer(member.getName(), true);
+            for ( Member member : attacker.getMembers() ) {
 
-            if ( toPlayer.isOnline() ) {
-                toPlayer.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{GOLD}}The Attack is over!", toPlayer ) ) );
+                Player toPlayer = Kingdoms.getInstance().getServer().getPlayer(member.getName(), true);
+
+                if ( toPlayer.isOnline() ) {
+                    toPlayer.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{GOLD}}The Attack is over! And your Kingdomm has taken the Zone!", toPlayer ) ) );
+                }
+
             }
 
-        }
+            for ( Member member : defender.getMembers() ) {
 
-        for ( Member member : defender.getMembers() ) {
+                Player toPlayer = Kingdoms.getInstance().getServer().getPlayer(member.getName(), true);
 
-            Player toPlayer = Kingdoms.getInstance().getServer().getPlayer(member.getName(), true);
+                if ( toPlayer.isOnline() ) {
+                    toPlayer.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{RED}}The Attack is over! And your Kingdom has lost the Zone!", toPlayer ) ) );
+                }
 
-            if ( toPlayer.isOnline() ) {
-                toPlayer.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{RED}}The Attack is over!", toPlayer ) ) );
+            }
+
+        } else {
+
+            for ( Member member : attacker.getMembers() ) {
+
+                Player toPlayer = Kingdoms.getInstance().getServer().getPlayer(member.getName(), true);
+
+                if ( toPlayer.isOnline() ) {
+                    toPlayer.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{RED}}The Attack is over! And your Kingdom has lost the Zone!", toPlayer ) ) );
+                }
+
+            }
+
+            for ( Member member : defender.getMembers() ) {
+
+                Player toPlayer = Kingdoms.getInstance().getServer().getPlayer(member.getName(), true);
+
+                if ( toPlayer.isOnline() ) {
+                    toPlayer.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{GOLD}}The Attack is over! And your Kingdom has defended the Zone!", toPlayer ) ) );
+                }
+
             }
 
         }
@@ -110,10 +139,8 @@ public class AttackTask extends Task {
         Task task = new CooldownTask(zone);
         Kingdoms.getInstance().getTaskManager().createAsyncDelayedTask(task, delay, TaskPriority.LOW);
 
-        zone.setAttacker(null);
-        zone.setDefender(null);
-
-        zone.setAttack(false);
+        // Reset Zone
+        Kingdoms.getInstance().getZoneManager().resetZone(zone);
 
         setActive(false);
     }

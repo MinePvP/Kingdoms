@@ -250,6 +250,10 @@ public class Zone {
         this.flagZ = flagZ;
     }
 
+    public Point getFlag() {
+        return new Point( Kingdoms.getInstance().getEngine().getWorld("world"), getFlagX(), getFlagY(), getFlagZ() );
+    }
+
     public int getCost() {
         return cost;
     }
@@ -346,6 +350,10 @@ public class Zone {
         this.spawnDefendersZ = spawnDefendersZ;
     }
 
+    public Point getSpawnDefenders() {
+        return new Point( Kingdoms.getInstance().getEngine().getWorld("world"), getSpawnDefendersX(), getSpawnDefendersY(), getSpawnDefendersZ() );
+    }
+
     public int getSpawnAttackersX() {
         return spawnAttackersX;
     }
@@ -368,6 +376,10 @@ public class Zone {
 
     public void setSpawnAttackersZ(int spawnAttackersZ) {
         this.spawnAttackersZ = spawnAttackersZ;
+    }
+
+    public Point getSpawnAttackers() {
+        return new Point( Kingdoms.getInstance().getEngine().getWorld("world"), getSpawnAttackersX(), getSpawnAttackersY(), getSpawnAttackersZ() );
     }
 
     public boolean isAttack() {
@@ -406,12 +418,20 @@ public class Zone {
         return deathCounterAttacker;
     }
 
+    public void addDeathCounterAttacker() {
+        this.deathCounterAttacker++;
+    }
+
     public void setDeathCounterAttacker(int deathCounterAttacker) {
         this.deathCounterAttacker = deathCounterAttacker;
     }
 
     public int getDeathCounterDefenders() {
         return deathCounterDefenders;
+    }
+
+    public void addDeathCounterDefenders() {
+        this.deathCounterAttacker++;
     }
 
     public void setDeathCounterDefenders(int deathCounterDefenders) {
@@ -441,12 +461,8 @@ public class Zone {
 
     public boolean isNearFlag( Point point ) {
 
-        if ( getCornerTwoX() > point.getBlockX() && getCornerOneX() < point.getBlockX()) {
-
-            if ( getCornerTwoZ() > point.getBlockZ() && getCornerOneZ() < point.getBlockZ() ) {
-                return true;
-            }
-
+        if ( getFlag().distance( point ) < 10 ) {
+            return true;
         }
 
         return false;

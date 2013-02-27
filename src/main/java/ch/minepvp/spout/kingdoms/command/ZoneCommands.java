@@ -10,6 +10,7 @@ import ch.minepvp.spout.kingdoms.manager.KingdomManager;
 import ch.minepvp.spout.kingdoms.manager.MemberManager;
 import ch.minepvp.spout.kingdoms.manager.TaskManager;
 import ch.minepvp.spout.kingdoms.manager.ZoneManager;
+import ch.minepvp.spout.kingdoms.task.Task;
 import ch.minepvp.spout.kingdoms.task.kingdom.SpawnTask;
 import ch.minepvp.spout.kingdoms.task.zone.AttackTask;
 import org.spout.api.chat.ChatArguments;
@@ -386,7 +387,7 @@ public class ZoneCommands {
 
         // Reset old Flag
         if ( zone.getFlagX() != 0 && zone.getFlagY() != 0 && zone.getFlagZ() != 0 ) {
-            zoneManager.resetFlag(world, zone);
+            zoneManager.removeFlag(world, zone);
         }
 
         // Set new Flag
@@ -750,7 +751,7 @@ public class ZoneCommands {
         Long delay = (zone.getDelay() * 20L) * 60L;
         Long repeating = (zone.getDuration() * 20L) * 60L;
 
-        Runnable task = new AttackTask(zone, attackKingdom, defenseKingdom);
+        Task task = new AttackTask(zone, attackKingdom, defenseKingdom);
         taskManager.createSyncRepeatingTask(task, delay, repeating, TaskPriority.MEDIUM);
 
     }
