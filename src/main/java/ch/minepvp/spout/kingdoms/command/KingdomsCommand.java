@@ -1,6 +1,7 @@
 package ch.minepvp.spout.kingdoms.command;
 
 import ch.minepvp.spout.kingdoms.Kingdoms;
+import ch.minepvp.spout.kingdoms.command.admin.AdminCommands;
 import ch.minepvp.spout.kingdoms.component.KingdomsComponent;
 import ch.minepvp.spout.kingdoms.component.SelectionComponent;
 import ch.minepvp.spout.kingdoms.database.table.Kingdom;
@@ -32,13 +33,11 @@ public class KingdomsCommand {
         memberManager = plugin.getMemberManager();
     }
 
-    /*
     @Command(aliases = {"admin"}, usage = "", desc = "Admin Commands", min = 1, max = 4)
     @NestedCommand(AdminCommands.class)
     public void admin(CommandContext args, CommandSource source) throws CommandException {
 
     }
-    */
 
     @Command(aliases = {"kingdom", "king"}, usage = "", desc = "Kingdom Commands", min = 1, max = 4)
     @NestedCommand(KingdomCommands.class)
@@ -55,6 +54,12 @@ public class KingdomsCommand {
     @Command(aliases = {"plot"}, usage = "", desc = "Plot Commands", min = 1, max = 2)
     @NestedCommand(PlotCommands.class)
     public void plot(CommandContext args, CommandSource source) throws CommandException {
+
+    }
+
+    @Command(aliases = {"economy", "money"}, usage = "", desc = "Economy Commands", min = 1, max = 2)
+    @NestedCommand(EconomyCommands.class)
+    public void economy(CommandContext args, CommandSource source) throws CommandException {
 
     }
 
