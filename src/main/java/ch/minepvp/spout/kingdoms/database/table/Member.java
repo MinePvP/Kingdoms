@@ -253,6 +253,14 @@ public class Member {
         return money;
     }
 
+    public void addMoney( int amount ) {
+        this.money += amount;
+    }
+
+    public void removeMoney( int amount ) {
+        this.money -= amount;
+    }
+
     public void setMoney(int money) {
         this.money = money;
     }

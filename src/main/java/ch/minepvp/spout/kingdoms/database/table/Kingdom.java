@@ -146,6 +146,22 @@ public class Kingdom {
         this.pointsAll = pointsAll;
     }
 
+    public int getMoney() {
+        return money;
+    }
+
+    public void addMoney( int amount ) {
+        this.money += amount;
+    }
+
+    public void removeMoney( int amount ) {
+        this.money -= amount;
+    }
+
+    public void setMoney(int money) {
+        this.money = money;
+    }
+
     public Point getBasePoint() {
         return new Point( Kingdoms.getInstance().getEngine().getWorld("world"), getBaseX(), getBaseY(), getBaseZ() );
     }
