@@ -60,6 +60,20 @@ public class EconomyCommands {
 
     }
 
+    @Command(aliases = {"info"}, usage = "", desc = "Show your Money")
+    @CommandPermissions("kingdoms.command.economy.info")
+    public void info(CommandContext args, CommandSource source) throws CommandException {
+
+        Player player = plugin.getEngine().getPlayer( source.getName(), true );
+
+        if ( player == null ) {
+            source.sendMessage( ChatArguments.fromFormatString(Translation.tr("You must be a Player!", source)) );
+            return;
+        }
+
+        player.sendMessage( ChatArguments.fromFormatString(Translation.tr("Credits : %0$", player, player.get(KingdomsComponent.class).getMember().getMoney() ) ) );
+    }
+
     @Command(aliases = {"pay"}, usage = "", desc = "Pay a Player Money")
     @CommandPermissions("kingdoms.command.economy.pay")
     public void pay(CommandContext args, CommandSource source) throws CommandException {
@@ -78,6 +92,7 @@ public class EconomyCommands {
 
         Member toMember = memberManager.getMemberByName( args.getString(0) );
         Kingdom toKingdom = null;
+        Integer money = args.getInteger(1);
 
         if ( toMember == null ) {
 
@@ -90,34 +105,28 @@ public class EconomyCommands {
 
         }
 
-
-        if ( player.get(KingdomsComponent.class).getMember().getMoney() < args.getInteger(1) ) {
+        if ( player.get(KingdomsComponent.class).getMember().getMoney() < money ) {
             player.sendMessage( ChatArguments.fromFormatString( Translation.tr("{{RED}}You have not enough Credits!", player) ) );
             return;
         }
 
-
-        player.get(KingdomsComponent.class).getMember().removeMoney( args.getInteger(1) );
+        player.get(KingdomsComponent.class).getMember().removeMoney( money );
 
         if ( toMember != null ) {
 
-            toMember.addMoney( args.getInteger(1) );
-
-
-            player.sendMessage( ChatArguments.fromFormatString( Translation.tr("{{GOLD}}You have send %0 Credits to %1!", player) ) );
+            toMember.addMoney( money );
+            player.sendMessage( ChatArguments.fromFormatString( Translation.tr("{{GOLD}}You have send %0 Credits to %1!", player, money, toMember.getName() ) ) );
 
             if ( toMember.isOnline() ) {
                 Player toPlayer = plugin.getEngine().getPlayer( toMember.getName(), true );
 
-                toPlayer.sendMessage( ChatArguments.fromFormatString( Translation.tr("{{GOLD}}There is no Player or Kingdom with this Name!", player) ) );
+                toPlayer.sendMessage( ChatArguments.fromFormatString( Translation.tr("{{GOLD}}The Player %0 has send you %1 Credits!", player, player.getName(), money ) ) );
             }
 
         } else {
 
-            toKingdom.addMoney( args.getInteger(1) );
-
-            player.sendMessage( ChatArguments.fromFormatString( Translation.tr("{{GOLD}}You have send %0 Credits to %1!", player) ) );
-
+            toKingdom.addMoney( money );
+            player.sendMessage( ChatArguments.fromFormatString( Translation.tr("{{GOLD}}You have send %0 Credits to %1!", player, money, toKingdom.getName() ) ) );
 
             for ( Member member : toKingdom.getMembers() ) {
 
@@ -125,15 +134,11 @@ public class EconomyCommands {
 
                     Player toPlayer = plugin.getEngine().getPlayer(member.getName(), true);
 
-                    toPlayer.sendMessage( ChatArguments.fromFormatString( Translation.tr("{{GOLD}}You have send %0 Credits to %1!", player) ) );
-
+                    toPlayer.sendMessage( ChatArguments.fromFormatString( Translation.tr("{{GOLD}}The Player %0 has send to your Kingdom %1 Credits!", player, player.getName(), money) ) );
 
                 }
 
-
-
             }
-
 
         }
 
