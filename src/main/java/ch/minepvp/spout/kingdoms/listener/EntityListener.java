@@ -8,7 +8,7 @@ import org.spout.api.entity.Entity;
 import org.spout.api.entity.Player;
 import org.spout.api.event.EventHandler;
 import org.spout.api.event.Listener;
-import org.spout.vanilla.component.entity.Hostile;
+import org.spout.vanilla.component.entity.living.Hostile;
 import org.spout.vanilla.component.entity.misc.Health;
 import org.spout.vanilla.event.entity.VanillaEntityDeathEvent;
 

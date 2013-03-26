@@ -121,7 +121,7 @@ public class Kingdoms extends CommonPlugin {
 
 
         // Register commands
-        CommandRegistrationsFactory<Class<?>> commandRegFactory = new AnnotatedCommandRegistrationFactory(new SimpleInjector(this), new SimpleAnnotatedCommandExecutorFactory());
+        CommandRegistrationsFactory<Class<?>> commandRegFactory = new AnnotatedCommandRegistrationFactory(getEngine(), new SimpleInjector(this), new SimpleAnnotatedCommandExecutorFactory());
         getEngine().getRootCommand().addSubCommands(this, KingdomsCommand.class, commandRegFactory);
 
 
