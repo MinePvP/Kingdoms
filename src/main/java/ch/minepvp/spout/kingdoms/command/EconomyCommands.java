@@ -144,4 +144,23 @@ public class EconomyCommands {
 
     }
 
+    @Command(aliases = {"top"}, usage = "", desc = "Show Top 10")
+    @CommandPermissions("kingdoms.command.economy.top")
+    public void top(CommandContext args, CommandSource source) throws CommandException {
+
+        Player player = plugin.getEngine().getPlayer( source.getName(), true );
+
+        if ( player == null ) {
+            source.sendMessage( ChatArguments.fromFormatString(Translation.tr("You must be a Player!", source)) );
+            return;
+        }
+
+
+
+
+
+
+
+    }
+
 }
