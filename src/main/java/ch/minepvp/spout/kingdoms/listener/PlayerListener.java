@@ -152,15 +152,18 @@ public class PlayerListener implements Listener {
                                VanillaMaterials.BREWING_STAND,
                                VanillaMaterials.CHEST,
                                VanillaMaterials.DISPENSER,
+                               VanillaMaterials.DROPPER,
                                VanillaMaterials.ENCHANTMENT_TABLE,
                                VanillaMaterials.FURNACE,
                                VanillaMaterials.FURNACE_BURNING,
+                               VanillaMaterials.HOPPER,
                                VanillaMaterials.JUKEBOX,
                                VanillaMaterials.LEVER,
                                VanillaMaterials.REDSTONE_REPEATER,
                                VanillaMaterials.STONE_BUTTON,
+                               VanillaMaterials.TRAPPED_CHEST_BLOCK,
                                VanillaMaterials.WOOD_BUTTON,
-                               VanillaMaterials.WOODEN_DOOR) ) {
+                               VanillaMaterials.WOODEN_DOOR ) ) {
 
             Kingdom kingdom = kingdomManager.getKingdomByPoint( event.getInteractedPoint() );
             Plot plot = plotManager.getPlotByPoint( event.getInteractedPoint() );
