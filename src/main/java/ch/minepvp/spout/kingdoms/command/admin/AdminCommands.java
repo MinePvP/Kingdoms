@@ -50,7 +50,7 @@ public class AdminCommands {
     }
 
     @Command(aliases = {"help"}, usage = "", desc = "List all Commands for /economy /money")
-    @CommandPermissions("kingdoms.command.economy.help")
+    @CommandPermissions("kingdoms.command.admin.help")
     public void help(CommandContext args, CommandSource source) throws CommandException {
 
         Player player = plugin.getEngine().getPlayer( source.getName(), true );
