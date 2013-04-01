@@ -83,8 +83,10 @@ public class KingdomsCommand {
                 member.setChannel( KingdomChannel.KINGDOM );
                 player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{YELLOW}}You are now in Kingdom Chat!", player)) );
             } else {
-                member.setChannel( KingdomChannel.GLOBAL );
-                player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{YELLOW}}You are now in Global Chat!", player)) );
+                if ( player.hasPermission("kingdoms.chat.global") ) {
+                    member.setChannel( KingdomChannel.GLOBAL );
+                    player.sendMessage( ChatArguments.fromFormatString(Translation.tr("{{YELLOW}}You are now in Global Chat!", player)) );
+                }
             }
 
         } else if ( member.getChannel().equals( KingdomChannel.KINGDOM ) ) {

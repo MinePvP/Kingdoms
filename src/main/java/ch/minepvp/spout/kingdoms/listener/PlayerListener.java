@@ -24,12 +24,16 @@ import org.spout.api.event.player.PlayerInteractEvent;
 import org.spout.api.event.player.PlayerJoinEvent;
 import org.spout.api.event.player.PlayerLeaveEvent;
 import org.spout.api.geo.cuboid.Block;
+import org.spout.api.inventory.Inventory;
 import org.spout.api.lang.Translation;
 import org.spout.vanilla.component.entity.living.Hostile;
+import org.spout.vanilla.component.entity.living.Human;
 import org.spout.vanilla.component.entity.misc.Health;
 import org.spout.vanilla.event.player.PlayerBucketEvent;
 import org.spout.vanilla.event.player.PlayerDeathEvent;
 import org.spout.vanilla.event.player.PlayerRespawnEvent;
+import org.spout.vanilla.inventory.entity.ArmorInventory;
+import org.spout.vanilla.inventory.entity.QuickbarInventory;
 import org.spout.vanilla.material.VanillaMaterials;
 
 import java.sql.Date;
@@ -74,6 +78,11 @@ public class PlayerListener implements Listener {
 
     @EventHandler (order = Order.MONITOR)
     public void onPlayerQuitEvent( PlayerLeaveEvent event ) {
+
+        if ( event.getPlayer().get(KingdomsComponent.class) == null ) {
+            return;
+        }
+
         event.getPlayer().get(KingdomsComponent.class).getMember().setOnline(false);
         event.getPlayer().get(KingdomsComponent.class).getMember().setLastLogout( new Date(System.currentTimeMillis()) );
         memberManager.save(event.getPlayer());
@@ -86,6 +95,12 @@ public class PlayerListener implements Listener {
         Member member = player.get(KingdomsComponent.class).getMember();
         Kingdom kingdom = player.get(KingdomsComponent.class).getKingdom();
 
+        String playerPrefix = "";
+
+        if ( !player.getData("prefix").getString().isEmpty() ) {
+            playerPrefix = player.getData("prefix").getString();
+        }
+
         String kingdomPrefix = "";
 
         if ( kingdom != null ) {
@@ -97,7 +112,7 @@ public class PlayerListener implements Listener {
             for ( Player toPlayer : plugin.getServer().getOnlinePlayers() ) {
 
                 if ( player.getScene().getPosition().getDistance( toPlayer.getScene().getTransform().getPosition() ) <= KingdomsConfig.CHAT_LOCAL_MAX_DISTANCE.getInt()) {
-                    toPlayer.sendMessage( ChatArguments.fromFormatString("{{BLUE}}[" + KingdomsConfig.CHAT_LOCAL_PREFIX.getString() + "{{BLUE}}]" + kingdomPrefix + " {{WHITE}}" + player.getName() + " {{GOLD}}: {{YELLOW}}" + event.getMessage().getPlainString()) );
+                    toPlayer.sendMessage( ChatArguments.fromFormatString("{{BLUE}}[" + KingdomsConfig.CHAT_LOCAL_PREFIX.getString() + "{{BLUE}}]" + kingdomPrefix + "{{WHITE}}" + playerPrefix + ".{{WHITE}}" + player.getName() + " {{GOLD}}: {{YELLOW}}" + event.getMessage().getPlainString()) );
                 }
 
             }
@@ -108,7 +123,7 @@ public class PlayerListener implements Listener {
 
                 Player toPlayer = plugin.getServer().getPlayer(toMember.getName(), true);
 
-                toPlayer.sendMessage( ChatArguments.fromFormatString("{{BLUE}}[" + KingdomsConfig.CHAT_KINGDOM_PREFIX.getString() + "{{BLUE}}]" + kingdomPrefix + " {{WHITE}}" + player.getName() + " {{GOLD}}: {{GOLD}}" + event.getMessage().getPlainString()) );
+                toPlayer.sendMessage( ChatArguments.fromFormatString("{{BLUE}}[" + KingdomsConfig.CHAT_KINGDOM_PREFIX.getString() + "{{BLUE}}]" + kingdomPrefix + "{{WHITE}}" + playerPrefix + ".{{WHITE}}" + player.getName() + " {{GOLD}}: {{GOLD}}" + event.getMessage().getPlainString()) );
 
             }
 
@@ -117,7 +132,7 @@ public class PlayerListener implements Listener {
 
             for ( Player toPlayer : plugin.getServer().getOnlinePlayers() ) {
 
-               toPlayer.sendMessage( ChatArguments.fromFormatString("{{BLUE}}[" + KingdomsConfig.CHAT_GLOBAL_PREFIX.getString() + "{{BLUE}}]" + kingdomPrefix + " {{WHITE}}" + player.getName() + " {{GOLD}}: {{DARK_GREEN}}" + event.getMessage().getPlainString()) );
+               toPlayer.sendMessage( ChatArguments.fromFormatString("{{BLUE}}[" + KingdomsConfig.CHAT_GLOBAL_PREFIX.getString() + "{{BLUE}}]" + kingdomPrefix + "{{WHITE}}" + playerPrefix + ".{{WHITE}}" + player.getName() + " {{GOLD}}: {{DARK_GREEN}}" + event.getMessage().getPlainString()) );
 
             }
 
@@ -126,7 +141,7 @@ public class PlayerListener implements Listener {
             for ( Player toPlayer : plugin.getServer().getOnlinePlayers() ) {
 
                 if ( toPlayer.hasPermission("kingdoms.chat.staff") ) {
-                    toPlayer.sendMessage( ChatArguments.fromFormatString("{{BLUE}}[" + KingdomsConfig.CHAT_STAFF_PREFIX.getString() + "{{BLUE}}]" + kingdomPrefix + " {{WHITE}}" + player.getName() + " {{GOLD}}: {{RED}}" + event.getMessage().getPlainString()) );
+                    toPlayer.sendMessage( ChatArguments.fromFormatString("{{BLUE}}[" + KingdomsConfig.CHAT_STAFF_PREFIX.getString() + "{{BLUE}}]" + kingdomPrefix + "{{WHITE}}" + playerPrefix + ".{{WHITE}}" + player.getName() + " {{GOLD}}: {{RED}}" + event.getMessage().getPlainString()) );
                 }
 
             }
@@ -299,6 +314,18 @@ public class PlayerListener implements Listener {
         }
 
     }
+
+    @EventHandler (order = Order.MONITOR)
+    public void onBlockChangeEventSelection( PlayerBucketEvent event ) {
+
+        Player player = event.getPlayer();
+
+        if ( player.hasPermission("kingdoms.zones.selection") ) {
+
+        }
+
+    }
+
 
     @EventHandler (order = Order.MONITOR)
     public void onPlayerDeathEventStats( PlayerDeathEvent event ) {
